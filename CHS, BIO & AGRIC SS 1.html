@@ -380,7 +380,42 @@
             font-weight: 600;
         }
     </style>
-</head>
+
+<!-- ======================= -->
+<!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<style>
+/* New Bold Result Card CSS */
+.result-container, #resultScreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #ffffff !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-top: 15px solid var(--primary-color, #0d47a1) !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+#resultScreen h2 { font-size: 3rem !important; color: var(--primary-color, #0d47a1) !important; }
+.result-card-meta { font-size: 1.5rem !important; text-align: center; margin-bottom: 20px; }
+.subject-score-block { font-size: 1.4rem !important; margin: 10px 0; border: 2px solid #eee; padding: 15px; border-radius: 10px; width: 60%; text-align: center; }
+.res-grand-box { font-size: 2rem !important; background: #e8f5e9 !important; padding: 20px !important; margin-top: 20px !important; width: 80%; text-align: center; border-radius: 10px; }
+.btn-return, .btn-exit, .nav-buttons, button[onclick*="index.html"] { display: none !important; }
+.result-container.hidden, #resultScreen.hidden { display: none !important; }
+
+/* Hide internal login container */
+.login-container, #loginScreen { display: none !important; }
+</style>
+\n</head>
 <body>
 
     <header>
@@ -1256,5 +1291,79 @@
             return "F (Fail)";
         }
     </script>
-</body>
+
+<!-- ======================= -->
+<!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<script>
+(function() {
+    const sessionStr = localStorage.getItem('authSession');
+    if (!sessionStr) {
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    const session = JSON.parse(sessionStr);
+    window.authSessionGroup = session.subjectGroup.replace(/\s+/g, '_');
+
+    // Intercept localStorage to namespace the Anti-Cheat Lock
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+        if (key.startsWith("SHIS_CBT_TAKEN_") && !key.includes(window.authSessionGroup)) {
+            key = key + "_" + window.authSessionGroup;
+        }
+        originalSetItem.call(this, key, value);
+    };
+    
+    const originalGetItem = localStorage.getItem;
+    localStorage.getItem = function(key) {
+        if (key.startsWith("SHIS_CBT_TAKEN_") && !key.includes(window.authSessionGroup)) {
+            key = key + "_" + window.authSessionGroup;
+        }
+        return originalGetItem.call(this, key);
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+        // Check if already taken
+        if(localStorage.getItem("SHIS_CBT_TAKEN_" + session.regNum + "_" + window.authSessionGroup)) {
+            document.body.innerHTML = "<h1 style='text-align:center; margin-top: 20%; color: #c62828; font-family: sans-serif; font-size: 3rem;'>Examination Locked.</h1><p style='text-align:center; font-size: 1.5rem;'>You have already completed the " + session.subjectGroup + " examination.</p>";
+            return;
+        }
+
+        // Set global studentData
+        if (typeof window.studentData !== 'undefined') {
+            window.studentData = { 
+                surname: session.name.split(' ')[0] || '', 
+                middle: session.name.split(' ')[1] || '', 
+                other: session.name.split(' ').slice(2).join(' ') || '', 
+                regNum: session.regNum 
+            };
+        } else {
+            window.studentData = { surname: session.name, middle: '', other: '', regNum: session.regNum };
+        }
+        
+        // Show Dashboard
+        const dash = document.getElementById('examDashboard');
+        if(dash) dash.classList.remove('hidden');
+        
+        const timerDisplay = document.getElementById('timerDisplay');
+        if(timerDisplay) timerDisplay.classList.remove('hidden');
+        
+        const dispName = document.getElementById('displayStudentName');
+        if(dispName) dispName.innerText = session.name;
+        
+        const dispReg = document.getElementById('displayRegNum');
+        if(dispReg) dispReg.innerText = session.regNum;
+
+        // Auto-start exam functions
+        setTimeout(() => {
+            try { if(typeof initQuestionGrid === 'function') initQuestionGrid(); } catch(e){}
+            try { if(typeof renderCurrentQuestion === 'function') renderCurrentQuestion(); } catch(e){}
+            try { if(typeof startTimerCountdown === 'function') startTimerCountdown(); } catch(e){}
+            try { if(typeof setupAntiCheatDetection === 'function') setupAntiCheatDetection(); } catch(e){}
+        }, 300);
+    });
+})();
+</script>
+\n</body>
 </html>

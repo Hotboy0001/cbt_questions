@@ -3,991 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT PORTAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-blue: #0d47a1;
-            --light-blue: #1976d2;
-            --accent-blue: #e3f2fd;
-            --dark-gray: #333333;
-            --light-gray: #f5f5f5;
-            --border-color: #cccccc;
-            --success-green: #2e7d32;
-            --answered-color: #2e7d32;
-            --unanswered-color: #b0bec5;
-            --current-color: #ff9100;
-            --warning-red: #d32f2f;
+            --primary-color: #0d47a1;
+            --secondary-color: #1565c0;
+            --light-bg: #f5f7fa;
+            --border-color: #cfd8dc;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: #f0f4f8;
-            color: var(--dark-gray);
-            line-height: 1.6;
+            background-color: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Utility classes */
-        .hidden { display: none !important; }
-        .text-center { text-align: center; }
-
-        /* Header Styles */
         header {
-            background-color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 15px 20px;
+            padding: 20px;
             text-align: center;
-            border-bottom: 4px solid var(--light-blue);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        header .logo-placeholder {
-            width: 70px;
-            height: 70px;
-            background-color: white;
-            color: var(--primary-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        header h1 { font-size: 1.8rem; letter-spacing: 1px; }
+        header h2 { font-size: 1.1rem; color: #ffeb3b; font-weight: 400; margin-top: 5px; }
 
-        header h1 {
-            font-size: 1.6rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        header h2 {
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-top: 5px;
-            color: #bbdefb;
-            letter-spacing: 2px;
-        }
-
-        /* Container & Cards */
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        /* Login Screen */
-        .login-box {
+        .login-container {
             max-width: 500px;
-            margin: 40px auto;
+            width: 90%;
+            margin: 60px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--primary-color);
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            text-align: center;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-blue);
-        }
-
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
         .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1rem;
-            transition: border-color 0.3s;
-            background-color: white;
         }
-
         .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
             outline: none;
-            border-color: var(--light-blue);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.15);
         }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--light-blue);
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: 600;
+        .btn-start {
             width: 100%;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-
-        .btn:hover { background-color: var(--primary-blue); }
-        .btn:active { transform: scale(0.98); }
-        .btn-success { background-color: var(--success-green); }
-        .btn-success:hover { background-color: #1b5e20; }
-
-        /* Dashboard/CBT View Layout */
-        .info-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--accent-blue);
-            padding: 15px 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--light-blue);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .student-meta {
-            font-weight: 600;
-            color: var(--primary-blue);
-            line-height: 1.4;
-        }
-
-        .timer-display {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #d32f2f;
-            background: white;
-            padding: 5px 15px;
-            border-radius: 4px;
-            border: 1px solid #ffcdd2;
-        }
-
-        .cbt-grid {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 25px;
-        }
-
-        @media (max-width: 900px) {
-            .cbt-grid {
-                grid-template-columns: 1fr;
-            }
-            .sidebar-nav {
-                order: -1;
-            }
-        }
-
-        /* Question Area */
-        .question-card {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-            background: #ffffff;
-            min-height: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .question-header {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: var(--primary-blue);
-            border-bottom: 1px solid var(--light-gray);
-            padding-bottom: 10px;
-        }
-
-        .question-text {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-
-        .options-list {
-            list-style: none;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .option-item:hover {
-            background-color: #f5f5f5;
-        }
-
-        .option-item input[type="radio"] {
-            margin-right: 15px;
-            transform: scale(1.2);
-            cursor: pointer;
-        }
-
-        .option-item.selected {
-            background-color: var(--accent-blue);
-            border-color: var(--light-blue);
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
-        }
-
-        .nav-buttons .btn {
-            width: auto;
-            min-width: 120px;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            height: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--success-green);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Sidebar Matrix */
-        .sidebar-nav {
-            background: #fafafa;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-        }
-
-        .sidebar-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--primary-blue);
-            font-size: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .matrix-btn {
-            background: var(--unanswered-color);
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 0;
-            border-radius: 4px;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            text-align: center;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .matrix-btn.answered {
-            background-color: var(--answered-color);
-        }
-
-        .matrix-btn.current {
-            background-color: var(--current-color);
-            box-shadow: 0 0 0 2px black;
-        }
-
-        /* Results Screen */
-        .result-card-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--primary-blue);
-        }
-
-        .result-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .result-header h2 {
-            color: var(--primary-blue);
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .result-meta {
-            background: #f8f9fa;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .result-meta-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .result-meta-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-meta-label {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .result-meta-value {
-            font-weight: bold;
-            color: var(--primary-blue);
-            text-align: right;
-        }
-
-        .score-display-box {
-            background: var(--accent-blue);
-            border: 2px solid var(--light-blue);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .score-display-title {
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .score-display-main {
-            font-size: 4rem;
-            font-weight: bold;
-            color: var(--primary-blue);
-            line-height: 1;
-        }
-
-        .score-display-percentage {
-            font-size: 1.5rem;
-            color: var(--success-green);
-            font-weight: bold;
             margin-top: 10px;
         }
-
-        .result-notice {
-            background: #fff3e0;
-            border-left: 5px solid #ff9800;
-            padding: 15px;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: bold;
-            color: #e65100;
-            font-size: 1.1rem;
-        }
-
-        /* Error/Notification text */
-        .alert-error {
-            color: #d32f2f;
-            background-color: #ffebee;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            border: 1px solid #ffcdd2;
-            font-weight: 600;
-        }
+        .btn-start:hover { background: var(--secondary-color); }
+        .error-message { color: #c62828; font-size: 0.9rem; text-align: center; margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-placeholder">LOGO</div>
-        <h1 id="main-school-title">STANDARD HEIGHT INTERNATIONAL SCHOOL</h1>
-        <h2>CBT EXAMINATION PORTAL</h2>
+        <h1>STANDARD HEIGHT INTERNATIONAL SCHOOL</h1>
+        <h2>CENTRAL CBT EXAMINATION PORTAL</h2>
     </header>
 
-    <div class="container">
+    <div class="login-container">
+        <h2>Student Login</h2>
+        <div class="error-message" id="error-msg">Please fill out all required fields.</div>
         
-        <div id="login-screen" class="card login-box">
-            <h3 class="text-center" style="margin-bottom: 20px; color: var(--primary-blue);">Student Examination Login</h3>
-            <div id="login-error" class="alert-error hidden"></div>
-            
-            <div class="form-group">
-                <label for="student-name">Full Name Formats: (SURNAME MIDDLE OTHER)</label>
-                <input type="text" id="student-name" placeholder="e.g. OLAITAN ADEGOKE OSCAR" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label for="reg-number">Registration Number:</label>
-                <input type="text" id="reg-number" placeholder="e.g. SHIS/SSS1/001" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label for="class-select">Class:</label>
-                <select id="class-select">
-                    <option value="" disabled selected>-- Select Your Class --</option>
-                    <option value="JSS 1">JSS 1</option>
-                    <option value="JSS 2">JSS 2</option>
-                    <option value="JSS 3">JSS 3</option>
-                    <option value="SS 1">SS 1</option>
-                    <option value="SS 2">SS 2</option>
-                    <option value="SS 3">SS 3</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="subject-select">Examination Subject:</label>
-                <select id="subject-select">
-                    <option value="" disabled selected>-- Select Exam Subject --</option>
-                    <option value="Citizenship & Heritage Studies">Citizenship & Heritage Studies</option>
-                    <option value="Biology">Biology</option>
-                    <option value="Agricultural Science">Agricultural Science</option>
-                </select>
-            </div>
-
-            <button type="button" class="btn" id="start-btn">Start Examination</button>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="student-name" placeholder="Enter your full name" autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label>Registration Number</label>
+            <input type="text" id="reg-number" placeholder="Enter your Reg Number" autocomplete="off">
         </div>
 
-        <div id="cbt-screen" class="hidden">
-            
-            <div class="info-bar">
-                <div class="student-meta">
-                    Candidate: <span id="display-student-name"></span> (<span id="display-reg-num"></span>)<br>
-                    <span style="color: var(--dark-gray); font-weight: normal;">Class: <span id="display-class" style="font-weight: bold;"></span> | Subject: <span id="display-subject" style="font-weight: bold;"></span></span>
-                </div>
-                <div>
-                    <strong>Progress:</strong>
-                    <span id="progress-text">0 / 20 Answered</span>
-                </div>
-                <div class="timer-display" id="timer">45:00</div>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-bar" id="overall-progress-bar"></div>
-            </div>
-
-            <div class="cbt-grid">
-                <div class="question-area">
-                    <div class="question-card">
-                        <div>
-                            <div class="question-header" id="question-header-text">Question 1</div>
-                            <div class="question-text" id="question-body">Loading question...</div>
-                            
-                            <ul class="options-list">
-                                <li class="option-item" onclick="selectOption('A')">
-                                    <input type="radio" name="q-option" id="opt-A" value="A">
-                                    <label for="opt-A" id="lbl-A">Option A</label>
-                                </li>
-                                <li class="option-item" onclick="selectOption('B')">
-                                    <input type="radio" name="q-option" id="opt-B" value="A">
-                                    <label for="opt-B" id="lbl-B">Option B</label>
-                                </li>
-                                <li class="option-item" onclick="selectOption('C')">
-                                    <input type="radio" name="q-option" id="opt-C" value="A">
-                                    <label for="opt-C" id="lbl-C">Option C</label>
-                                </li>
-                                <li class="option-item" onclick="selectOption('D')">
-                                    <input type="radio" name="q-option" id="opt-D" value="A">
-                                    <label for="opt-D" id="lbl-D">Option D</label>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="nav-buttons">
-                            <button type="button" class="btn" id="prev-btn" onclick="navigateQuestion(-1)">Previous</button>
-                            <button type="button" class="btn" id="next-btn" onclick="navigateQuestion(1)">Next</button>
-                            <button type="button" class="btn btn-success" id="submit-quiz-btn" onclick="triggerManualSubmission()">Submit Quiz</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-nav">
-                    <div class="sidebar-title" id="sidebar-subject-title">Questions Console</div>
-                    <div class="matrix-grid" id="matrix-container">
-                        </div>
-                </div>
-            </div>
-
+        <div class="form-group">
+            <label>Class</label>
+            <select id="class-select">
+                <option value="">Select your class</option>
+                <option value="SS 1">SS 1</option>
+                <option value="SS 2">SS 2</option>
+            </select>
         </div>
 
-        <div id="result-screen" class="hidden">
-            <div class="result-card-container">
-                <div class="result-header">
-                    <h2>Official Assessment Result Card</h2>
-                    <p id="result-timestamp" style="font-weight: 600; color: #666;"></p>
-                </div>
-
-                <div class="result-meta">
-                    <div class="result-meta-row">
-                        <span class="result-meta-label">Student Name:</span>
-                        <span class="result-meta-value" id="res-student-name"></span>
-                    </div>
-                    <div class="result-meta-row">
-                        <span class="result-meta-label">Registration Number:</span>
-                        <span class="result-meta-value" id="res-reg-num"></span>
-                    </div>
-                    <div class="result-meta-row">
-                        <span class="result-meta-label">Class:</span>
-                        <span class="result-meta-value" id="res-class"></span>
-                    </div>
-                    <div class="result-meta-row">
-                        <span class="result-meta-label">Subject:</span>
-                        <span class="result-meta-value" id="res-subject"></span>
-                    </div>
-                    <div class="result-meta-row">
-                        <span class="result-meta-label">Status:</span>
-                        <span class="result-meta-value" style="color: var(--success-green);">Completed & Locked</span>
-                    </div>
-                </div>
-
-                <div class="score-display-box">
-                    <div class="score-display-title">FINAL SCORE</div>
-                    <div class="score-display-main"><span id="res-score-correct"></span> / 20</div>
-                    <div class="score-display-percentage" id="res-score-percent"></div>
-                    <div style="margin-top: 10px; font-weight: bold; color: var(--primary-blue);" id="res-grade-rating"></div>
-                </div>
-
-                <div class="result-notice">
-                    ⚠️ Examination Closed.<br>
-                    Please leave this screen open for the examiner to record your score.
-                </div>
-            </div>
+        <div class="form-group" id="dept-group" style="display: none;">
+            <label>Department</label>
+            <select id="dept-select">
+                <option value="">Select your department</option>
+                <option value="Science" class="dept-opt sci">Science</option>
+                <option value="Commercial" class="dept-opt com">Commercial</option>
+                <option value="Arts" class="dept-opt art">Arts</option>
+            </select>
         </div>
 
+        <div class="form-group" id="group-group" style="display: none;">
+            <label>Examination Group</label>
+            <select id="group-select">
+                <option value="">Select your subject group</option>
+                <!-- Options populated dynamically -->
+            </select>
+        </div>
+
+        <button class="btn-start" onclick="startExam()">Enter Examination <i class="fas fa-arrow-right"></i></button>
     </div>
 
     <script>
-        // --- MASTER DATA BANK CONFIGURATION ---
-        // The master question bank contains all subjects. 
-        // We will dynamically filter it down to 20 questions based on the selected subject.
-        const masterQuestionBank = [
-            // CITIZENSHIP AND HERITAGE STUDIES
-            { subject: "Citizenship & Heritage Studies", text: "Who is a global citizen?", options: { A: "Someone who travels by air every day", B: "Someone who identifies as a member of the emerging world community", C: "Someone who does not have a local passport", D: "A citizen who speaks only foreign languages" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Which of the following is a fundamental responsibility of a citizen?", options: { A: "Evading civic responsibilities", B: "Paying valid taxes regularly to government authorities", C: "Disobeying standard traffic regulations", D: "Criticizing all community infrastructure developments" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "The interconnectedness of world economies, cultures, and populations is called _______.", options: { A: "Nationalism", B: "Isolationism", C: "Globalization", D: "Regionalism" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "Citizenship training in the United States of America places strong emphasis on which core principle?", options: { A: "Absolute monarchy alignment", B: "Democratic tenets and constitutional patriotism", C: "A rigid single-party structure", D: "Total absence of public voting protocols" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Which of these European nations operates a system where civic obligations co-exist with a symbolic constitutional monarchy?", options: { A: "The United Kingdom", B: "The United States", C: "The Republic of Ghana", D: "The Republic of South Africa" }, correct: "A" },
-            { subject: "Citizenship & Heritage Studies", text: "In West Africa, Ghana was originally known by what historic colonial title?", options: { A: "Ivory Coast", B: "Gold Coast", C: "Grain Coast", D: "Songhai Empire" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "The administrative operational capital city of South Africa's executive administration branch is located in _______.", options: { A: "Johannesburg", B: "Cape Town", C: "Pretoria", D: "Durban" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "What does the abbreviation global acronym 'UN' officially stand for?", options: { A: "United Nations", B: "United Nationalists", C: "Universal Network", D: "Union of Nations" }, correct: "A" },
-            { subject: "Citizenship & Heritage Studies", text: "The primary historical mission of the African Union (AU) is focused squarely on what track?", options: { A: "Promoting unity, integration, and development across African states", B: "Enforcing European monetary policies", C: "Organizing transatlantic naval defense treaties", D: "Abolishing local traditional cultural practices" }, correct: "A" },
-            { subject: "Citizenship & Heritage Studies", text: "How many sovereign West African nations currently form the regional ECOWAS block membership?", options: { A: "5 nations", B: "10 nations", C: "15 nations", D: "25 nations" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "The Commonwealth of Nations is essentially a voluntary association made up mostly of countries that were formerly under the colonial governance of which empire?", options: { A: "French Empire", B: "British Empire", C: "Spanish Empire", D: "Portuguese Empire" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "What does the domestic institutional acronym 'NHRC' stand for in Nigeria?", options: { A: "National Human Rights Commission", B: "National Housing and Refugee Council", C: "Nigerian Health Research Center", D: "National Heritage Resource Committee" }, correct: "A" },
-            { subject: "Citizenship & Heritage Studies", text: "Non-Governmental Organizations (NGOs) derive their primary institutional authority from which sector?", options: { A: "Direct executive government military decrees", B: "Independent civil society initiatives", C: "Direct funding from foreign legislative bodies", D: "The state police high command structure" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Which branch of state government is traditionally vested with the primary constitutional task of interpreting laws and protecting human rights?", options: { A: "The Executive", B: "The Legislature", C: "The Judiciary", D: "The Press" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "The prominent International Court of Justice (ICJ) holds its permanent judicial seat in which world location?", options: { A: "New York, USA", B: "London, UK", C: "The Hague, Netherlands", D: "Geneva, Switzerland" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "A foundational human right that guarantees citizens the basic power to elect leaders freely is classified as a _______.", options: { A: "Economic right", B: "Political right", C: "Cultural right", D: "Environmental right" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Which document constitutes the supreme framework of law within a sovereign democratic country?", options: { A: "A local community magazine", B: "The National Constitution", C: "A business partnership ledger", D: "An academic journal volume" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Global human rights declarations are explicitly designed to apply across which demographic demographic criteria?", options: { A: "Only wealthy national figures", B: "Universally to all human beings without discrimination", C: "Strictly to adult corporate professionals", D: "Exclusively to individuals with advanced formal training" }, correct: "B" },
-            { subject: "Citizenship & Heritage Studies", text: "Which body of the UN is primarily tasked with maintaining international peace and security?", options: { A: "The Economic Council", B: "The Trusteeship Council", C: "The Security Council", D: "The Secretariat" }, correct: "C" },
-            { subject: "Citizenship & Heritage Studies", text: "What major factor has accelerated globalization in the 21st century?", options: { A: "Primitive farming techniques", B: "Advances in Information and Communication Technology", C: "The closure of international borders", D: "Decreased usage of digital media networks" }, correct: "B" },
+        // Data Mapping based on the user's requirements
+        const curriculum = {
+            "SS 1": {
+                "Science": [
+                    { title: "CHS, Biology & Agric", file: "CHS, BIO & AGRIC SS 1.html" },
+                    { title: "English, Physics & Chemistry", file: "ENG, PHY & CHEM.html" },
+                    { title: "Economics, F.Maths & Geography", file: "ECONS, F.MATHS & GEO-1.html" },
+                    { title: "Maths, D.Tech & Livestock", file: "MATHS, D.TECH & LVSTCK-1.html" }
+                ],
+                "Commercial": [
+                    { title: "CHS & Accounting", file: "CHS & ACCT SS 1.html" },
+                    { title: "English & Commerce", file: "ENG & COMM SS 1.html" },
+                    { title: "Economics, Government & Marketing", file: "ECONS,GOVT & MARKETING.html" },
+                    { title: "Maths, D.Tech & Fashion", file: "MATHS, D.TECH & FASHION SS 1.html" }
+                ]
+            },
+            "SS 2": {
+                "Science": [
+                    { title: "CHS, Biology & Agric", file: "CHS, BIO & AGRICS.html" },
+                    { title: "English, Physics & Chemistry", file: "ENG, PHY & CHE.html" },
+                    { title: "Economics, F.Maths & Geography", file: "ECONS, F.MATHS & GEO.html" },
+                    { title: "Maths, D.Tech & Livestock", file: "MATHS, D.TECH & LVSTCK.html" }
+                ],
+                "Arts": [
+                    { title: "CHS & CRS", file: "CHS & CRS.html" },
+                    { title: "English & Literature", file: "ENG & LIT.html" },
+                    { title: "Economics & Government", file: "ECONS & GOVT.html" },
+                    { title: "Maths, D.Tech & Beauty", file: "MATHS, D.TECH & BEAUTY.html" }
+                ]
+            }
+        };
 
-            // BIOLOGY
-            { subject: "Biology", text: "Which biochemical process describes the metabolic conversion of sugars into alcohol or organic acids by micro-organisms?", options: { A: "Photosynthesis", B: "Fermentation", C: "Transpiration", D: "Nitrification" }, correct: "B" },
-            { subject: "Biology", text: "What group of microscopic saprophytic organisms breaks down dead organic material, recycling vital chemical nutrients back into the soil environment?", options: { A: "Decomposers (Fungi and Bacteria)", B: "Parasitic Protozoans", C: "Carnivorous Apex Predators", D: "Flowering Macrophytes" }, correct: "A" },
-            { subject: "Biology", text: "Which environmental factor accelerates the visible spoilage of raw food items stored out in the open?", options: { A: "Freezing cold temperatures", B: "Warmth and high moisture levels", C: "Complete absence of gaseous oxygen", D: "Exposure to vacuum storage setups" }, correct: "B" },
-            { subject: "Biology", text: "Malaria is a tropical parasitic human disease transmitted biologically between individuals through the vector bite of which insect?", options: { A: "Male Culex mosquito", B: "Female Anopheles mosquito", C: "Tsetse fly species", D: "Common black housefly" }, correct: "B" },
-            { subject: "Biology", text: "What simple preventative health practice prevents fecal-oral disease transmission lines within public residential spaces?", options: { A: "Regular handwashing with clean water and soap", B: "Drinking untreated stream water", C: "Leaving uncovered biological waste outdoors", D: "Avoiding routine domestic medical checkups" }, correct: "A" },
-            { subject: "Biology", text: "The core public health methodology of introducing a weakened or killed pathogen agent into the human body to stimulate specific immunity is known as _______.", options: { A: "Dehydration therapy", B: "Vaccination (Immunization)", C: "Sterilization processing", D: "Pasteurization heating" }, correct: "B" },
-            { subject: "Biology", text: "What biological term identifies the specific natural place or localized environment where a given plant or animal organism naturally lives and survives?", options: { A: "Community niche", B: "Ecosystem biosphere", C: "Habitat", D: "Lithosphere layer" }, correct: "C" },
-            { subject: "Biology", text: "What are the two major broad categories of natural habitats recognized in environmental ecology?", options: { A: "Subterranean and Stratospheric", B: "Aquatic (Water) and Terrestrial (Land)", C: "Atmospheric and Volcanic", D: "Glacial and Hot Desert zones" }, correct: "B" },
-            { subject: "Biology", text: "An estuarine habitat is ecologically characterized as an area where _______.", options: { A: "Freshwater from rivers meets and mixes with saltwater from the open sea", B: "Deserts merge into arid scrubland terrains", C: "High mountain rocks undergo continuous ice weathering", D: "Underground deep-sea volcanic thermal vents open up" }, correct: "A" },
-            { subject: "Biology", text: "Which body of water is a classic example of a natural freshwater ecosystem?", options: { A: "The Atlantic Ocean", B: "A terrestrial freshwater river or inland stream", C: "An evaporative hyper-saline lagoon", D: "A coastal marine mangrove fringe" }, correct: "B" },
-            { subject: "Biology", text: "Which functional organelle allows green microscopic algae to synthesize organic carbohydrate food molecules under light exposure?", options: { A: "Mitochondrion power structure", B: "Chloroplast housing unit", C: "Centriole fiber complex", D: "Lysosome digestive vesicle" }, correct: "B" },
-            { subject: "Biology", text: "Typhoid fever is a pathological bacterial infection of the human digestive tract caused by which micro-organism?", options: { A: "Amoeba proteus", B: "Salmonella typhi", C: "Influenza virus strain", D: "Plasmodium falciparum" }, correct: "B" },
-            { subject: "Biology", text: "Which structural adaptation enables typical bony fish species to extract dissolved oxygen gas efficiently from water?", options: { A: "Lateral line systems", B: "Vascularized Gills", C: "Pectoral skin scales", D: "Calcified pelvic fins" }, correct: "B" },
-            { subject: "Biology", text: "The non-living physical components of a natural ecosystem habitat are grouped together under what scientific term?", options: { A: "Biotic structural factors", B: "Abiotic physical factors", C: "Symbiotic mutual complexes", D: "Trophic consumer lines" }, correct: "B" },
-            { subject: "Biology", text: "What basic tool is used in laboratory settings to view micro-organisms like bacteria?", options: { A: "Barometer gauge", B: "Compound Light Microscope", C: "Thermometer probe", D: "Spectroscope prism" }, correct: "B" },
-            { subject: "Biology", text: "An example of a micro-organism used in the commercial baking industry to make dough rise is _______.", options: { A: "Yeast", B: "Spirogyra", C: "Tapeworm", D: "Mosses" }, correct: "A" },
-            { subject: "Biology", text: "What type of organism lives inside or on another organism (the host) and causes it harm?", options: { A: "Saprophyte", B: "Parasite", C: "Symbiont", D: "Predator" }, correct: "B" },
-            { subject: "Biology", text: "Which of these is a major water-borne disease?", options: { A: "Measles", B: "Cholera", C: "Influenza", D: "Tuberculosis" }, correct: "B" },
-            { subject: "Biology", text: "Floating plants that drift on the surface of aquatic habitats are called _______.", options: { A: "Phytoplankton", B: "Zooplankton", C: "Benthos", D: "Nekton" }, correct: "A" },
-            { subject: "Biology", text: "What gas do micro-organisms release during alcoholic fermentation?", options: { A: "Oxygen", B: "Carbon dioxide", C: "Nitrogen", D: "Hydrogen" }, correct: "B" },
+        const classSelect = document.getElementById('class-select');
+        const deptSelect = document.getElementById('dept-select');
+        const groupSelect = document.getElementById('group-select');
+        const deptGroup = document.getElementById('dept-group');
+        const groupGroup = document.getElementById('group-group');
 
-            // AGRICULTURAL SCIENCE
-            { subject: "Agricultural Science", text: "What does agricultural mechanization mean?", options: { A: "Farming using strictly local hand tools like hoes", B: "The application of mechanical power and machinery to farm work", C: "Abandoning farm fields for urban trading systems", D: "Relying only on natural rainfall cycles" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Which of the following is a key advantage of introducing mechanization into commercial farming?", options: { A: "Increased physical fatigue of farm workers", B: "Higher speed of operations and increased crop yield outputs", C: "Total destruction of all fertile topsoil horizons", D: "Increased dependence on primitive manual implements" }, correct: "B" },
-            { subject: "Agricultural Science", text: "What is a major limitation of agricultural mechanization for smallholder rural farmers in West Africa?", options: { A: "High initial capital cost of machinery purchase", B: "Machinery operates too quickly for farm safety", C: "Machines require no maintenance inputs", D: "Total absence of arable crop fields" }, correct: "A" },
-            { subject: "Agricultural Science", text: "Which type of farm power relies entirely on the muscular output of human workers?", options: { A: "Mechanical power", B: "Human power", C: "Electrical power", D: "Biomass power" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Which animal is traditionally utilized as a source of draft power to pull heavy plows on savanna fields?", options: { A: "Domestic poultry chickens", B: "Bullocks (Oxen)", C: "Leopard cat variants", D: "Forest rodent species" }, correct: "B" },
-            { subject: "Agricultural Science", text: "What machine converts petroleum fuel energy directly into mechanical pull force to run modern farm implements?", options: { A: "Solar panel matrix", B: "Farm Tractor engine", C: "Windmill wheel structure", D: "Manual knapsack sprayer" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Which power source relies on photovoltaic panels to generate clean energy used for powering farm irrigation pumps?", options: { A: "Windmill kinetic inputs", B: "Solar power energy", C: "Hydro-turbines setup", D: "Internal combustion power" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Crops cultivated primary for direct consumption by human families are classified under what group name?", options: { A: "Industrial Cash crops", B: "Food crops", C: "Fiber textiles line", D: "Forage ornamental pasture" }, correct: "B" },
-            { subject: "Agricultural Science", text: "An example of an industrial cash crop grown primarily to generate revenue via exports or processing is _______.", options: { A: "White seedless yams", B: "Cocoa tree crops", C: "Fluted pumpkin leafy greens", D: "Sweet garden eggs" }, correct: "B" },
-            { subject: "Agricultural Science", text: "An annual crop is botanically defined as a plant that completes its full life cycle within what timeframe?", options: { A: "Within a single growing season or one calendar year", B: "Exactly across two complete calendar years", C: "Over more than three persistent annual seasons", D: "Within a short one-week growth burst" }, correct: "A" },
-            { subject: "Agricultural Science", text: "Which crop category requires two full distinct annual cycles to complete its biological vegetative and reproductive life history?", options: { A: "Annual plant varieties", B: "Biennial crop varieties", C: "Perennial wood systems", D: "Ephemeral wilderness weeds" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Perennial crops are best exemplified in West African tree agriculture by which of the following?", options: { A: "Upland paddy rice stalks", B: "The Oil Palm tree", C: "Field cowpea vine networks", D: "Sweet potato tubers" }, correct: "B" },
-            { subject: "Agricultural Science", text: "What systematic field activity describes clearing, plowing, harrowing, and ridging land before seeds are sown?", options: { A: "Post-harvest crop preservation", B: "Land preparation operations", C: "Chemical weed eradication", D: "Marketing of agricultural produce" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Maize (Zea mays) is scientifically grouped under what agronomic family group?", options: { A: "Tuberous root formations", B: "Cereal grain grasses", C: "Leguminous nitrogen pulses", D: "Oilseed crop selections" }, correct: "B" },
-            { subject: "Agricultural Science", text: "What vegetative plant structure is used to propagate cassava fields commercially?", options: { A: "Mature dried seeds", B: "Stem cuttings (stakes)", C: "Fleshy leaf margins", D: "Splitted underground corms" }, correct: "B" },
-            { subject: "Agricultural Science", text: "What specialized farm implement is typically coupled to a tractor to dig and flip over thick soil layers during primary tillage?", options: { A: "Spike-tooth harrow", B: "Moldboard or Disc Plow", C: "Mechanical grain sheller", D: "Boom sprayer rig" }, correct: "B" },
-            { subject: "Agricultural Science", text: "The removal of excess water from waterlogged farm fields to ensure healthy root respiration is known as _______.", options: { A: "Irrigation", B: "Drainage", C: "Mulching", D: "Weeding" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Which of these is a pest that commonly attacks maize grains in storage?", options: { A: "Weevil", B: "Aphid", C: "Tick", D: "Tapeworm" }, correct: "A" },
-            { subject: "Agricultural Science", text: "What field practice involves covering the soil surface around plants with dry organic matter to conserve moisture?", options: { A: "Pruning", B: "Mulching", C: "Threshing", D: "Harrowing" }, correct: "B" },
-            { subject: "Agricultural Science", text: "Yam is propagated vegetatively by planting which of the following?", options: { A: "Yam tubers or seed yams", B: "Yam leaves", C: "Yam flowers", D: "Yam fibrous roots" }, correct: "A" }
-        ];
+        classSelect.addEventListener('change', () => {
+            const cls = classSelect.value;
+            deptSelect.value = '';
+            groupSelect.innerHTML = '<option value="">Select your subject group</option>';
+            groupGroup.style.display = 'none';
 
-        // --- CORE APPLICATION STATE ---
-        let activeQuestions = [];
-        let currentQuestionIdx = 0; // Pointer to current position in activeQuestions
-        const totalQuestionsCount = 20;
-        let examTimeMinutes = 45;
-        let totalSecondsRemaining = examTimeMinutes * 60;
-        let countdownIntervalId = null;
+            if (cls === "") {
+                deptGroup.style.display = 'none';
+                return;
+            }
 
-        // Structure to save selected candidate responses
-        // Map keys: array index (0 to 19), Value: 'A', 'B', 'C', or 'D'
-        let candidateAnswers = {};
+            deptGroup.style.display = 'block';
 
-        let authenticatedUser = { name: "", regNum: "", classLevel: "", subjectTitle: "" };
-
-        // --- DOM ELEMENT CACHING ---
-        const loginScreen = document.getElementById('login-screen');
-        const cbtScreen = document.getElementById('cbt-screen');
-        const resultScreen = document.getElementById('result-screen');
-        
-        const inputName = document.getElementById('student-name');
-        const inputReg = document.getElementById('reg-number');
-        const selectClass = document.getElementById('class-select');
-        const selectSubject = document.getElementById('subject-select');
-        const startBtn = document.getElementById('start-btn');
-        const loginError = document.getElementById('login-error');
-
-        // --- LIFECYCLE & EVENT LISTENERS ---
-        window.addEventListener('DOMContentLoaded', () => {
-            startBtn.addEventListener('click', handleLogin);
-            
-            // AUTOMATIC SUBMISSION WHEN THE STUDENT MINIMIZES THE BROWSER, SWITCHES TABS, OR LEAVES THE WINDOW
-            window.addEventListener('blur', () => {
-                if (!cbtScreen.classList.contains('hidden') && resultScreen.classList.contains('hidden')) {
-                    console.warn("Detection Warning: Tab minimized or focus lost. Triggering auto-submit routine.");
-                    executeSystemSubmission("System Auto-Submit: Window was minimized or focus changed.");
-                }
-            });
+            // Filter departments
+            document.querySelectorAll('.dept-opt').forEach(opt => opt.style.display = 'none');
+            if (cls === "SS 1") {
+                document.querySelector('.dept-opt.sci').style.display = 'block';
+                document.querySelector('.dept-opt.com').style.display = 'block';
+            } else if (cls === "SS 2") {
+                document.querySelector('.dept-opt.sci').style.display = 'block';
+                document.querySelector('.dept-opt.art').style.display = 'block';
+            }
         });
 
-        // --- LOGIN ACTION ROUTINE ---
-        function handleLogin() {
-            loginError.classList.add('hidden');
-            loginError.innerText = "";
+        deptSelect.addEventListener('change', () => {
+            const cls = classSelect.value;
+            const dept = deptSelect.value;
+            
+            groupSelect.innerHTML = '<option value="">Select your subject group</option>';
+            
+            if (cls && dept && curriculum[cls] && curriculum[cls][dept]) {
+                curriculum[cls][dept].forEach(group => {
+                    const opt = document.createElement('option');
+                    opt.value = group.file;
+                    opt.textContent = group.title;
+                    groupSelect.appendChild(opt);
+                });
+                groupGroup.style.display = 'block';
+            } else {
+                groupGroup.style.display = 'none';
+            }
+        });
 
-            const rawName = inputName.value.trim();
-            const rawReg = inputReg.value.trim().toUpperCase();
-            const classVal = selectClass.value;
-            const subjectVal = selectSubject.value;
+        function startExam() {
+            const name = document.getElementById('student-name').value.trim();
+            const regNum = document.getElementById('reg-number').value.trim();
+            const cls = document.getElementById('class-select').value;
+            const dept = document.getElementById('dept-select').value;
+            const targetFile = document.getElementById('group-select').value;
+            const groupTitle = document.getElementById('group-select').options[document.getElementById('group-select').selectedIndex]?.text;
 
-            // Strict checking for validation rules
-            if (!rawName || !rawReg || !classVal || !subjectVal) {
-                showLoginError("Access Denied: Please fill out all required fields and make selections.");
+            if (!name || !regNum || !cls || !dept || !targetFile) {
+                document.getElementById('error-msg').style.display = 'block';
                 return;
             }
 
-            // Validation format verification for full name parsing
-            const wordSegments = rawName.split(/\s+/);
-            if (wordSegments.length < 2) {
-                showLoginError("Formatting Error: Please input your name matching the required sequence: SURNAME MIDDLE OTHER.");
-                return;
-            }
-
-            const formattedName = wordSegments.map(w => w.toUpperCase()).join(" ");
-
-            // CHECK ANTI-RETAKE LOCK MECHANISM
-            // Using a combination of Reg Num and Subject to lock specific subject retakes
-            const lockKey = "CBT_LOCK_" + rawReg + "_" + subjectVal;
-            if (localStorage.getItem(lockKey)) {
-                showLoginError(`Forbidden Access: You have already completed the ${subjectVal} examination. System lock active for Registration Number: ${rawReg}`);
-                return;
-            }
-
-            // Filter questions based on subject selection
-            activeQuestions = masterQuestionBank.filter(q => q.subject === subjectVal);
+            // Save to localStorage
+            const sessionData = {
+                name: name,
+                regNum: regNum,
+                classLevel: cls,
+                department: dept,
+                subjectGroup: groupTitle,
+                timestamp: new Date().getTime()
+            };
             
-            // For safety, in case a subject doesn't have enough questions
-            if (activeQuestions.length < totalQuestionsCount) {
-                // If there are less than 20 questions in the bank for this subject, 
-                // just duplicate some or proceed with fewer (but here we know we have 20 for the examples)
-                if(activeQuestions.length === 0) {
-                     showLoginError(`System Error: No questions found for ${subjectVal}. Please contact administrator.`);
-                     return;
-                }
-            } else if (activeQuestions.length > totalQuestionsCount) {
-                // Select only the first 20 if more exist
-                activeQuestions = activeQuestions.slice(0, totalQuestionsCount);
-            }
+            localStorage.setItem('authSession', JSON.stringify(sessionData));
 
-            // Assign variables to session memory state
-            authenticatedUser.name = formattedName;
-            authenticatedUser.regNum = rawReg;
-            authenticatedUser.classLevel = classVal;
-            authenticatedUser.subjectTitle = subjectVal;
-
-            // Setup Workspace UI Elements
-            document.getElementById('display-student-name').innerText = authenticatedUser.name;
-            document.getElementById('display-reg-num').innerText = authenticatedUser.regNum;
-            document.getElementById('display-class').innerText = authenticatedUser.classLevel;
-            document.getElementById('display-subject').innerText = authenticatedUser.subjectTitle;
-
-            // Shift Screen Views
-            loginScreen.classList.add('hidden');
-            cbtScreen.classList.remove('hidden');
-
-            // Initialize CBT Execution Parameters
-            currentQuestionIdx = 0;
-            candidateAnswers = {};
-            generateNavigationConsoleMatrix();
-            renderCurrentQuestionCard();
-            startCbtCountdown();
-        }
-
-        function showLoginError(msg) {
-            loginError.innerText = msg;
-            loginError.classList.remove('hidden');
-        }
-
-        // --- COUNTDOWN TIMING ENGINE ---
-        function startCbtCountdown() {
-            const timerDiv = document.getElementById('timer');
-            
-            countdownIntervalId = setInterval(() => {
-                totalSecondsRemaining--;
-
-                let displayMins = Math.floor(totalSecondsRemaining / 60);
-                let displaySecs = totalSecondsRemaining % 60;
-
-                // Format leading double zero padding padding
-                displayMins = displayMins < 10 ? "0" + displayMins : displayMins;
-                displaySecs = displaySecs < 10 ? "0" + displaySecs : displaySecs;
-
-                timerDiv.innerText = `${displayMins}:${displaySecs}`;
-
-                if (totalSecondsRemaining <= 60) {
-                    timerDiv.style.color = "#d32f2f";
-                    timerDiv.style.animation = "blink 1s infinite";
-                }
-
-                if (totalSecondsRemaining <= 0) {
-                    clearInterval(countdownIntervalId);
-                    executeSystemSubmission("Time Elapse Auto-Submission Engine Triggered.");
-                }
-            }, 1000);
-        }
-
-        // --- QUESTION NAVIGATION CONTROLLERS ---
-        function generateNavigationConsoleMatrix() {
-            const matrixBox = document.getElementById('matrix-container');
-            matrixBox.innerHTML = ""; // Clear active rendering fields
-
-            for (let i = 0; i < activeQuestions.length; i++) {
-                const btn = document.createElement('button');
-                btn.type = "button";
-                btn.className = "matrix-btn";
-                btn.innerText = (i + 1);
-                
-                if (candidateAnswers[i] !== undefined) {
-                    btn.classList.add('answered');
-                }
-                if (i === currentQuestionIdx) {
-                    btn.classList.add('current');
-                }
-
-                btn.onclick = () => {
-                    currentQuestionIdx = i;
-                    renderCurrentQuestionCard();
-                    updateConsoleStatusHighlights();
-                };
-
-                matrixBox.appendChild(btn);
-            }
-        }
-
-        function updateConsoleStatusHighlights() {
-            const matrixButtons = document.querySelectorAll('#matrix-container .matrix-btn');
-            
-            for (let i = 0; i < activeQuestions.length; i++) {
-                const btn = matrixButtons[i];
-                if(btn) {
-                    btn.className = "matrix-btn"; // Reset class baseline
-                    if (candidateAnswers[i] !== undefined) btn.classList.add('answered');
-                    if (i === currentQuestionIdx) btn.classList.add('current');
-                }
-            }
-        }
-
-        function renderCurrentQuestionCard() {
-            const questionData = activeQuestions[currentQuestionIdx];
-            
-            // Update Text Nodes
-            document.getElementById('question-header-text').innerText = `Question ${currentQuestionIdx + 1} of ${activeQuestions.length}`;
-            document.getElementById('question-body').innerText = questionData.text;
-
-            // Populate Option Configurations
-            document.getElementById('lbl-A').innerText = questionData.options.A;
-            document.getElementById('lbl-B').innerText = questionData.options.B;
-            document.getElementById('lbl-C').innerText = questionData.options.C;
-            document.getElementById('lbl-D').innerText = questionData.options.D;
-
-            // Clear active UI selection radio states across all option wrappers
-            const optContainers = document.querySelectorAll('.option-item');
-            optContainers.forEach(container => container.classList.remove('selected'));
-            
-            const radioButtons = document.getElementsByName('q-option');
-            radioButtons.forEach(radio => radio.checked = false);
-
-            // Re-apply values if previous selections exist in local storage state cache mapping
-            const existingSelection = candidateAnswers[currentQuestionIdx];
-            if (existingSelection !== undefined) {
-                const matchingRadio = document.getElementById(`opt-${existingSelection}`);
-                if (matchingRadio) {
-                    matchingRadio.checked = true;
-                    matchingRadio.closest('.option-item').classList.add('selected');
-                }
-            }
-
-            // Handle disabling properties if bounds are reached
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            
-            prevBtn.disabled = (currentQuestionIdx === 0);
-            nextBtn.disabled = (currentQuestionIdx === activeQuestions.length - 1);
-
-            // Update Progress Tracking
-            recalculateProgressSummaryMetrics();
-        }
-
-        function selectOption(optionChar) {
-            const radioElement = document.getElementById(`opt-${optionChar}`);
-            if (radioElement) {
-                radioElement.checked = true;
-                
-                // Track style change selections
-                const optContainers = document.querySelectorAll('.option-item');
-                optContainers.forEach(container => container.classList.remove('selected'));
-                radioElement.closest('.option-item').classList.add('selected');
-
-                // Save selected answer
-                candidateAnswers[currentQuestionIdx] = optionChar;
-                
-                // Dynamically sync UI
-                updateConsoleStatusHighlights();
-                recalculateProgressSummaryMetrics();
-            }
-        }
-
-        function navigateQuestion(stepDirection) {
-            const targetIndex = currentQuestionIdx + stepDirection;
-
-            if (targetIndex >= 0 && targetIndex < activeQuestions.length) {
-                currentQuestionIdx = targetIndex;
-                renderCurrentQuestionCard();
-                updateConsoleStatusHighlights();
-            }
-        }
-
-        function recalculateProgressSummaryMetrics() {
-            let totalAnsweredCount = Object.keys(candidateAnswers).length;
-            document.getElementById('progress-text').innerText = `${totalAnsweredCount} / ${activeQuestions.length} Answered`;
-            
-            let percentageRatio = (totalAnsweredCount / activeQuestions.length) * 100;
-            document.getElementById('overall-progress-bar').style.width = `${percentageRatio}%`;
-        }
-
-        // --- SUBMISSION AND METRICS ANALYSIS ENGINES ---
-        function triggerManualSubmission() {
-            let answeredTotal = Object.keys(candidateAnswers).length;
-            let targetConfirmationPrompt = confirm(`Are you sure you want to finalize and submit your assessment answers now?\n\nYou have answered ${answeredTotal} out of ${activeQuestions.length} questions.`);
-            
-            if (targetConfirmationPrompt) {
-                executeSystemSubmission("Candidate requested execution manually via click action interface confirmation.");
-            }
-        }
-
-        function executeSystemSubmission(reasonLogMessage) {
-            console.log(`Executing termination workflow sequence logic due to: ${reasonLogMessage}`);
-            
-            // Halt internal clock processing intervals
-            if (countdownIntervalId) clearInterval(countdownIntervalId);
-
-            // WRITE THE RE-TAKE PREVENTATIVE LOCK IMMEDIATELY IN SYSTEM METADATA LOCAL STORAGE REGISTRY
-            const lockRecordKey = "CBT_LOCK_" + authenticatedUser.regNum + "_" + authenticatedUser.subjectTitle;
-            localStorage.setItem(lockRecordKey, JSON.stringify({
-                user: authenticatedUser.name,
-                class: authenticatedUser.classLevel,
-                timestamp: new Date().toISOString(),
-                status: "SUBMITTED"
-            }));
-
-            compileAndRenderGradesSummaryBreakdown();
-        }
-
-        function compileAndRenderGradesSummaryBreakdown() {
-            let accumulatedTotalCorrect = 0;
-
-            // Evaluate responses against correct answers
-            for (let k = 0; k < activeQuestions.length; k++) {
-                const studentPick = candidateAnswers[k];
-                const officialCorrectAnswer = activeQuestions[k].correct;
-                
-                if (studentPick !== undefined && studentPick === officialCorrectAnswer) {
-                    accumulatedTotalCorrect++;
-                }
-            }
-
-            let globalCumulativePercentageValue = (accumulatedTotalCorrect / activeQuestions.length) * 100;
-            let aggregateOverallGrade = calculateJambGradeAlphaScale(globalCumulativePercentageValue);
-
-            // Populate Student Result Card Data
-            document.getElementById('res-student-name').innerText = authenticatedUser.name;
-            document.getElementById('res-reg-num').innerText = authenticatedUser.regNum;
-            document.getElementById('res-class').innerText = authenticatedUser.classLevel;
-            document.getElementById('res-subject').innerText = authenticatedUser.subjectTitle;
-            
-            document.getElementById('result-timestamp').innerText = `Date Tested: ${new Date().toLocaleString()}`;
-            
-            document.getElementById('res-score-correct').innerText = accumulatedTotalCorrect;
-            document.getElementById('res-score-percent').innerText = `${globalCumulativePercentageValue.toFixed(1)}%`;
-            document.getElementById('res-grade-rating').innerText = `GRADE RATING: ${aggregateOverallGrade}`;
-
-            // Transition UI
-            cbtScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-            
-            // Auto scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function calculateJambGradeAlphaScale(percentageValue) {
-            if (percentageValue >= 75) return "A (Excellent)";
-            if (percentageValue >= 60) return "B (Very Good)";
-            if (percentageValue >= 50) return "C (Credit)";
-            if (percentageValue >= 40) return "D (Pass)";
-            return "F (Fail)";
+            // Redirect to the exam file
+            window.location.href = encodeURI(targetFile);
         }
     </script>
 </body>
