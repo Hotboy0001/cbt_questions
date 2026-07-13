@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <style>
+        :root {
+            --primary: #0a3d62;
+            --primary-light: #3c6382;
+            --secondary: #079992;
+            --danger: #b71540;
+            --success: #38ee5a;
+            --light: #f6f8fa;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* HEADER AND LAYOUT CONTAINER */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: var(--primary);
+            border: 2px solid var(--secondary);
+        }
+
+        .header-title h1 {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title h2 {
+            font-size: 0.9rem;
+            color: #b8e994;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .timer-box {
+            background-color: #1e3799;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-critical {
+            background-color: var(--danger);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.6; }
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* LOGIN AUTHENTICATION CONTAINER */
+        .login-card {
+            background: white;
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--primary);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .form-instruction {
+            font-size: 0.75rem;
+            color: var(--primary-light);
+            margin-top: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+        }
+
+        .btn-success:hover {
+            background-color: #2ecc71;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        /* MAIN APP PLATFORM INTERFACE */
+        .cbt-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .student-info-panel {
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .student-info-panel p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .subject-tab-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sub-tab {
+            padding: 10px 12px;
+            background: var(--light);
+            border-left: 4px solid var(--gray);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .sub-tab.active {
+            background: #e1f5fe;
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .progress-bar-bg {
+            background: #dfe6e9;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--secondary);
+            width: 0%;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .navigator-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .grid-navigator {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-btn {
+            padding: 10px 0;
+            background: #f1f2f6;
+            border: 1px solid #dcdde1;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.answered {
+            background-color: var(--primary-light);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .nav-btn.current {
+            background-color: #f1c40f !important;
+            color: #2c3e50 !important;
+            border-color: #f39c12;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        /* MAIN QUESTION CONTENT SYSTEM */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            min-height: 380px;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--light);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--primary-light);
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .diagram-box {
+            margin: 15px 0 25px 0;
+            background: #fff;
+            padding: 10px;
+            border: 1px dashed var(--gray);
+            border-radius: var(--border-radius);
+            max-width: 450px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            background: var(--light);
+            border: 2px solid #edf2f7;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .option-label:hover {
+            background: #f0f3f6;
+            border-color: var(--gray);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            accent-color: var(--primary);
+        }
+
+        .option-label.selected {
+            background-color: #ebf8ff;
+            border-color: #3182ce;
+            font-weight: 600;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-row .btn {
+            width: auto;
+            min-width: 140px;
+        }
+
+        /* DIALOG SYSTEM MODULES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .modal-box h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* ANALYTICS AND PERFORMANCE REPORT VIEW */
+        .report-card {
+            background: white;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border-top: 6px solid var(--secondary);
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px double var(--light);
+            padding-bottom: 20px;
+        }
+
+        .report-header h2 {
+            color: var(--primary);
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+
+        .report-item span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .badge-pass { background: #c6f6d5; color: #22543d; }
+
+        .score-summary-big {
+            text-align: center;
+            padding: 20px;
+            background: #edf2f7;
+            border-radius: var(--border-radius);
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-top: 15px;
+        }
+
+        /* MEDIA QUERIES FOR MOBILE ECOSYSTEMS */
+        @media(max-width: 900px) {
+            .cbt-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: 2;
+            }
+            .workspace {
+                order: 1;
+            }
+            .grid-navigator {
+                grid-template-columns: repeat(10, 1fr);
+                max-height: 180px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .header-left {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .header-right {
+                text-align: center;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            .grid-navigator {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            .control-row {
+                flex-wrap: wrap;
+            }
+            .control-row .btn {
+                width: 100%;
+            }
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo-placeholder">SHIS</div>
+            <div class="header-title">
+                <h1>STANDARD HEIGHT INTERNATIONAL SCHOOL</h1>
+                <h2>Science Department • Computer Based Test System</h2>
+            </div>
+        </div>
+        <div class="header-right hidden" id="timer-wrapper">
+            <div class="timer-box" id="timer-display">50:00</div>
+        </div>
+    </header>
+
+    <main>
+        
+        <section class="login-card" id="login-section">
+            <h2>Student Examination Portal</h2>
+            <div id="login-error" style="color: var(--danger); font-weight: bold; margin-bottom: 15px; text-align: center;" class="hidden"></div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="student-name">Full Name</label>
+                    <input type="text" id="student-name" placeholder="e.g. OLAITAN ADEGOKE OLA" required>
+                    <div class="form-instruction">Format required: SURNAME MIDDLE OTHER (Separated by space)</div>
+                </div>
+                <div class="form-group">
+                    <label for="student-reg">Registration Number</label>
+                    <input type="text" id="student-reg" placeholder="e.g. SHIS/2026/001" required>
+                </div>
+                <button type="submit" class="btn">Verify and Start Examination</button>
+            </form>
+        </section>
+
+        <section class="cbt-container hidden" id="exam-section">
+            
+            <aside class="sidebar">
+                <div class="student-info-panel">
+                    <p><strong>Candidate:</strong> <span id="user-display-name">---</span></p>
+                    <p><strong>Reg No:</strong> <span id="user-display-reg">---</span></p>
+                </div>
+
+                <div class="navigator-title">Subject Modules</div>
+                <div class="subject-tab-container">
+                    <div class="sub-tab active" id="tab-eco" onclick="switchSubject('ECONOMICS')">ECONOMICS (SSS 1)</div>
+                    <div class="sub-tab" id="tab-mat" onclick="switchSubject('FURTHER_MATHS')">FURTHER MATHS (SSS 1)</div>
+                    <div class="sub-tab" id="tab-geo" onclick="switchSubject('GEOGRAPHY')">GEOGRAPHY (SSS 1)</div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>Total Progress</span>
+                        <span id="progress-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                    </div>
+                </div>
+
+                <div class="navigator-title">Question Grid Map</div>
+                <div class="grid-navigator" id="grid-navigator-container">
+                    </div>
+            </aside>
+
+            <div class="workspace">
+                <div class="question-card">
+                    <div class="question-meta">
+                        <span id="current-subject-label">ECONOMICS SSS 1</span>
+                        <span id="current-index-label">Question 1 of 20</span>
+                    </div>
+                    
+                    <div class="question-text" id="target-question-text">
+                        Loading examination sheet questions...
+                    </div>
+
+                    <div class="diagram-box hidden" id="diagram-mount">
+                        </div>
+
+                    <div class="options-container" id="target-options-container">
+                        </div>
+                </div>
+
+                <div class="control-row">
+                    <button class="btn" id="btn-prev" onclick="navigateQuestion(-1)">« Previous</button>
+                    <button class="btn" id="btn-next" onclick="navigateQuestion(1)">Next »</button>
+                    <button class="btn btn-success" id="btn-submit" onclick="triggerSubmitConfirmation()" style="margin-left: auto;">Submit Examination</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="report-card hidden" id="report-section">
+            <div class="report-header">
+                <h2>STANDARD HEIGHT INTERNATIONAL SCHOOL</h2>
+                <h3>Science Department Assessment Analytics</h3>
+                <p>Official Examination Performance Statement</p>
+            </div>
+
+            <div class="report-grid">
+                <div class="report-item"><strong>Student Name:</strong> <span id="rep-name">---</span></div>
+                <div class="report-item"><strong>Registration No:</strong> <span id="rep-reg">---</span></div>
+                <div class="report-item"><strong>Department:</strong> <span>SCIENCE DEPARTMENT</span></div>
+                <div class="report-item"><strong>Status:</strong> <span class="badge badge-pass">Completed / Saved</span></div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject Module Domain</th>
+                            <th>Total Items</th>
+                            <th>Correct Answers</th>
+                            <th>Subject Percentage</th>
+                            <th>Performance Descriptor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="report-table-body">
+                        </tbody>
+                </table>
+            </div>
+
+            <div class="score-summary-big" id="overall-score-banner">
+                Cumulative Performance Score: --% (GRADE: -)
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; color: var(--gray); font-size: 0.85rem;">
+                System verification signature lock: verified in localStorage cache state registry records successfully.
+            </div>
+        </section>
+
+    </main>
+
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal-box">
+            <h3 id="modal-title">Confirm Action</h3>
+            <p id="modal-message">Are you sure you want to proceed with this operation?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="modal-btn-cancel" onclick="dismissModal()">Cancel</button>
+                <button class="btn btn-success" id="modal-btn-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GLOBALLY SCOPED EXAM DATA STRUCTURE SCHEMATICS 
+        const examConfig = {
+            totalTimeSeconds: 50 * 60,
+            warningTimeSeconds: 5 * 60
+        };
+
+        // VISUAL RESOURCE DIAGRAMS INLINE SCALABLE VECTOR GRAPHICS MANIFEST DATABANK
+        const structuralDiagrams = {
+            eco_cost: `<svg viewBox="0 0 400 220" width="100%" height="100%"><rect width="400" height="220" fill="#f8f9fa"/><line x1="50" y1="20" x2="50" y2="180" stroke="#2c3e50" stroke-width="2"/><line x1="50" y1="180" x2="380" y2="180" stroke="#2c3e50" stroke-width="2"/><path d="M50,100 Q180,100 350,100" fill="none" stroke="#e74c3c" stroke-width="3"/><path d="M50,160 Q180,120 350,50" fill="none" stroke="#3498db" stroke-width="3"/><text x="360" y="105" fill="#e74c3c" font-weight="bold" font-size="12">Curve A</text><text x="360" y="55" fill="#3498db" font-weight="bold" font-size="12">Curve B</text><text x="30" y="25" fill="#2c3e50" font-weight="bold" font-size="11">Cost ($)</text><text x="350" y="195" fill="#2c3e50" font-weight="bold" font-size="11">Output</text></svg>`,
+            eco_rev: `<svg viewBox="0 0 400 220" width="100%" height="100%"><rect width="400" height="220" fill="#f8f9fa"/><line x1="50" y1="20" x2="50" y2="180" stroke="#2c3e50" stroke-width="2"/><line x1="50" y1="180" x2="380" y2="180" stroke="#2c3e50" stroke-width="2"/><path d="M50,180 Q200,40 350,180" fill="none" stroke="#2ecc71" stroke-width="3"/><text x="210" y="45" fill="#2ecc71" font-weight="bold" font-size="12">Total Revenue (TR)</text><text x="30" y="25" fill="#2c3e50" font-weight="bold" font-size="11">Revenue</text><text x="350" y="195" fill="#2c3e50" font-weight="bold" font-size="11">Quantity</text></svg>`,
+            math_curves: `<svg viewBox="0 0 400 200" width="100%" height="100%"><rect width="400" height="200" fill="#f8f9fa"/><line x1="40" y1="170" x2="360" y2="170" stroke="#2c3e50" stroke-width="2"/><path d="M60,170 Q130,40 200,170" fill="none" stroke="#9b59b6" stroke-width="2"/><path d="M150,170 Q240,40 340,170" fill="none" stroke="#e67e22" stroke-width="2" stroke-dasharray="4"/><text x="110" y="80" fill="#9b59b6" font-weight="bold" font-size="12">Distribution X</text><text x="250" y="80" fill="#e67e22" font-weight="bold" font-size="12">Distribution Y</text></svg>`,
+            math_box: `<svg viewBox="0 0 400 150" width="100%" height="100%"><rect width="400" height="150" fill="#f8f9fa"/><line x1="40" y1="80" x2="360" y2="80" stroke="#2c3e50" stroke-width="1.5"/><line x1="80" y1="60" x2="80" y2="100" stroke="#2c3e50" stroke-width="2"/><line x1="330" y1="60" x2="330" y2="100" stroke="#2c3e50" stroke-width="2"/><rect x="140" y="40" width="130" height="80" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="2"/><line x1="220" y1="40" x2="220" y2="120" stroke="#e74c3c" stroke-width="2"/><text x="75" y="115" font-size="11">Min</text><text x="135" y="135" font-size="11">Q1</text><text x="212" y="135" font-size="11">Q2 (Med)</text><text x="262" y="135" font-size="11">Q3</text><text x="322" y="115" font-size="11">Max</text></svg>`,
+            geo_map: `<svg viewBox="0 0 400 180" width="100%" height="100%"><rect width="400" height="180" fill="#e3f2fd"/><circle cx="100" cy="90" r="40" fill="#edeff1" stroke="#7f8c8d" stroke-width="1.5"/><circle cx="100" cy="90" r="2" fill="black"/><circle cx="280" cy="90" r="45" fill="#edeff1" stroke="#7f8c8d" stroke-width="1.5"/><circle cx="280" cy="90" r="2" fill="black"/><line x1="100" y1="90" x2="280" y2="90" stroke="#d35400" stroke-width="2" stroke-dasharray="5"/><text x="90" y="80" font-weight="bold" font-size="12">Town A</text><text x="270" y="80" font-weight="bold" font-size="12">Town B</text><text x="170" y="110" fill="#d35400" font-weight="bold" font-size="11">Distance = ?</text></svg>`
+        };
+
+        // BANK OF ALL 60 OBJECTIVE QUESTIONS FOR EXAM CORE
+        const systemQuestionsBank = [
+            // ==========================================
+            // SUB-SECTION: ECONOMICS (20 QUESTIONS)
+            // ==========================================
+            {
+                id: 1,
+                subject: "ECONOMICS",
+                text: "Look at the diagram. Curve A remains flat regardless of production quantities. Which cost type does Curve A represent?",
+                diagram: structuralDiagrams.eco_cost,
+                options: ["Variable Cost", "Marginal Cost", "Total Fixed Cost", "Average Variable Cost"],
+                answer: 2
+            },
+            {
+                id: 2,
+                subject: "ECONOMICS",
+                text: "In the diagram provided, what does Curve B indicate as it steadily slopes upwards alongside output increases?",
+                diagram: structuralDiagrams.eco_cost,
+                options: ["Total Fixed Cost", "Total Variable Cost", "Average Fixed Cost", "Marginal Revenue"],
+                answer: 1
+            },
+            {
+                id: 3,
+                subject: "ECONOMICS",
+                text: "Examine the revenue model provided. What specific concept does this total turnover graphic curve map reveal?",
+                diagram: structuralDiagrams.eco_rev,
+                options: ["Total Cost curve tracking loss minimums", "Total Revenue curve peaking at optimum capacity output", "Marginal Revenue intersecting horizontal variables", "Average Fixed Costs curve alignment trajectory"],
+                answer: 1
+            },
+            {
+                id: 4,
+                subject: "ECONOMICS",
+                text: "What is defined as the change in total cost resulting from producing one additional unit of output?",
+                options: ["Average Cost", "Fixed Cost", "Marginal Cost", "Opportunity Cost"],
+                answer: 2
+            },
+            {
+                id: 5,
+                subject: "ECONOMICS",
+                text: "Which of the following costs is completely independent of the level of output in the short run?",
+                options: ["Cost of raw materials", "Wages of temporary workers", "Rent on factory building", "Electricity consumption fees"],
+                answer: 2
+            },
+            {
+                id: 6,
+                subject: "ECONOMICS",
+                text: "Average Cost is calculated mathematically by dividing total cost by which of the following variables?",
+                options: ["Marginal cost metrics", "Total units of output produced", "The fixed overhead capital changes", "Total sales revenue received"],
+                answer: 1
+            },
+            {
+                id: 7,
+                subject: "ECONOMICS",
+                text: "When a firm sells 10 books at 500 Naira each, what is its corresponding Total Revenue?",
+                options: ["50 Naira", "5,000 Naira", "2,500 Naira", "50,000 Naira"],
+                answer: 1
+            },
+            {
+                id: 8,
+                subject: "ECONOMICS",
+                text: "What economic term describes the total money receipts obtained from selling a specific quantity of goods?",
+                options: ["Total profit margin", "Total Revenue", "Net cash flow capital", "Marginal valuation"],
+                answer: 1
+            },
+            {
+                id: 9,
+                subject: "ECONOMICS",
+                text: "In which type of economic system are all production assets owned and controlled exclusively by private individuals?",
+                options: ["Socialism", "Capitalism", "Mixed Economy", "Communalism"],
+                answer: 1
+            },
+            {
+                id: 10,
+                subject: "ECONOMICS",
+                text: "What is the foundational guiding mechanism driving resource allocation decisions inside a capitalist system?",
+                options: ["Government directive plans", "The price mechanism (demand and supply)", "Community consensus agreements", "Customary tribal allocation traditions"],
+                answer: 1
+            },
+            {
+                id: 11,
+                subject: "ECONOMICS",
+                text: "Which economic system is characterized by state ownership of factories and central planning directives?",
+                options: ["Free market economy", "Socialism", "Traditional economy", "Feudal system structure"],
+                answer: 1
+            },
+            {
+                id: 12,
+                subject: "ECONOMICS",
+                text: "Nigeria operates an economic system where both the public state sectors and private businesses coexist. What is this called?",
+                options: ["Pure Communism", "Traditional Barter System", "Mixed Economy", "Strict Socialist Command System"],
+                answer: 2
+            },
+            {
+                id: 13,
+                subject: "ECONOMICS",
+                text: "What ancient economic framework relies heavily on shared community resources and collective tribal work operations?",
+                options: ["Monopoly capitalism", "Communalism", "Feudalism structures", " Oligarchic control"],
+                answer: 1
+            },
+            {
+                id: 14,
+                subject: "ECONOMICS",
+                text: "The demand for labor is described as a 'derived demand' because it depends directly upon which factor?",
+                options: ["The supply of alternative raw materials", "The demand for the final goods or services labor produces", "The minimum age policies enforced by law", "Trade union membership registration counts"],
+                answer: 1
+            },
+            {
+                id: 15,
+                subject: "ECONOMICS",
+                text: "If the supply of accountants greatly exceeds the demand for accountants, what happens to their market wage rate?",
+                options: ["Wages rise significantly", "Wages tend to fall", "Wages remain absolutely fixed", "Wages double instantly"],
+                answer: 1
+            },
+            {
+                id: 16,
+                subject: "ECONOMICS",
+                text: "What point is reached when the quantity of labor demanded by employers equals the quantity of labor supplied?",
+                options: ["Deficit labor variance", "Equilibrium wage rate point", "Inflationary spiral milestone", "Surplus workforce ceiling"],
+                answer: 1
+            },
+            {
+                id: 17,
+                subject: "ECONOMICS",
+                text: "Who constitutes the supply side of the labor market in an economy?",
+                options: ["Government employment bureaus", "The commercial banking institutions", "Individuals seeking work opportunities", "Corporate business firms"],
+                answer: 2
+            },
+            {
+                id: 18,
+                subject: "ECONOMICS",
+                text: "Which factor can cause the supply curve of labor to shift to the right?",
+                options: ["A massive decrease in the working-age population", "An increase in the overall population size", "Strict migration bans enacted globally", "A massive reduction in local training facilities"],
+                answer: 1
+            },
+            {
+                id: 19,
+                subject: "ECONOMICS",
+                text: "What is defined as the payment made to labor as a reward for human productive services?",
+                options: ["Rent payouts", "Interest dividends", "Wages and Salaries", "Capital profits"],
+                answer: 2
+            },
+            {
+                id: 20,
+                subject: "ECONOMICS",
+                text: "What type of revenue represents the income earned per unit of product sold?",
+                options: ["Marginal Revenue", "Average Revenue", "Total Income", "Gross Capital Gains"],
+                answer: 1
+            },
+
+            // ==========================================
+            // SUB-SECTION: FURTHER MATHEMATICS (20 Qs)
+            // ==========================================
+            {
+                id: 21,
+                subject: "FURTHER_MATHS",
+                text: "Look at the statistical distribution models. Which distribution displays a higher variation spread based on visual dispersion?",
+                diagram: structuralDiagrams.math_curves,
+                options: ["Distribution X is more dispersed", "Distribution Y is more dispersed", "Both curves have identical variance metrics", "Neither curve exhibits any statistical dispersion"],
+                answer: 1
+            },
+            {
+                id: 22,
+                subject: "FURTHER_MATHS",
+                text: "Examine the box plot diagram. What vital summary parameter metric is marked specifically by the red line indicator labeled Q2?",
+                diagram: structuralDiagrams.math_box,
+                options: ["The arithmetic dataset mean value", "The mode element coordinate", "The Median (Second Quartile)", "The interquartile variance range value"],
+                answer: 2
+            },
+            {
+                id: 23,
+                subject: "FURTHER_MATHS",
+                text: "What is the arithmetic mean of the following raw data points: 2, 4, 6, and 8?",
+                options: ["4", "5", "6", "20"],
+                answer: 1
+            },
+            {
+                id: 24,
+                subject: "FURTHER_MATHS",
+                text: "Find the mode of the following set of student scores: 5, 8, 3, 8, 2, 8, 7.",
+                options: ["3", "5", "7", "8"],
+                answer: 3
+            },
+            {
+                id: 25,
+                subject: "FURTHER_MATHS",
+                text: "To determine the median value of a raw dataset, what primary structural arrangement must be completed first?",
+                options: ["Multiply every integer value together", "Arrange the dataset numbers in ascending or descending order", "Square all sample points", "Subtract the lowest score item from the group value"],
+                answer: 1
+            },
+            {
+                id: 26,
+                subject: "FURTHER_MATHS",
+                text: "What values divide an ordered set of data points into one hundred equal structural parts?",
+                options: ["Quartiles", "Deciles", "Percentiles", "Modes"],
+                answer: 2
+            },
+            {
+                id: 27,
+                subject: "FURTHER_MATHS",
+                text: "Which measure of location splits an ordered dataset into exactly ten equal segments?",
+                options: ["Quartiles", "Deciles", "Percentiles", "Standard deviations"],
+                answer: 1
+            },
+            {
+                id: 28,
+                subject: "FURTHER_MATHS",
+                text: "What basic measure of dispersion is calculated by finding the difference between the maximum and minimum values?",
+                options: ["Variance", "Range", "Mean Deviation", "Standard Deviation"],
+                answer: 1
+            },
+            {
+                id: 29,
+                subject: "FURTHER_MATHS",
+                text: "The Interquartile Range (IQR) is calculated by subtracting the first quartile (Q1) from which value?",
+                options: ["The lowest dataset value", "The third quartile (Q3)", "The arithmetic mean score", "The percentile value"],
+                answer: 1
+            },
+            {
+                id: 30,
+                subject: "FURTHER_MATHS",
+                text: "What measure of dispersion calculates the square root of the arithmetic mean of the squared deviations from the mean?",
+                options: ["Range", "Interquartile Range", "Standard Deviation", "Coefficient of Variation"],
+                answer: 2
+            },
+            {
+                id: 31,
+                subject: "FURTHER_MATHS",
+                text: "If a distribution has a standard deviation of 5 and a mean of 50, what is its Coefficient of Variation expressed as a percentage?",
+                options: ["5%", "10%", "25%", "50%"],
+                answer: 1
+            },
+            {
+                id: 32,
+                subject: "FURTHER_MATHS",
+                text: "What is the primary utility of calculating the Coefficient of Variation in statistical data analysis?",
+                options: ["To find the most frequent value", "To compare the relative dispersion of datasets with different units", "To determine the geometric sample space size", "To change fractional values into integers"],
+                answer: 1
+            },
+            {
+                id: 33,
+                subject: "FURTHER_MATHS",
+                text: "Operations Research uses scientific and mathematical models to solve what type of administrative challenges?",
+                options: ["Political campaign debates", "Optimal decision-making and resource allocation problems", "Historical document authentication", "Weather forecasting models"],
+                answer: 1
+            },
+            {
+                id: 34,
+                subject: "FURTHER_MATHS",
+                text: "Which model within Operations Research focuses on optimizing a linear objective function subject to linear constraints?",
+                options: ["Assignment Model", "Linear Programming", "Transportation Matrix Model", "Network Flow Analysis"],
+                answer: 1
+            },
+            {
+                id: 35,
+                subject: "FURTHER_MATHS",
+                text: "What type of Operations Research model is specifically used to minimize the cost of moving products from factories to warehouses?",
+                options: ["Linear Programming Curve", "Transportation Model", "Assignment Model", "Decile Optimization Matrix"],
+                answer: 1
+            },
+            {
+                id: 36,
+                subject: "FURTHER_MATHS",
+                text: "Which model is best suited for assigning a set of tasks to an equal number of workers at minimum total cost?",
+                options: ["Linear Programming", "Transportation Model", "Assignment Model", "Percentile Split Curve"],
+                answer: 2
+            },
+            {
+                id: 37,
+                subject: "FURTHER_MATHS",
+                text: "What name is given to the third quartile (Q3) position when analyzing percentile markers?",
+                options: ["25th Percentile", "50th Percentile", "75th Percentile", "90th Percentile"],
+                answer: 2
+            },
+            {
+                id: 38,
+                subject: "FURTHER_MATHS",
+                text: "Calculate the range of the following group of numbers: 12, 5, 27, 30, 18.",
+                options: ["18", "25", "30", "5"],
+                answer: 1
+            },
+            {
+                id: 39,
+                subject: "FURTHER_MATHS",
+                text: "What value splits an ordered dataset exactly in half?",
+                options: ["Mean", "Median", "Mode", "Variance"],
+                answer: 1
+            },
+            {
+                id: 40,
+                subject: "FURTHER_MATHS",
+                text: "What is the name given to the mathematical or logical representations used in Operations Research to simulate real-world systems?",
+                options: ["Hypothetical Guesses", "Operations Research Models", "Unstructured Speculations", "Basic Directives"],
+                answer: 1
+            },
+
+            // ==========================================
+            // SUB-SECTION: GEOGRAPHY (20 QUESTIONS)
+            // ==========================================
+            {
+                id: 41,
+                subject: "GEOGRAPHY",
+                text: "Look at the map distance graphic. If the scale of this map reads '1 cm represents 5 km', and the distance on the map measures 6 cm, what is the actual ground distance?",
+                diagram: structuralDiagrams.geo_map,
+                options: ["11 km", "30 km", "2.5 km", "60 km"],
+                answer: 1
+            },
+            {
+                id: 42,
+                subject: "GEOGRAPHY",
+                text: "Which method is best suited for measuring the precise distance between Town A and Town B along the straight line path shown?",
+                diagram: structuralDiagrams.geo_map,
+                options: ["A piece of thread", "A straight-edged ruler", "A planimeter", "Visual estimation"],
+                answer: 1
+            },
+            {
+                id: 43,
+                subject: "GEOGRAPHY",
+                text: "Which region in Nigeria is known for having a very high population density?",
+                options: ["The Northeast savanna basin", "The Southwest urban zones", "The extreme Northern desert fringes", "The sub-Sahel dry areas"],
+                answer: 1
+            },
+            {
+                id: 44,
+                subject: "GEOGRAPHY",
+                text: "What is the primary factor driving dense human settlement concentrations within the Niger Delta region of Nigeria?",
+                options: ["Abundant gold deposits", "Commercial oil and gas exploitation activities", "Cold mountain climate zones", "Extensive cattle grazing fields"],
+                answer: 1
+            },
+            {
+                id: 45,
+                subject: "GEOGRAPHY",
+                text: "What term describes the average number of people living per square kilometer of land area?",
+                options: ["Population Size", "Population Distribution", "Population Density", "Population Growth Rate"],
+                answer: 2
+            },
+            {
+                id: 46,
+                subject: "GEOGRAPHY",
+                text: "Which geographical factor is a primary reason for the sparse population density found in Nigeria's Middle Belt?",
+                options: ["Historical migration patterns and environmental factors", "Presence of the national capital", "Overabundance of massive seaport infrastructures", "Extensive industrial city clusters"],
+                answer: 0
+            },
+            {
+                id: 47,
+                subject: "GEOGRAPHY",
+                text: "What type of natural resource are minerals like coal, petroleum, and iron ore classified as?",
+                options: ["Renewable resources", "Non-renewable resources", "Continuous flow resources", "Intangible human assets"],
+                answer: 1
+            },
+            {
+                id: 48,
+                subject: "GEOGRAPHY",
+                text: "In which Nigerian state is petroleum found in commercial quantities?",
+                options: ["Kano State", "Delta State", "Sokoto State", "Maiduguri State"],
+                answer: 1
+            },
+            {
+                id: 49,
+                subject: "GEOGRAPHY",
+                text: "What natural resource is predominantly cultivated in the vast forest belts of Southern Nigeria?",
+                options: ["Gum Arabic", "Timber (Wood)", "Wheat grains", "Millet stalks"],
+                answer: 1
+            },
+            {
+                id: 50,
+                subject: "GEOGRAPHY",
+                text: "What type of resource does a nation's skilled workforce, including engineers, teachers, and doctors, represent?",
+                options: ["Natural Resource", "Mineral Resource", "Human Resource", "Atmospheric Resource"],
+                answer: 2
+            },
+            {
+                id: 51,
+                subject: "GEOGRAPHY",
+                text: "What map scale type is explicitly written in sentence form, such as 'One centimeter represents one kilometer'?",
+                options: ["Representative Fraction (RF)", "Linear Bar Scale", "Statement Scale", "Diagonal Grid Index"],
+                answer: 2
+            },
+            {
+                id: 52,
+                subject: "GEOGRAPHY",
+                text: "Convert the statement scale '1cm to 1km' into a Representative Fraction (RF).",
+                options: ["1:1,000", "1:10,000", "1:100,000", "1:1,000,000"],
+                answer: 2
+            },
+            {
+                id: 53,
+                subject: "GEOGRAPHY",
+                text: "What tool or instrument is used to determine the exact cardinal directions on a topographical map layout sheet?",
+                options: ["A thermometer Gauge", "A Barometer instrument", "A Magnetic Compass", "An Altimeter tracker"],
+                answer: 2
+            },
+            {
+                id: 54,
+                subject: "GEOGRAPHY",
+                text: "What map feature provides an explanatory key to interpreting conventional signs and symbols?",
+                options: ["The map border contour", "The Map Legend or Key", "The scale indicator line", "The orientation grid line"],
+                answer: 1
+            },
+            {
+                id: 55,
+                subject: "GEOGRAPHY",
+                text: "Which of the following methods is most reliable for measuring a winding, curved river path on a paper map?",
+                options: ["A rigid steel ruler", "A pair of dividers or a piece of thread", "Direct eyeball approximation", "An atmospheric barometer alignment"],
+                answer: 1
+            },
+            {
+                id: 56,
+                subject: "GEOGRAPHY",
+                text: "What type of conventional sign is used to represent features like international boundaries or railway lines on maps?",
+                options: ["Pictorial symbols", "Linear symbols", "Bulky text blocks", "Area color shades"],
+                answer: 1
+            },
+            {
+                id: 57,
+                subject: "GEOGRAPHY",
+                text: "What feature do closely spaced contour lines indicate on a topographical map?",
+                options: ["A flat plains environment", "A steep hill or slope", "A wide river valley", "A low swampy terrain"],
+                answer: 1
+            },
+            {
+                id: 58,
+                subject: "GEOGRAPHY",
+                text: "What primary mineral asset is mined in the plateau region around Jos, Nigeria?",
+                options: ["Petroleum oils", "Tin", "Gold bars", "Crude bitumen"],
+                answer: 1
+            },
+            {
+                id: 59,
+                subject: "GEOGRAPHY",
+                text: "What is the primary benefit of conserving natural forest resources across Nigeria?",
+                options: ["Increasing soil erosion rates", "Preserving biodiversity and protecting the ecosystem", "Expanding desert boundaries southwards", "Reducing rainfall distribution levels"],
+                answer: 1
+            },
+            {
+                id: 60,
+                subject: "GEOGRAPHY",
+                text: "What cardinal direction lies directly between North and East on a standard compass rose?",
+                options: ["Southwest", "Northwest", "Northeast", "Southeast"],
+                answer: 2
+            }
+        ];
+
+        // ENGINE RUNTIME APP STATE REGISTRY
+        let appState = {
+            currentSubject: "ECONOMICS",
+            currentQuestionGlobalIndex: 0,
+            studentName: "",
+            registrationNumber: "",
+            answers: {}, // Tracks indices: { globalQuestionIndex: chosenOptionIndex }
+            timeRemaining: examConfig.totalTimeSeconds,
+            timerIntervalId: null,
+            examActive: false
+        };
+
+        // RUNTIME INITIALIZATION ENFORCEMENT
+        window.onload = function() {
+            console.log("CBT System initialized successfully.");
+        };
+
+        // STUDENT LOGIN VALIDATION MANAGEMENT
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const rawName = document.getElementById("student-name").value.trim();
+            const rawReg = document.getElementById("student-reg").value.trim().toUpperCase();
+            const errorBox = document.getElementById("login-error");
+
+            errorBox.classList.add("hidden");
+
+            // Name validation matching format requirements
+            const nameParts = rawName.replace(/\s+/g, ' ').split(' ');
+            if (nameParts.length < 3) {
+                errorBox.innerText = "Error: Please enter your full name following the 'SURNAME MIDDLE OTHER' format.";
+                errorBox.classList.remove("hidden");
+                return;
+            }
+
+            // Anti-retake localStorage security validation rule
+            if (localStorage.getItem(`CBT_COMPLETED_${rawReg}`)) {
+                alert(`Access Denied: You have already completed this examination. Re-test attempts are blocked.`);
+                errorBox.innerText = "Security Alert: You have already completed this examination.";
+                errorBox.classList.remove("hidden");
+                return;
+            }
+
+            // Setup state variable metrics
+            appState.studentName = rawName.toUpperCase();
+            appState.registrationNumber = rawReg;
+            
+            document.getElementById("user-display-name").innerText = appState.studentName;
+            document.getElementById("user-display-reg").innerText = appState.registrationNumber;
+
+            // Change interface screen panels
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("exam-section").classList.remove("hidden");
+            document.getElementById("timer-wrapper").classList.remove("hidden");
+
+            // Fire up active operation routines
+            appState.examActive = true;
+            initializeSubjectFilterMap("ECONOMICS");
+            startGlobalCountdownTimer();
+            initializeAntiCheatSystem();
+        }
+
+        // COGNITIVE ANTI-CHEAT TRACKER SYSTEM
+        function initializeAntiCheatSystem() {
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden" && appState.examActive) {
+                    executeAutoForceSubmission("System Triggered Auto-Submit: The examination was terminated because you minimized the browser window or switched tabs.");
+                }
+            });
+        }
+
+        // SUBJECT COMPARTMENT NAVIGATION SELECTOR FILTER
+        function initializeSubjectFilterMap(subjectKey) {
+            appState.currentSubject = subjectKey;
+            
+            // Toggle active subject indicator classes
+            document.getElementById("tab-eco").classList.remove("active");
+            document.getElementById("tab-mat").classList.remove("active");
+            document.getElementById("tab-geo").classList.remove("active");
+
+            if(subjectKey === "ECONOMICS") document.getElementById("tab-eco").classList.add("active");
+            if(subjectKey === "FURTHER_MATHS") document.getElementById("tab-mat").classList.add("active");
+            if(subjectKey === "GEOGRAPHY") document.getElementById("tab-geo").classList.add("active");
+
+            // Locate first element match occurrence index for subject target boundaries
+            const subjectIndex = systemQuestionsBank.findIndex(q => q.subject === subjectKey);
+            renderActiveQuestionWorkspaceView(subjectIndex);
+            rebuildQuestionGridNavigationMap();
+            updateLinearProgressBarMetrics();
+        }
+
+        // SIDEBAR BUTTON NAVIGATION GRID MAP GENERATOR FACTORY
+        function rebuildQuestionGridNavigationMap() {
+            const container = document.getElementById("grid-navigator-container");
+            container.innerHTML = "";
+
+            systemQuestionsBank.forEach((question, idx) => {
+                if (question.subject !== appState.currentSubject) return;
+
+                const btn = document.createElement("div");
+                btn.className = "nav-btn";
+                // Show localized subset counter number markers matching sequential numbering maps
+                const localizedIndexOffset = question.id % 20 === 0 ? 20 : question.id % 20;
+                btn.innerText = localizedIndexOffset;
+
+                if (appState.answers[idx] !== undefined) {
+                    btn.classList.add("answered");
+                }
+                if (idx === appState.currentQuestionGlobalIndex) {
+                    btn.classList.add("current");
+                }
+
+                btn.onclick = () => renderActiveQuestionWorkspaceView(idx);
+                container.appendChild(btn);
+            });
+        }
+
+        // WORKSPACE QUESTION SCREEN RENDER ENGINE LOOP
+        function renderActiveQuestionWorkspaceView(globalIndex) {
+            appState.currentQuestionGlobalIndex = globalIndex;
+            const questionData = systemQuestionsBank[globalIndex];
+
+            // Enforce appropriate subject active tab matching jumps
+            if (questionData.subject !== appState.currentSubject) {
+                appState.currentSubject = questionData.subject;
+                initializeSubjectFilterMap(appState.currentSubject);
+                return;
+            }
+
+            // Sync structural header content displays
+            document.getElementById("current-subject-label").innerText = `${questionData.subject.replace('_', ' ')} SSS 1`;
+            const displayIdOffset = questionData.id % 20 === 0 ? 20 : questionData.id % 20;
+            document.getElementById("current-index-label").innerText = `Question ${displayIdOffset} of 20`;
+            document.getElementById("target-question-text").innerText = `${questionData.id}. ${questionData.text}`;
+
+            // Handle integrated diagram loading
+            const diagramMount = document.getElementById("diagram-mount");
+            if (questionData.diagram) {
+                diagramMount.innerHTML = questionData.diagram;
+                diagramMount.classList.remove("hidden");
+            } else {
+                diagramMount.innerHTML = "";
+                diagramMount.classList.add("hidden");
+            }
+
+            // Build out selectable answer multiple choice lists
+            const optionsContainer = document.getElementById("target-options-container");
+            optionsContainer.innerHTML = "";
+
+            questionData.options.forEach((optionText, optIdx) => {
+                const prefixChar = String.fromCharCode(65 + optIdx); // 65 maps directly to ASCII 'A'
+                
+                const label = document.createElement("label");
+                label.className = "option-label";
+                if (appState.answers[globalIndex] === optIdx) {
+                    label.classList.add("selected");
+                }
+
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = `question-choice-options`;
+                radio.value = optIdx;
+                if (appState.answers[globalIndex] === optIdx) {
+                    radio.checked = true;
+                }
+
+                radio.onchange = () => handleAnswerSelection(globalIndex, optIdx);
+
+                label.appendChild(radio);
+                const textSpan = document.createElement("span");
+                textSpan.innerText = `${prefixChar}. ${optionText}`;
+                label.appendChild(textSpan);
+                
+                optionsContainer.appendChild(label);
+            });
+
+            // Update state changes in grid markers and button options
+            rebuildQuestionGridNavigationMap();
+            
+            // Adjust step-action element properties based on bounds
+            document.getElementById("btn-prev").disabled = (globalIndex === 0);
+            document.getElementById("btn-next").disabled = (globalIndex === systemQuestionsBank.length - 1);
+        }
+
+        // RADIO BUTTON INTERACTIVE PERSISTENCE SELECTION RECORDER
+        function handleAnswerSelection(globalIndex, optionIndex) {
+            appState.answers[globalIndex] = optionIndex;
+            
+            // Re-apply highlight selector styles instantly to clicked elements
+            const optionsLabels = document.querySelectorAll(".option-label");
+            optionsLabels.forEach((lbl, idx) => {
+                if (idx === optionIndex) {
+                    lbl.classList.add("selected");
+                } else {
+                    lbl.classList.remove("selected");
+                }
+            });
+
+            rebuildQuestionGridNavigationMap();
+            updateLinearProgressBarMetrics();
+        }
+
+        // STEPPER ACTION INCREMENT NAVIGATION ENGINE
+        function navigateQuestion(stepDelta) {
+            const targetIndex = appState.currentQuestionGlobalIndex + stepDelta;
+            if (targetIndex >= 0 && targetIndex < systemQuestionsBank.length) {
+                renderActiveQuestionWorkspaceView(targetIndex);
+            }
+        }
+
+        // EXAM-WIDE SUBJECT TAB MODULE CONTROLLERS
+        function switchSubject(subjectKey) {
+            initializeSubjectFilterMap(subjectKey);
+        }
+
+        // LINEAR ASSESSMENT PROGRESS METRIC BAR MONITOR
+        function updateLinearProgressBarMetrics() {
+            const answeredCount = Object.keys(appState.answers).length;
+            const totalQuestions = systemQuestionsBank.length;
+            const ratioPercentage = Math.round((answeredCount / totalQuestions) * 100);
+
+            document.getElementById("progress-percentage").innerText = `${ratioPercentage}%`;
+            document.getElementById("progress-bar-fill").style.width = `${ratioPercentage}%`;
+        }
+
+        // SYSTEM TIME REGULATION ENGINE
+        function startGlobalCountdownTimer() {
+            const timerDisplay = document.getElementById("timer-display");
+            
+            appState.timerIntervalId = setInterval(() => {
+                appState.timeRemaining--;
+
+                let mins = Math.floor(appState.timeRemaining / 60);
+                let secs = appState.timeRemaining % 60;
+
+                mins = mins < 10 ? "0" + mins : mins;
+                secs = secs < 10 ? "0" + secs : secs;
+
+                timerDisplay.innerText = `${mins}:${secs}`;
+
+                // Trigger warnings for imminent expiration periods
+                if (appState.timeRemaining <= examConfig.warningTimeSeconds) {
+                    timerDisplay.parentElement.classList.add("timer-critical");
+                }
+
+                // Handle total countdown expiration bounds
+                if (appState.timeRemaining <= 0) {
+                    clearInterval(appState.timerIntervalId);
+                    executeAutoForceSubmission("Time Expired! Your examination session has ended and your entries are being saved.");
+                }
+            }, 1000);
+        }
+
+        // INTERACTIVE SYSTEM DIALOG POPUP CONTROLLER ENGINE
+        function presentSystemModalDialog(title, message, confirmCallback) {
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-message").innerText = message;
+            
+            const confirmBtn = document.getElementById("modal-btn-confirm");
+            confirmBtn.onclick = () => {
+                confirmCallback();
+                dismissModal();
+            };
+
+            document.getElementById("modal-overlay").classList.remove("hidden");
+        }
+
+        function dismissModal() {
+            document.getElementById("modal-overlay").classList.add("hidden");
+        }
+
+        // EXAM SUBMISSION HANDLERS
+        function triggerSubmitConfirmation() {
+            const totalAnswered = Object.keys(appState.answers).length;
+            const totalItems = systemQuestionsBank.length;
+            const totalUnanswered = totalItems - totalAnswered;
+
+            let promptMsg = `Are you sure you want to submit your examination sheet? You have answered ${totalAnswered} out of ${totalItems} questions.`;
+            if (totalUnanswered > 0) {
+                promptMsg += ` Warning: You are leaving ${totalUnanswered} questions unanswered.`;
+            }
+
+            presentSystemModalDialog("Confirm Final Exam Submission", promptMsg, () => {
+                finalizeGradingActionSequence();
+            });
+        }
+
+        function executeAutoForceSubmission(alertNoticeMessage) {
+            appState.examActive = false;
+            clearInterval(appState.timerIntervalId);
+            alert(alertNoticeMessage);
+            finalizeGradingActionSequence();
+        }
+
+        // CORE PERFORMANCE COMPUTATION & ANALYTICS INTERFACE GENERATOR
+        function finalizeGradingActionSequence() {
+            appState.examActive = false;
+            clearInterval(appState.timerIntervalId);
+
+            // Turn off navigation view modules
+            document.getElementById("exam-section").classList.add("hidden");
+            document.getElementById("timer-wrapper").classList.add("hidden");
+
+            // Structural definitions for processing data subject metrics
+            let marksMap = {
+                ECONOMICS: { correct: 0, total: 20 },
+                FURTHER_MATHS: { correct: 0, total: 20 },
+                GEOGRAPHY: { correct: 0, total: 20 }
+            };
+
+            // Loop and grade individual elements against verification answers
+            systemQuestionsBank.forEach((question, index) => {
+                const studentSelection = appState.answers[index];
+                if (studentSelection !== undefined && studentSelection === question.answer) {
+                    marksMap[question.subject].correct++;
+                }
+            });
+
+            // Persist data locally via signature lock values to block re-tests
+            localStorage.setItem(`CBT_COMPLETED_${appState.registrationNumber}`, "TRUE");
+
+            // Print report parameters onto DOM nodes
+            document.getElementById("rep-name").innerText = appState.studentName;
+            document.getElementById("rep-reg").innerText = appState.registrationNumber;
+
+            const tableBody = document.getElementById("report-table-body");
+            tableBody.innerHTML = "";
+
+            let integratedScoreCount = 0;
+            const universalTotalItems = systemQuestionsBank.length;
+
+            Object.keys(marksMap).forEach(key => {
+                const correct = marksMap[key].correct;
+                const total = marksMap[key].total;
+                const subPercentage = Math.round((correct / total) * 100);
+                integratedScoreCount += correct;
+
+                let performanceDescriptor = "Needs Improvement";
+                if (subPercentage >= 75) performanceDescriptor = "Excellent Distinction";
+                else if (subPercentage >= 60) performanceDescriptor = "Very Good Pass";
+                else if (subPercentage >= 40) performanceDescriptor = "Average Credit";
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${key.replace('_', ' ')}</strong></td>
+                    <td>${total}</td>
+                    <td>${correct}</td>
+                    <td><strong>${subPercentage}%</strong></td>
+                    <td><span class="badge ${subPercentage >= 40 ? 'badge-pass' : 'btn-danger'}" style="color: black; padding: 2px 6px;">${performanceDescriptor}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Compile overall evaluation marks percentages
+            const finalCumulativePercentage = Math.round((integratedScoreCount / universalTotalItems) * 100);
+            
+            let alphaGrade = "F";
+            if (finalCumulativePercentage >= 75) alphaGrade = "A1";
+            else if (finalCumulativePercentage >= 70) alphaGrade = "B2";
+            else if (finalCumulativePercentage >= 65) alphaGrade = "B3";
+            else if (finalCumulativePercentage >= 60) alphaGrade = "C4";
+            else if (finalCumulativePercentage >= 55) alphaGrade = "C5";
+            else if (finalCumulativePercentage >= 50) alphaGrade = "C6";
+            else if (finalCumulativePercentage >= 45) alphaGrade = "D7";
+            else if (finalCumulativePercentage >= 40) alphaGrade = "E8";
+
+            const banner = document.getElementById("overall-score-banner");
+            banner.innerText = `Cumulative Performance Score: ${finalCumulativePercentage}% (GRADE: ${alphaGrade})`;
+
+            // Unveil completed dynamic report card asset view panels
+            document.getElementById("report-section").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>

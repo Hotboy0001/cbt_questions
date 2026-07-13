@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <style>
+        :root {
+            --primary: #0d47a1;
+            --primary-light: #1e88e5;
+            --secondary: #1565c0;
+            --accent: #2e7d32;
+            --accent-hover: #1b5e20;
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --text: #212121;
+            --text-light: #666666;
+            --border: #dcdcdc;
+            --answered: #1565c0;
+            --unanswered: #e0e0e0;
+            --current: #ff9800;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Utility classes */
+        .hidden { display: none !important; }
+        
+        /* Header Styling */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin: 0 auto 5px auto;
+            border: 2px solid white;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+            color: #e3f2fd;
+        }
+
+        header .dept {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Main Container */
+        .container {
+            flex: 1;
+            max-width: 1300px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* Login Screen Card */
+        .login-card {
+            background: var(--surface);
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--secondary);
+        }
+
+        .login-card h3 {
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.15);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: var(--secondary); }
+        .btn-success { background-color: var(--accent); }
+        .btn-success:hover { background-color: var(--accent-hover); }
+
+        /* Examination Workspace Layout */
+        .exam-workspace {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* Sidebar Meta & Navigation Info */
+        .sidebar {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .profile-summary {
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .profile-summary p {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .timer-box {
+            background: #fff3e0;
+            border: 1px solid #ffe0b2;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 20px;
+        }
+
+        .subject-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sub-tab {
+            padding: 10px 12px;
+            background: #f0f4f8;
+            border-left: 4px solid #b0bec5;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .sub-tab.active {
+            background: #e3f2fd;
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-grid-container h4 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .nav-btn {
+            background: var(--unanswered);
+            border: none;
+            padding: 10px 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.answered {
+            background-color: var(--answered);
+            color: white;
+        }
+
+        .nav-btn.current {
+            box-shadow: inset 0 0 0 3px var(--current);
+            font-weight: 800;
+        }
+
+        /* Question Workarea */
+        .main-workarea {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .statusbar-card {
+            background: var(--surface);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .statusbar-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            min-height: 280px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        .option-item:hover {
+            background: #f0f4f8;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .option-item span {
+            font-size: 1.05rem;
+        }
+
+        .option-item.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary);
+        }
+
+        /* Navigation Buttons Panel */
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .control-panel .btn {
+            width: auto;
+            min-width: 130px;
+        }
+
+        /* Result Panel UI */
+        .result-card {
+            background: var(--surface);
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-top: 6px solid var(--accent);
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header h2 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .result-item {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .result-item span.label {
+            font-weight: 600;
+            color: var(--text-light);
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .result-item span.value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .subject-breakdown {
+            margin-top: 25px;
+        }
+
+        .subject-breakdown h4 {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-table th, .breakdown-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breakdown-table th {
+            background-color: #f0f4f8;
+            font-weight: 600;
+        }
+
+        /* Custom Modal Box styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-box h3 {
+            margin-bottom: 15px;
+            color: #c62828;
+        }
+
+        .modal-box p {
+            margin-bottom: 25px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-actions .btn {
+            width: 120px;
+            padding: 10px;
+            font-size: 0.95rem;
+        }
+
+        .btn-secondary {
+            background-color: #757575;
+        }
+        .btn-secondary:hover {
+            background-color: #616161;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .exam-workspace {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: -1;
+            }
+            .nav-grid {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.2rem; }
+            header h2 { font-size: 0.9rem; }
+            .nav-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            .control-panel {
+                flex-direction: column;
+            }
+            .control-panel .btn {
+                width: 100%;
+            }
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-placeholder">LOGO</div>
+        <h1>Standard Height International School</h1>
+        <h2>Computer-Based Test Dashboard</h2>
+        <div class="dept">Humanity Department</div>
+    </header>
+
+    <div class="container">
+        
+        <div id="login-view" class="login-card">
+            <h3>Student Examination Login</h3>
+            <div id="login-error" style="color: #d32f2f; font-weight:600; font-size:0.9rem; margin-bottom:15px; text-align:center; display:none;"></div>
+            
+            <div class="form-group">
+                <label for="student-name">Full Name (Format: SURNAME MIDDLE OTHER)</label>
+                <input type="text" id="student-name" placeholder="e.g. OKOROAFOR CHIDI BASHIR" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-number">Registration Number</label>
+                <input type="text" id="reg-number" placeholder="e.g. SHIS/2026/SSS2/041" autocomplete="off">
+            </div>
+            
+            <button id="start-btn" class="btn">Start Examination</button>
+        </div>
+
+        <div id="exam-view" class="exam-workspace hidden">
+            
+            <div class="sidebar">
+                <div class="profile-summary">
+                    <p><strong>Candidate:</strong> <span id="display-candidate-name">---</span></p>
+                    <p style="font-size: 0.85rem; color: var(--text-light);"><strong>Reg No:</strong> <span id="display-candidate-reg">---</span></p>
+                </div>
+
+                <div class="timer-box">
+                    Time Left: <span id="time-string">30:00</span>
+                </div>
+
+                <div class="subject-tabs">
+                    <div class="sub-tab active" id="tab-eng" onclick="switchSubject(0)">English Language</div>
+                    <div class="sub-tab" id="tab-lit" onclick="switchSubject(1)">Literature In English</div>
+                </div>
+
+                <div class="nav-grid-container">
+                    <h4 id="nav-title">Questions Tracker</h4>
+                    <div id="question-nav-grid" class="nav-grid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-workarea">
+                <div class="statusbar-card">
+                    <div>
+                        <h3 id="current-subject-title">English Language SSS 2</h3>
+                        <p style="font-size:0.85rem; color: var(--text-light);" id="question-index-counter">Question 1 of 20</p>
+                    </div>
+                    <div style="width: 150px; text-align: right;">
+                        <span style="font-size:0.85rem; font-weight:600;" id="progress-percent">0% Done</span>
+                        <div class="progress-container">
+                            <div id="exam-progress-bar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div id="render-question-text" class="question-text">
+                        Loading examination parameters...
+                    </div>
+                    <div id="render-options-container" class="options-list">
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <button class="btn btn-secondary" id="prev-btn" onclick="navigateQuestion(-1)">Previous</button>
+                    <button class="btn" id="next-btn" onclick="navigateQuestion(1)">Next Question</button>
+                    <button class="btn btn-success" id="submit-btn" onclick="triggerManualSubmissionConfirmation()">Submit Examination</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="result-view" class="result-card hidden">
+            <div class="result-header">
+                <h2>Examination Report Slip</h2>
+                <p>Standard Height International School &bull; Humanity Department</p>
+            </div>
+
+            <div class="result-grid">
+                <div class="result-item">
+                    <span class="label">Student Full Name</span>
+                    <span class="value" id="res-name">---</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Registration Number</span>
+                    <span class="value" id="res-reg">---</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Composite Aggregate Score</span>
+                    <span class="value" id="res-total-score">0 / 40</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Cumulative Final Grade</span>
+                    <span class="value" id="res-grade">F</span>
+                </div>
+            </div>
+
+            <div class="subject-breakdown">
+                <h4>Performance Breakdown by Department Modules</h4>
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Subject Module</th>
+                            <th>Total Items</th>
+                            <th>Correct</th>
+                            <th>Score Evaluation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>English Language</td>
+                            <td>20</td>
+                            <td id="res-eng-correct">0</td>
+                            <td id="res-eng-pct">0%</td>
+                        </tr>
+                        <tr>
+                            <td>Literature In English</td>
+                            <td>20</td>
+                            <td id="res-lit-correct">0</td>
+                            <td id="res-lit-pct">0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; color: var(--text-light); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 15px;">
+                CBT Verification Lock Active. Student records stored. System protected against automated script retakes.
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal-layer" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h3 id="modal-heading">Confirm Action</h3>
+            <p id="modal-message">Are you sure you want to proceed with this operation?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="modal-cancel-btn">Return</button>
+                <button class="btn btn-success" id="modal-confirm-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA SUBSYSTEM: COMPREHENSIVE 40-QUESTION POOL COMBINING ENGLISH & LITERATURE
+        const examDatabase = [
+            {
+                subjectCode: "ENG",
+                subjectTitle: "ENGLISH LANGUAGE SSS 2",
+                questions: [
+                    { q: "Complete the following statement: By this time tomorrow, we _______ completed the grammar task.", o: ["will have", "shall be", "have", "would had"], a: 0 },
+                    { q: "Identify the prefix that means 'before' or 'in front of' within industrial terms.", o: ["Post-", "Pre-", "Sub-", "Anti-"], a: 1 },
+                    { q: "Which word below indicates an extremely large, powerful corporate entity or industry industrial model?", o: ["Behemoth", "Troupe", "Acronym", "Calumny"], a: 0 },
+                    { q: "If I _______ the financial capital earlier, I would have set up the printing press layout.", o: ["have secured", "had secured", "secure", "would secure"], a: 1 },
+                    { q: "Choose the correct spelling variant from the dictionary index below.", o: ["Proffessionalism", "Professionalism", "Profesonalism", "Professonalism"], a: 1 },
+                    { q: "Change the following sentence to passive voice: 'The printing press produced the textbooks.'", o: ["The printing press was producing textbooks.", "Textbooks were produced by the printing press.", "Textbooks had been produced by the press.", "Textbooks are produced by the printing press."], a: 1 },
+                    { q: "What is the primary operational rule when drafting a brief summary statement of a lecture?", o: ["Include secondary examples", "Extract only the main primary thesis ideas", "Copy text word-for-word", "Extend sentences with idioms"], a: 1 },
+                    { q: "A speech delivered to honor colleagues departing from an educational or commercial enterprise is called a/an _______ address.", o: ["Welcome", "Farewell", "Inaugural", "Prize-giving"], a: 1 },
+                    { q: "An article written for publication in national print media requires which structural form?", o: ["Formal address heading headers", "An explicit descriptive title/heading", "Signature lists at bottom left corner", "Complete omission of objective voice"], a: 1 },
+                    { q: "The word 'Calumny' as defined in standard text units translates closely to:", o: ["False accusation to damage reputation", "Generous donation system", "Extreme poverty", "High praise standard"], a: 0 },
+                    { q: "Select the option that represents an unchangeable condition: If water reaches 100 degrees Celsius, it _______.", o: ["boils", "would boil", "boiled", "might boil"], a: 0 },
+                    { q: "Which word relates specifically to the activities of publishing and manufacturing industries?", o: ["Typography", "Arboreal", "Mawkish", "Diffident"], a: 0 },
+                    { q: "What root extension morphology occurs when the prefix 'Dis-' is added to 'repute'?", o: ["Changes definition polarity to negative status", "Transverts verb structural profile to adjective", "Maintains exactly duplicated original intent", "Converts word into acronym status"], a: 0 },
+                    { q: "Find the synonym for 'indigent' within secondary reading scopes.", o: ["Wealthy", "Impoverished/Poor", "Deceptive", "Hardworking"], a: 1 },
+                    { q: "Identify the complex sentence structure down below:", o: ["The bell rang.", "The boys played football while the girls watched attentively.", "She cooked and he cleaned the system dashboard.", "They went out to work."], a: 1 },
+                    { q: "In a welcome address speech structure, which element must appear first?", o: ["Vote of thanks", "Formal protocol salutation of dignitaries", "Historical reference timelines", "Personal biographical background notes"], a: 1 },
+                    { q: "The word 'Camaraderie' represents:", o: ["Hostility", "Mutual trust and friendship", "Isolation", "Deep ignorance"], a: 1 },
+                    { q: "Which word below is an antonym of 'Frivolous'?", o: ["Serious/Prudent", "Silly", "Tiny", "Lightweight"], a: 0 },
+                    { q: "A textbook index contains a compilation of terminology terms. This database is called a/an _______.", o: ["Glossary", "Preamble", "Affidavit", "Appendix"], a: 0 },
+                    { q: "Identify the active voice sentence:", o: ["The lesson was taught by Mr. Adegoke.", "The student wrote the examination script.", "The system was automatically shut down.", "The results were published online."], a: 1 }
+                ]
+            },
+            {
+                subjectCode: "LIT",
+                subjectTitle: "LITERATURE IN ENGLISH SSS 2",
+                questions: [
+                    { q: "What is a primary traditional element heavily integrated into classical African Drama?", o: ["Proverbs, storytelling, and masquerade dynamics", "Silent pantomime acts", "Strict adherence to three-act structures", "Shakespearian sonnet forms"], a: 0 },
+                    { q: "African drama is deeply rooted in which of the following?", o: ["European classical text structures", "Rituals, festivals, and communal celebrations", "Western cinema techniques", "Modern internet blogs"], a: 1 },
+                    { q: "Who acts as the critical bridge between performers and audience in traditional storytelling drama formats?", o: ["The director", "The narrator or lead chanter", "The stage technician", "The script manager"], a: 1 },
+                    { q: "Which of these is NOT a function of traditional African Drama structures?", o: ["Preserving communal history", "Inculcating high moral values", "Providing simple visual isolation from society", "Entertaining community members"], a: 2 },
+                    { q: "What is the role of the audience in a typical indigenous African dramatic performance?", o: ["Passive observation in complete silence", "Active participation through singing, clapping, and responses", "Writing live critique notes", "Voting with scoreboards"], a: 1 },
+                    { q: "Who is the eminent author of the classic drama play 'The Marriage of Anansewa'?", o: ["Wole Soyinka", "Efua Sutherland", "Ama Ata Aidoo", "Zulu Sofola"], a: 1 },
+                    { q: "What country is the geographic setting of 'The Marriage of Anansewa'?", o: ["Nigeria", "Ghana", "Kenya", "South Africa"], a: 1 },
+                    { q: "What is the name of Ananse's beautiful daughter whom he seeks to sell off into marriage?", o: ["Anansewa", "Esi", "Alali", "Odua"], a: 0 },
+                    { q: "In Act One, what is Ananse's primary complaint and motivation for his clever schemes?", o: ["He wants to travel abroad", "He is trapped in severe poverty and wants wealth", "He hates his daughter", "He wants to become a political king"], a: 1 },
+                    { q: "How does Ananse pitch his daughter to various wealthy tribal chiefs in Act One?", o: ["By writing letters and sending her photographs to them", "By placing advertisements on community newsboards", "By forcing her to visit them directly", "By arranging a public wrestling match"], a: 0 },
+                    { q: "What does Ananse accept from multiple chiefs simultaneously, sparking complications in Acts 2 and 3?", o: ["Land documents", "Gifts and marriage engagement tokens", "War treaties", "Royal garments"], a: 1 },
+                    { q: "How does Anansewa feel about her father's dynamic plans to marry her off to any rich bidder?", o: ["She is extremely happy from the start", "She objects initially, wanting to marry for true love", "She leaves the house immediately", "She refuses to speak to anyone"], a: 1 },
+                    { q: "What standard musical/storytelling interlude format did Efua Sutherland employ to drive the narrative forward?", o: ["Opera solos", "Mboguo (musical interludes)", "Jazz sessions", "Shakespearean choruses"], a: 1 },
+                    { q: "Which chief represents the wealthy group of buyers interested in Anansewa?", o: ["The Chief of Mines / Chief of the Plastic Pool", "The Fisher King", "The Palm-wine King", "The Desert Warrior"], a: 0 },
+                    { q: "What character assists Ananse in processing the administrative tasks of his letters and files?", o: ["His mother", "Property lawyers", "Anansewa herself, acting as a typist", "The Village head master"], a: 2 },
+                    { q: "What iconic traditional folklore character archetype is Ananse based upon?", o: ["The giant warrior", "The cunning spider trickster", "The benevolent fairy god", "The ancient wise king"], a: 1 },
+                    { q: "What is the master dramatic scheme Ananse invents to save his neck when all the chiefs arrive at the same time?", o: ["He runs away to another country", "He fakes his daughter Anansewa's sudden death", "He fights them in a duel", "He tells them he lost all the money"], a: 1 },
+                    { q: "Which prominent moral lesson is heavily highlighted by the outcome of 'The Marriage of Anansewa'?", o: ["Greed and excessive materialism create complex troubles", "Children should never attend school", "Money can buy true love instantly", "Trickery is always the best way to live life"], a: 0 },
+                    { q: "The use of 'Mboguo' in the play serves what structural purpose?", o: ["It lets actors sleep backstage", "It engages the audience, comments on actions, and creates transitions", "It makes the play strictly a tragedy", "It stretches time for scene painters"], a: 1 },
+                    { q: "At the resolution of the play, who wins the right to marry Anansewa due to genuine devotion shown?", o: ["The Chief of Mines", "The noble Chief of Akim Abuakwa (The Chief of the Plastic Pool)", "Ananse himself", "The local village hunter"], a: 1 }
+                ]
+            }
+        ];
+
+        // SYSTEM ENVIRONMENT VARIABLES
+        let currentSubjectIndex = 0;
+        let currentQuestionIndex = 0;
+        let studentResponses = {}; 
+        let examTimeSeconds = 30 * 60; 
+        let countdownInterval = null;
+        let activeRegistrationNumber = "";
+        let activeStudentName = "";
+
+        // UI CORE SELECTORS
+        const loginView = document.getElementById("login-view");
+        const examView = document.getElementById("exam-view");
+        const resultView = document.getElementById("result-view");
+        const modalLayer = document.getElementById("modal-layer");
+
+        // ANTI-CHEAT ENGINE INITIALIZATION
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === "hidden" && !examView.classList.contains("hidden")) {
+                alert("CRITICAL WARNING VIOLATION DETECTED:\nYou exited or minimized the active testing viewport environment. The examination system has locked your session and forced an automatic final submission.");
+                executeFinalSystemSubmission();
+            }
+        });
+
+        // REGISTRATION SYSTEM MANIPULATION
+        document.getElementById("start-btn").addEventListener("click", function() {
+            const nameInput = document.getElementById("student-name").value.trim();
+            const regInput = document.getElementById("reg-number").value.trim();
+            const errorDiv = document.getElementById("login-error");
+
+            errorDiv.style.display = "none";
+
+            if (!nameInput || !regInput) {
+                errorDiv.innerText = "Access Denied: Please fill in your Full Name and Registration Number.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            // ANTI-RETAKE PERSISTENCE CHECKER
+            const existingRecord = localStorage.getItem("CBT_RECORDS_" + regInput.toUpperCase());
+            if (existingRecord) {
+                errorDiv.innerText = "SECURITY ALERT: You have already completed this examination. Retakes are strictly prohibited.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            // Bind global user credentials
+            activeStudentName = nameInput.toUpperCase();
+            activeRegistrationNumber = regInput.toUpperCase();
+
+            // Transition UI State
+            loginView.classList.add("hidden");
+            examView.classList.remove("hidden");
+
+            // Setup display layout
+            document.getElementById("display-candidate-name").innerText = activeStudentName;
+            document.getElementById("display-candidate-reg").innerText = activeRegistrationNumber;
+
+            initializeExamRuntime();
+        });
+
+        function initializeExamRuntime() {
+            // Setup response arrays inside tracking dictionary
+            examDatabase.forEach(sub => {
+                studentResponses[sub.subjectCode] = new Array(sub.questions.length).fill(null);
+            });
+
+            // Fire up runtime parameters
+            switchSubject(0);
+            startClockCounter();
+        }
+
+        // TIMER CORE ENGINE
+        function startClockCounter() {
+            countdownInterval = setInterval(() => {
+                examTimeSeconds--;
+                
+                let mins = Math.floor(examTimeSeconds / 60);
+                let secs = examTimeSeconds % 60;
+                
+                // Pad time formatting strings
+                let minsStr = mins < 10 ? "0" + mins : mins;
+                let secsStr = secs < 10 ? "0" + secs : secs;
+                
+                document.getElementById("time-string").innerText = `${minsStr}:${secsStr}`;
+
+                if (examTimeSeconds <= 0) {
+                    clearInterval(countdownInterval);
+                    alert("Time Elapse Triggered! Your test session has run out of time and will be processed immediately.");
+                    executeFinalSystemSubmission();
+                }
+            }, 1000);
+        }
+
+        // SUBJECT MANAGER NAVIGATION
+        function switchSubject(subjectIdx) {
+            currentSubjectIndex = subjectIdx;
+            currentQuestionIndex = 0;
+
+            // Toggle Visual Tab classes
+            document.getElementById("tab-eng").classList.toggle("active", subjectIdx === 0);
+            document.getElementById("tab-lit").classList.toggle("active", subjectIdx === 1);
+
+            // Update Header Meta Context
+            document.getElementById("current-subject-title").innerText = examDatabase[currentSubjectIndex].subjectTitle;
+
+            renderQuestionBlock();
+            generateNavigationGrid();
+            refreshStatusMetrics();
+        }
+
+        // QUESTION RENDERING DOM COMPILER
+        function renderQuestionBlock() {
+            const subjectObj = examDatabase[currentSubjectIndex];
+            const activeQuestion = subjectObj.questions[currentQuestionIndex];
+            
+            // Set dynamic text values
+            document.getElementById("question-index-counter").innerText = `Question ${currentQuestionIndex + 1} of ${subjectObj.questions.length}`;
+            document.getElementById("render-question-text").innerText = activeQuestion.q;
+
+            const optionsContainer = document.getElementById("render-options-container");
+            optionsContainer.innerHTML = "";
+
+            // Loop and bind option nodes
+            const alphabet = ["A", "B", "C", "D"];
+            activeQuestion.o.forEach((optionText, index) => {
+                const isSelected = studentResponses[subjectObj.subjectCode][currentQuestionIndex] === index;
+
+                const optionWrapper = document.createElement("div");
+                optionWrapper.className = `option-item ${isSelected ? 'selected' : ''}`;
+                optionWrapper.onclick = () => selectOptionPayload(index);
+
+                optionWrapper.innerHTML = `
+                    <input type="radio" name="q-option" id="opt-${index}" value="${index}" ${isSelected ? 'checked' : ''}>
+                    <span><strong>${alphabet[index]}.</strong> ${optionText}</span>
+                `;
+                optionsContainer.appendChild(optionWrapper);
+            });
+
+            // Update Control Buttons state rules
+            document.getElementById("prev-btn").disabled = (currentQuestionIndex === 0);
+            document.getElementById("next-btn").innerText = (currentQuestionIndex === subjectObj.questions.length - 1) ? "Next Subject Module" : "Next Question";
+        }
+
+        // NAVIGATION TRACKER DOT MAP ENGINE
+        function generateNavigationGrid() {
+            const subjectObj = examDatabase[currentSubjectIndex];
+            const navGrid = document.getElementById("question-nav-grid");
+            navGrid.innerHTML = "";
+
+            subjectObj.questions.forEach((_, idx) => {
+                const navBtn = document.createElement("button");
+                navBtn.className = "nav-btn";
+                navBtn.innerText = idx + 1;
+
+                // Validate if answered
+                if (studentResponses[subjectObj.subjectCode][idx] !== null) {
+                    navBtn.classList.add("answered");
+                }
+                // Validate if current working item
+                if (idx === currentQuestionIndex) {
+                    navBtn.classList.add("current");
+                }
+
+                navBtn.onclick = () => {
+                    currentQuestionIndex = idx;
+                    renderQuestionBlock();
+                    generateNavigationGrid();
+                };
+
+                navGrid.appendChild(navBtn);
+            });
+        }
+
+        // INTERACTION LISTENER HANDLING RESPONSE SELECTS
+        function selectOptionPayload(optionIndex) {
+            const subjectCode = examDatabase[currentSubjectIndex].subjectCode;
+            studentResponses[subjectCode][currentQuestionIndex] = optionIndex;
+
+            // Rerender DOM elements to update states visually
+            renderQuestionBlock();
+            generateNavigationGrid();
+            refreshStatusMetrics();
+        }
+
+        // CONTROL RUNTIME ARROWS ACTION MANAGEMENT
+        function navigateQuestion(direction) {
+            const subjectObj = examDatabase[currentSubjectIndex];
+            
+            if (direction === 1) {
+                if (currentQuestionIndex < subjectObj.questions.length - 1) {
+                    currentQuestionIndex++;
+                    renderQuestionBlock();
+                    generateNavigationGrid();
+                } else {
+                    // Loop or forward shift to alternative subject track
+                    if (currentSubjectIndex === 0) {
+                        switchSubject(1);
+                    } else {
+                        alert("You have reached the end of the final subject block modules. Review your missing items via the tracking dots or submit your test.");
+                    }
+                }
+            } else if (direction === -1) {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    renderQuestionBlock();
+                    generateNavigationGrid();
+                }
+            }
+        }
+
+        // METRICS CALCULATOR BAR ENGINE
+        function refreshStatusMetrics() {
+            let totalItemsCount = 0;
+            let answeredItemsCount = 0;
+
+            examDatabase.forEach(sub => {
+                totalItemsCount += sub.questions.length;
+                sub.questions.forEach((_, idx) => {
+                    if (studentResponses[sub.subjectCode][idx] !== null) {
+                        answeredItemsCount++;
+                    }
+                });
+            });
+
+            const currentPercentage = Math.round((answeredItemsCount / totalItemsCount) * 100);
+            document.getElementById("progress-percent").innerText = `${currentPercentage}% Done`;
+            document.getElementById("exam-progress-bar").style.width = `${currentPercentage}%`;
+        }
+
+        // MODAL BOX DIALOG UTILITY ARCHITECTURE
+        function showCustomConfirmModal(title, msg, onConfirm) {
+            document.getElementById("modal-heading").innerText = title;
+            document.getElementById("modal-message").innerText = msg;
+            modalLayer.classList.remove("hidden");
+
+            document.getElementById("modal-cancel-btn").onclick = () => {
+                modalLayer.classList.add("hidden");
+            };
+
+            document.getElementById("modal-confirm-btn").onclick = () => {
+                modalLayer.classList.add("hidden");
+                onConfirm();
+            };
+        }
+
+        function triggerManualSubmissionConfirmation() {
+            showCustomConfirmModal(
+                "Confirm Final Submission", 
+                "Are you completely certain you want to hand in your examination scripts? This process is definitive and cannot be undone.", 
+                executeFinalSystemSubmission
+            );
+        }
+
+        // FINAL COMPUTATION & LOCALSTORAGE LOCKDOWN ENGINE
+        function executeFinalSystemSubmission() {
+            clearInterval(countdownInterval);
+
+            let scoreMatrix = {};
+            let globalTotalQuestions = 0;
+            let globalCorrectCount = 0;
+
+            examDatabase.forEach(sub => {
+                let subCorrect = 0;
+                sub.questions.forEach((qObj, index) => {
+                    if (studentResponses[sub.subjectCode][index] === qObj.a) {
+                        subCorrect++;
+                    }
+                });
+                
+                scoreMatrix[sub.subjectCode] = {
+                    correct: subCorrect,
+                    total: sub.questions.length,
+                    percentage: Math.round((subCorrect / sub.questions.length) * 100)
+                };
+
+                globalTotalQuestions += sub.questions.length;
+                globalCorrectCount += subCorrect;
+            });
+
+            let finalGlobalPercentage = Math.round((globalCorrectCount / globalTotalQuestions) * 100);
+            let absoluteLetterGrade = calculateAlphanumericGrade(finalGlobalPercentage);
+
+            // COMPILING DISCRETE PERFORMANCE FILE OBJECT FOR HISTORIC PERSISTENCE LOCK
+            const studentExamRecord = {
+                studentName: activeStudentName,
+                regNumber: activeRegistrationNumber,
+                breakdown: scoreMatrix,
+                totalScoreString: `${globalCorrectCount} / ${globalTotalQuestions}`,
+                percentage: finalGlobalPercentage,
+                grade: absoluteLetterGrade,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem("CBT_RECORDS_" + activeRegistrationNumber, JSON.stringify(studentExamRecord));
+
+            // OUTPUT METRIC RECONCILIATION TO RESULT CARD UI VIEW
+            document.getElementById("res-name").innerText = activeStudentName;
+            document.getElementById("res-reg").innerText = activeRegistrationNumber;
+            document.getElementById("res-total-score").innerText = `${globalCorrectCount} / ${globalTotalQuestions} (${finalGlobalPercentage}%)`;
+            document.getElementById("res-grade").innerText = absoluteLetterGrade;
+
+            // SPLIT EXAM SUBJECT BREAKDOWN MODULES ASSIGNMENT 
+            document.getElementById("res-eng-correct").innerText = scoreMatrix["ENG"].correct;
+            document.getElementById("res-eng-pct").innerText = scoreMatrix["ENG"].percentage + "%";
+            
+            document.getElementById("res-lit-correct").innerText = scoreMatrix["LIT"].correct;
+            document.getElementById("res-lit-pct").innerText = scoreMatrix["LIT"].percentage + "%";
+
+            // TRANSITION GRAPHICAL USER INTERFACE VIEWPORTS
+            examView.classList.add("hidden");
+            resultView.classList.remove("hidden");
+        }
+
+        // WEST AFRICAN GRADING MATRIX RESOLUTION CONVERTER
+        function calculateAlphanumericGrade(percentage) {
+            if (percentage >= 75) return "A1 (Excellent)";
+            if (percentage >= 70) return "B2 (Very Good)";
+            if (percentage >= 65) return "B3 (Good)";
+            if (percentage >= 60) return "C4 (Credit)";
+            if (percentage >= 55) return "C5 (Credit)";
+            if (percentage >= 50) return "C6 (Credit)";
+            if (percentage >= 45) return "D7 (Pass)";
+            if (percentage >= 40) return "E8 (Pass)";
+            return "F9 (Fail)";
+        }
+    </script>
+</body>
+</html>

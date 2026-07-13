@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <style>
+        :root {
+            --primary-blue: #0d47a1;
+            --light-blue: #e3f2fd;
+            --accent-blue: #1565c0;
+            --dark-gray: #333333;
+            --light-gray: #f8f9fa;
+            --border-color: #cccccc;
+            --success-green: #2e7d32;
+            --danger-red: #c62828;
+            --warning-orange: #ef6c00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: var(--dark-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+
+        /* Header Layout */
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--warning-orange);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 5px;
+            color: #ffb74d;
+            letter-spacing: 2px;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid white;
+        }
+
+        /* Container & Cards */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            flex: 1;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* Login Screen Styles */
+        .login-wrapper {
+            max-width: 500px;
+            margin: 60px auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover { background-color: #0d47a1; }
+        .btn-block { width: 100%; }
+        .btn-success { background-color: var(--success-green); }
+        .btn-success:hover { background-color: #1b5e20; }
+
+        /* Dashboard/Exam Layout */
+        .exam-info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light-blue);
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-left: 5px solid var(--primary-blue);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-box {
+            background: var(--danger-red);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-family: monospace;
+        }
+
+        .main-exam-grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+        }
+
+        /* Sidebar Navigator */
+        .navigator-panel {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 6px;
+            font-size: 0.75rem;
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .grid-holder {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .num-btn {
+            padding: 10px 0;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .num-btn.current {
+            border: 2px solid var(--primary-blue);
+            background: #bbdefb;
+        }
+
+        .num-btn.answered {
+            background: var(--success-green) !important;
+            color: white !important;
+            border-color: var(--success-green);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 4px;
+            height: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: var(--success-green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Question Workarea */
+        .question-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .diagram-space {
+            margin: 15px 0;
+            background: #fafafa;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: var(--light-gray);
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #eeeeee;
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        .option-item.selected {
+            background: var(--light-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Results Screen Styling */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .result-table th, .result-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .result-table th {
+            background-color: var(--light-blue);
+        }
+
+        .grand-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-top: 15px;
+            text-align: right;
+            line-height: 1.8;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.4rem; }
+            .main-exam-grid {
+                grid-template-columns: 1fr;
+            }
+            .navigator-panel {
+                order: 2;
+            }
+            .question-panel {
+                order: 1;
+            }
+            .grid-holder {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid-holder {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            .action-bar .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-placeholder">S.H.I.S</div>
+        <h1>STANDARD HEIGHT INTERNATIONAL SCHOOL</h1>
+        <h2>BUSINESS DEPARTMENT — CBT PORTAL</h2>
+    </header>
+
+    <div class="container">
+        
+        <div id="login-screen" class="card login-wrapper">
+            <h3 class="text-center" style="margin-bottom: 20px; color: var(--primary-blue)">STUDENT PORTAL LOGIN</h3>
+            <div id="lockout-msg" class="hidden" style="color: var(--danger-red); font-weight: bold; margin-bottom: 15px; text-align: center;"></div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-name">Full Name (SURNAME MIDDLE OTHER)</label>
+                    <input type="text" id="student-name" placeholder="e.g., ABUBAKAR CHIDI OLA" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="reg-number">Registration Number</label>
+                    <input type="text" id="reg-number" placeholder="e.g., SHIS/2026/SSS1/042" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-block">Start Examination</button>
+            </form>
+        </div>
+
+        <div id="exam-screen" class="hidden">
+            
+            <div class="exam-info-bar">
+                <div>Candidate: <span id="display-student-name" style="color: var(--accent-blue);"></span></div>
+                <div>Reg No: <span id="display-reg-no" style="color: var(--accent-blue);"></span></div>
+                <div class="timer-box" id="time-display">50:00</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="exam-progress"></div>
+            </div>
+
+            <div class="main-exam-grid">
+                
+                <div class="navigator-panel">
+                    <h4 style="margin-bottom: 10px; font-size: 0.9rem; color:#555">SUBJECT SECTIONS</h4>
+                    <div class="nav-tabs">
+                        <div class="tab-btn active" id="tab-mat" onclick="switchSubject('mat')">MATHS</div>
+                        <div class="tab-btn" id="tab-dig" onclick="switchSubject('dig')">DIGITAL TECH</div>
+                        <div class="tab-btn" id="tab-fas" onclick="switchSubject('fas')">FASHION</div>
+                    </div>
+                    <h4 style="margin-bottom: 10px; font-size: 0.85rem; color:#666">QUESTION NAVIGATOR</h4>
+                    <div class="grid-holder" id="navigator-grid"></div>
+                </div>
+
+                <div class="card question-panel">
+                    <div>
+                        <div class="question-header">
+                            <span id="current-subject-title">MATHEMATICS SSS 1</span> &mdash; 
+                            Question <span id="current-question-index-label">1</span> of 20
+                        </div>
+                        <div class="question-text" id="question-render-space">
+                            Loading Question text...
+                        </div>
+                        
+                        <div id="diagram-render-target"></div>
+
+                        <ul class="options-list" id="options-render-space"></ul>
+                    </div>
+
+                    <div class="action-bar">
+                        <button class="btn" id="prev-btn" onclick="navigateQuestion(-1)">Previous</button>
+                        <button class="btn" id="next-btn" onclick="navigateQuestion(1)">Next</button>
+                        <button class="btn btn-success" style="margin-left: auto;" onclick="triggerManualSubmit()">Submit Quiz</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="result-screen" class="card hidden">
+            <h2 class="text-center" style="color: var(--success-green); margin-bottom: 10px;">EXAMINATION REPORT SHEET</h2>
+            <p class="text-center" style="margin-bottom: 25px; color: #555;">Standard Height International School Examination Results</p>
+            
+            <div style="background: var(--light-gray); padding: 15px; border-radius: 6px; margin-bottom: 20px; line-height: 1.6;">
+                <div><strong>Student Name:</strong> <span id="res-name"></span></div>
+                <div><strong>Registration ID:</strong> <span id="res-reg"></span></div>
+                <div><strong>Department:</strong> Science Department</div>
+                <div><strong>Status:</strong> Completed / Saved</div>
+            </div>
+
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Subject Title</th>
+                        <th>Total Questions</th>
+                        <th>Correct Answers</th>
+                        <th>Subject Score (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="result-table-body"></tbody>
+            </table>
+
+            <div class="grand-total" id="grand-total-score"></div>
+
+            <div style="margin-top: 30px;" class="text-center">
+                <button class="btn" onclick="window.print()">Print Official Result Slips</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA POOL: 60 AGE APPROPRIATE SS1 OBJECTIVE QUESTIONS ---
+        const questionBank = {
+            mat: [
+                { q: "An arc of a circle subtends an angle of 60° at the centre of a circle of radius 7cm. Calculate the length of the arc. [Take π = 22/7]", a: "7.33cm", o: ["3.67cm", "7.33cm", "14.67cm", "22.00cm"] },
+                { q: "Calculate the perimeter of a sector of a circle of radius 14cm if the angle of the sector is 90°. [Take π = 22/7]", a: "50cm", o: ["22cm", "36cm", "50cm", "64cm"] },
+                { q: "Find the area of a sector of a circle of radius 6cm which subtends an angle of 70° at the center. [Take π = 22/7]", a: "22.00 cm²", o: ["11.00 cm²", "22.00 cm²", "44.00 cm²", "66.00 cm²"] },
+                { q: "What is the length of an arc that bounds a sector of area 22 cm² in a circle of radius 4cm?", a: "11.0cm", o: ["5.5cm", "11.0cm", "22.0cm", "44.0cm"] },
+                { 
+                    q: "Refer to the diagram below. Calculate the area of the shaded segment of the circle.", 
+                    a: "10.5 cm²", 
+                    o: ["10.5 cm²", "14.0 cm²", "38.5 cm²", "56.0 cm²"],
+                    diagram: `<svg width="200" height="200" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="80" stroke="#333" stroke-width="2" fill="none"/>
+                        <path d="M 100 20 A 80 80 0 0 1 180 100 L 100 100 Z" fill="#bbdefb" stroke="#0d47a1" stroke-width="1"/>
+                        <line x1="100" y1="20" x2="180" y2="100" stroke="#c62828" stroke-width="2"/>
+                        <text x="105" y="85" font-size="12" font-weight="bold">90°</text>
+                        <text x="110" y="50" font-size="12" fill="#333">r = 7cm</text>
+                    </svg>`
+                },
+                { q: "A sector of a circle of radius 12cm with an angle of 120° is folded to form a cone. Find the base radius of the cone.", a: "4cm", o: ["2cm", "3cm", "4cm", "6cm"] },
+                { q: "If a sector of a circle with radius 10cm and sector angle 216° is bent into a cone, calculate the curved surface area of the resulting cone.", a: "60π cm²", o: ["60π cm²", "100π cm²", "120π cm²", "216π cm²"] },
+                { 
+                    q: "A regular triangular prism is displayed in the diagram below. Calculate its total surface area.", 
+                    a: "204 cm²", 
+                    o: ["180 cm²", "204 cm²", "228 cm²", "240 cm²"],
+                    diagram: `<svg width="220" height="160" viewBox="0 0 220 160">
+                        <polygon points="30,130 90,130 60,80" stroke="#999" stroke-width="1" stroke-dasharray="4" fill="none"/>
+                        <polygon points="130,130 190,130 160,80" stroke="#333" stroke-width="2" fill="none"/>
+                        <line x1="30" y1="130" x2="130" y2="130" stroke="#333" stroke-width="2"/>
+                        <line x1="90" y1="130" x2="190" y2="130" stroke="#333" stroke-width="2"/>
+                        <line x1="60" y1="80" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                        <text x="150" y="145" font-size="11">Length = 10cm</text>
+                        <text x="145" y="110" font-size="11">Base = 6cm</text>
+                        <text x="175" y="100" font-size="11">Height = 4cm</text>
+                    </svg>`
+                },
+                { q: "Find the total surface area of a solid cylinder with base radius 7cm and height 10cm. [Take π = 22/7]", a: "748 cm²", o: ["440 cm²", "594 cm²", "748 cm²", "1540 cm²"] },
+                { 
+                    q: "See the geometric cone below. Find the total surface area of this solid configuration.", 
+                    a: "704 cm²", 
+                    o: ["550 cm²", "704 cm²", "1056 cm²", "1232 cm²"],
+                    diagram: `<svg width="200" height="180" viewBox="0 0 200 180">
+                        <ellipse cx="100" cy="140" rx="60" ry="20" stroke="#333" stroke-width="2" fill="none"/>
+                        <line x1="40" y1="140" x2="100" y2="20" stroke="#333" stroke-width="2"/>
+                        <line x1="160" y1="140" x2="100" y2="20" stroke="#333" stroke-width="2"/>
+                        <line x1="100" y1="140" x2="100" y2="20" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                        <line x1="100" y1="140" x2="160" y2="140" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                        <text x="120" y="155" font-size="11">r = 7cm</text>
+                        <text x="110" y="80" font-size="11">h = 24cm</text>
+                        <text x="50" y="70" font-size="11">l = 25cm</text>
+                    </svg>`
+                },
+                { q: "Calculate the volume of a cube whose total surface area is 150 cm².", a: "125 cm³", o: ["25 cm³", "125 cm³", "150 cm³", "625 cm³"] },
+                { q: "A rectangular container has dimensions 12cm by 8cm by 5cm. Calculate its volume capacity.", a: "480 cm³", o: ["120 cm³", "240 cm³", "480 cm³", "520 cm³"] },
+                { q: "Calculate the volume of a cone with base radius 3cm and height 7cm. [Take π = 22/7]", a: "66 cm³", o: ["22 cm³", "66 cm³", "198 cm³", "231 cm³"] },
+                { 
+                    q: "The diagram exhibits a solid right pyramid on a square base. Compute its overall volume.", 
+                    a: "48 cm³", 
+                    o: ["48 cm³", "96 cm³", "144 cm³", "288 cm³"],
+                    diagram: `<svg width="200" height="180" viewBox="0 0 200 180">
+                        <polygon points="30,140 130,140 170,100 70,100" stroke="#333" stroke-width="1.5" fill="none"/>
+                        <line x1="30" y1="140" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                        <line x1="130" y1="140" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                        <line x1="170" y1="100" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                        <line x1="70" y1="100" x2="100" y2="30" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                        <line x1="100" y1="120" x2="100" y2="30" stroke="#c62828" stroke-width="1.5" stroke-dasharray="2"/>
+                        <text x="75" y="155" font-size="11">Side = 6cm</text>
+                        <text x="105" y="75" font-size="11" fill="#c62828">Height = 8cm</text>
+                    </svg>`
+                },
+                { q: "Find the volume of water required to fill a cylindrical tank of base diameter 14m and height 3m completely. [Take π = 22/7]", a: "462 m³", o: ["154 m³", "462 m³", "924 m³", "1848 m³"] },
+                { q: "Calculate the angle subtended at the center of a circle of radius 21cm by an arc of length 22cm.", a: "30°", o: ["30°", "60°", "90°", "120°"] },
+                { q: "The volume of a cylinder is 308 cm³. If its height is 8cm, calculate its base radius. [Take π = 22/7]", a: "3.5cm", o: ["3.5cm", "7.0cm", "14.0cm", "24.5cm"] },
+                { q: "The area of a sector of a circle is 154 cm². If the radius of the circle is 14cm, calculate the sector angle. [Take π = 22/7]", a: "90°", o: ["45°", "90°", "120°", "180°"] },
+                { 
+                    q: "Look at the composite solid cylinder with a hemispherical top. Calculate the structural radius if the total width is given as 14cm.", 
+                    a: "7cm", 
+                    o: ["3.5cm", "7cm", "14cm", "28cm"],
+                    diagram: `<svg width="200" height="180" viewBox="0 0 200 180">
+                        <path d="M 40 60 A 60 60 0 0 1 160 60 Z" fill="none" stroke="#333" stroke-width="2"/>
+                        <line x1="40" y1="60" x2="40" y2="140" stroke="#333" stroke-width="2"/>
+                        <line x1="160" y1="60" x2="160" y2="140" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="100" cy="140" rx="60" ry="15" stroke="#333" stroke-width="2" fill="none"/>
+                        <line x1="40" y1="155" x2="160" y2="155" stroke="#c62828" stroke-width="1"/>
+                        <text x="80" y="170" font-size="11" fill="#c62828">Width = 14cm</text>
+                    </svg>`
+                },
+                { q: "A rectangular block of metal with cross-section dimensions 4cm by 3cm is 10cm long. If it is melted down to cast a cylinder of radius 2cm, calculate the theoretical height of the cylinder.", a: "9.55cm", o: ["4.31cm", "9.55cm", "12.00cm", "15.62cm"] }
+            ],
+            dig: [
+                { q: "Which of the following shortcuts is utilized to save a file dynamically in Microsoft Word?", a: "Ctrl + S", o: ["Ctrl + O", "Ctrl + S", "Ctrl + P", "Ctrl + V"] },
+                { q: "What formatting element controls the spacing structure between paragraphs or lines of prose text?", a: "Line Spacing", o: ["Font Style", "Alignment", "Line Spacing", "Indentation"] },
+                { q: "In word processing platforms, changing the structural layout orientation of a document page from portrait to landscape is found under which tab?", a: "Page Layout / Layout", o: ["Home", "Page Layout / Layout", "Review", "References"] },
+                { q: "Which processing module automatically moves text insertion markers down to the subsequent line when a word exceeds margins?", a: "Word Wrap", o: ["Text Alignment", "Word Wrap", "AutoCorrect", "Macro Execution"] },
+                { q: "What basic tool scans a document and matches keywords against a system repository to address typing syntax mistakes?", a: "Spelling and Grammar Checker", o: ["Mail Merge", "Thesaurus", "Find and Replace", "Spelling and Grammar Checker"] },
+                { q: "Every formula or dynamic arithmetic function inside a spreadsheet environment like Microsoft Excel must initiate with which character?", a: "=", o: ["#", "@", "=", "+"] },
+                { q: "Identify the correct spreadsheet absolute cell reference notation from the choices below.", a: "$A$1", o: ["A1", "$A1", "A$1", "$A$1"] },
+                { q: "Which grid structure corresponds to the vertical data columns arrayed in standard spreadsheet interfaces?", a: "Columns denoted by letters", o: ["Rows denoted by numbers", "Columns denoted by letters", "Formulas", "Worksheets"] },
+                { q: "What spreadsheet operation adds together values from cells B1 through B10 continuously?", a: "=SUM(B1:B10)", o: ["=ADD(B1:B10)", "=SUM(B1:B10)", "=TOTAL(B1..B10)", "=B1+B10"] },
+                { q: "The location coordinates produced by the intersection of a column letter and a row number in a sheet grid is defined as a:", a: "Cell Address", o: ["Label", "Cell Address", "Range", "Workbook Block"] },
+                { q: "Which functional calculation returns the highest value contained inside a declared cell sequence range?", a: "=MAX()", o: ["=HIGH()", "=MAX()", "=LARGE()", "=TOP()"] },
+                { q: "What type of visual chart model is ideal for representing percentage breakdowns of a whole data set?", a: "Pie Chart", o: ["Line Chart", "Bar Chart", "Pie Chart", "Scatter Plot"] },
+                { q: "If cell A1 contains 15 and cell B1 contains 5, what evaluates from the formula `=A1/B1`?", a: "3", o: ["75", "20", "3", "10"] },
+                { q: "What data feature isolates specific records within a spreadsheet matrix based on specified criteria?", a: "Filtering", o: ["Sorting", "Filtering", "Merging", "Validating"] },
+                { q: "Which component represents the core file container containing multiple worksheets inside Excel?", a: "Workbook", o: ["Document", "Presentation", "Workbook", "Database Table"] },
+                { q: "In Microsoft PowerPoint, what term specifies visual motion tracking applied specifically to structural items on a slide during presentation?", a: "Animation", o: ["Slide Transition", "Animation", "Theme Injection", "Handout Template"] },
+                { q: "Which presentation utility mode organizes thumbnails of all slides onto a screen grid for quick sequencing adjustment?", a: "Slide Sorter View", o: ["Normal View", "Reading View", "Slide Sorter View", "Outline View"] },
+                { q: "What standard hotkey function executes slideshow playback mode starting from the initial slide?", a: "F5", o: ["F1", "F5", "F7", "F11"] },
+                { q: "What is the primary function of the Slide Master feature in professional presentation applications?", a: "To apply universal style configurations across all slides", o: ["To record voice narrations", "To apply universal style configurations across all slides", "To check spelling variations", "To convert slides into video files"] },
+                { q: "Which file format extension natively saves presentations created by modern versions of PowerPoint?", a: ".pptx", o: [".docx", ".xlsx", ".pptx", ".txt"] }
+            ],
+            fas: [
+                { q: "Why is taking accurate body measurements critically important in fashion design?", a: "To ensure the finished garment fits properly", o: ["To determine the price tag of raw fabrics", "To ensure the finished garment fits properly", "To calculate structural sewing machine speeds", "To choose appealing color combinations"] },
+                { q: "Which tool is standard and ideal for taking human body size measurements?", a: "Flexible Measuring Tape", o: ["Wooden meter rule", "Flexible Measuring Tape", "Steel construction tape", "Protractor scale"] },
+                { q: "When taking horizontal chest or bust measurements, where should the tape run?", a: "Across the fullest part of the chest line", o: ["From the shoulder bone down to the ankle", "Across the fullest part of the chest line", "Around the lowest point of the knee cap", "Tight around the base of the neck structure"] },
+                { q: "What is pattern drafting in garment construction?", a: "Drawing a paper blueprint template of a body size", o: ["Drawing a paper blueprint template of a body size", "Cutting up matching fabric sections straight away", "Weaving threads on complex industrial looms", "Ironing wrinkles off finished gowns"] },
+                { q: "A basic bodice pattern template covers which area of the human body?", a: "From the neck/shoulders down to the natural waistline", o: ["From the hips down to the toes", "From the wrist down to the fingers", "From the neck/shoulders down to the natural waistline", "The head and face structure areas"] },
+                { q: "Which template pattern block is drafted to construct sleeves for standard garments?", a: "Sleeve block", o: ["Bodice block", "Skirt block", "Sleeve block", "Trouser layout"] },
+                { q: "What is a basic skirt pattern used to construct?", a: "Lower body apparel garments for women", o: ["Men's formal office dress shirts", "Lower body apparel garments for women", "Winter hand gloves", "Neckties and ceremonial scarves"] },
+                { q: "What does 'pattern alteration' mean in professional fashion workflow?", a: "Modifying paper patterns to adjust fit or size layout variations", o: ["Dyeing the fabric material into distinct patterns", "Modifying paper patterns to adjust fit or size layout variations", "Selling old sewing tools to local dealers", "Changing the thread colors mid-way"] },
+                { q: "If a client has a figure variation like a high shoulder line, the designer must...", a: "Alter the pattern block pieces to accommodate it", o: ["Force the client to change posture styles", "Alter the pattern block pieces to accommodate it", "Discard the order entirely", "Use elastic threads only"] },
+                { q: "When drafting a simple dress pattern, combining which two basic pieces is common?", a: "Bodice block and Skirt block", o: ["Sleeve block and Trouser block", "Bodice block and Skirt block", "Collar block and Pocket block", "Hat block and Glove outlines"] },
+                { q: "What is the primary purpose of adding 'seam allowance' to drafted patterns?", a: "To provide extra space for joining fabric edges together", o: ["To decorate paper edges beautifully", "To make garments deliberately look baggy", "To provide extra space for joining fabric edges together", "To reduce final iron time requirements"] },
+                { q: "Which measurement is required to determine the length of a simple straight skirt?", a: "Waist to desired skirt hem length", o: ["Shoulder to wrist point line", "Waist to desired skirt hem length", "Bust circumferent lines", "Ankle to ground baseline"] },
+                { q: "What are figure variations in garment production?", a: "Differences in human body shapes and proportions", o: ["The cost varieties of sewing machines", "Differences in human body shapes and proportions", "The various colors of standard cotton yarns", "Changes in regional weather seasonal trends"] },
+                { q: "To make a pattern block wider for a larger waist measurement, you must...", a: "Slash and spread the pattern outward", o: ["Trim the edges off with paper scissors", "Slash and spread the pattern outward", "Soak the pattern sheet in hot water lines", "Iron the paper flat with high pressure"] },
+                { q: "The small V-shaped cuts made on pattern edges to align matching panels are called...", a: "Notches", o: ["Darts", "Gleams", "Notches", "Tucks"] },
+                { q: "What fold line indicates that a fabric should be cut without making center seams?", a: "Place on Fold line", o: ["Grainline arrow", "Place on Fold line", "Seam allowance boundary", "Dart intake zone"] },
+                { q: "Which fold line or marking indicates thread direction on fabric pieces?", a: "Grainline arrow", o: ["Grainline arrow", "Hem guideline", "Notch point", "Cutting line boundary"] },
+                { q: "The wedge-shaped folds stitched into fabric to shape garments to body curves are...", a: "Darts", o: ["Pleats", "Darts", "Hems", "Seams"] },
+                { q: "What should you do before laying paper patterns down on your final cloth material?", a: "Press the fabric smoothly with an iron", o: ["Soak the paper in oil substances", "Press the fabric smoothly with an iron", "Stretch the cloth out until it deforms", "Cut out random pieces blindly"] },
+                { q: "Which tool holds paper pattern sheets firmly onto cloth fabrics while cutting?", a: "Dressmaker Pins", o: ["Safety locks", "Dressmaker Pins", "Office paper clips", "Super glue liquids"] }
+            ]
+        };
+
+        // --- APP STATE VARIABLES ---
+        let currentSubject = 'mat'; 
+        let currentIndex = 0;      
+        let responses = { mat: {}, dig: {}, fas: {} }; 
+        let timerInstance = null;
+        let timeRemaining = 50 * 60; // 50 minutes in seconds
+        let studentDetails = { name: "", reg: "" };
+        let isSubmitted = false;
+
+        // --- CORE INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            renderNavigator();
+            renderQuestion();
+        });
+
+        // Tab focus/Minimize interceptor function (Auto-Submit Feature)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden' && !isSubmitted && timerInstance !== null) {
+                alert("SECURITY NOTICE: Window minimization or tab switching detected! Your examination has been automatically submitted.");
+                executeFinalSubmission(true);
+            }
+        });
+
+        // --- APP LOGIC FUNCTIONS ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const nameVal = document.getElementById('student-name').value.trim().toUpperCase();
+            const regVal = document.getElementById('reg-number').value.trim().toUpperCase();
+
+            if(!nameVal || !regVal) {
+                alert("Please fill in all candidate authorization details properly.");
+                return;
+            }
+
+            // Check Anti-Retake criteria via LocalStorage
+            if (localStorage.getItem(`SHIS_STATUS_${regVal}`)) {
+                const errorBox = document.getElementById('lockout-msg');
+                errorBox.innerText = `ACCESS DENIED: Candidate (${regVal}) has already completed this examination session.`;
+                errorBox.classList.remove('hidden');
+                return;
+            }
+
+            // Bind values
+            studentDetails.name = nameVal;
+            studentDetails.reg = regVal;
+
+            document.getElementById('display-student-name').innerText = studentDetails.name;
+            document.getElementById('display-reg-no').innerText = studentDetails.reg;
+
+            // Transition interfaces
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+
+            startExamTimer();
+            updateGlobalProgress();
+            switchSubject('mat'); 
+        }
+
+        function startExamTimer() {
+            timerInstance = setInterval(() => {
+                timeRemaining--;
+                
+                let mins = Math.floor(timeRemaining / 60);
+                let secs = timeRemaining % 60;
+
+                mins = mins < 10 ? '0' + mins : mins;
+                secs = secs < 10 ? '0' + secs : secs;
+
+                const display = document.getElementById('time-display');
+                display.innerText = `${mins}:${secs}`;
+
+                if (timeRemaining <= 60) {
+                    display.style.backgroundColor = "var(--danger-red)";
+                } else if (timeRemaining <= 300) {
+                    display.style.backgroundColor = "var(--warning-orange)";
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInstance);
+                    alert("Time is up! Your examination papers are being submitted automatically.");
+                    executeFinalSubmission(true);
+                }
+            }, 1000);
+        }
+
+        function switchSubject(subCode) {
+            currentSubject = subCode;
+            currentIndex = 0; 
+
+            // Toggle active tabs visually
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${subCode}`).classList.add('active');
+
+            // Set Header context string
+            const subjectLabels = { 
+                mat: "MATHEMATICS SSS 1", 
+                dig: "DIGITAL TECHNOLOGIES SSS 1", 
+                fas: "FASHION DESIGN & GARMENT MAKING SSS 1" 
+            };
+            document.getElementById('current-subject-title').innerText = subjectLabels[subCode];
+
+            renderNavigator();
+            renderQuestion();
+        }
+
+        function renderNavigator() {
+            const grid = document.getElementById('navigator-grid');
+            grid.innerHTML = ''; 
+
+            for(let i = 0; i < 20; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'num-btn';
+                btn.innerText = i + 1;
+
+                if (responses[currentSubject][i] !== undefined) {
+                    btn.classList.add('answered');
+                }
+                if (i === currentIndex) {
+                    btn.classList.add('current');
+                }
+
+                btn.onclick = () => {
+                    currentIndex = i;
+                    renderNavigator();
+                    renderQuestion();
+                };
+
+                grid.appendChild(btn);
+            }
+        }
+
+        function renderQuestion() {
+            const currentQuestionSet = questionBank[currentSubject];
+            const activeQuestion = currentQuestionSet[currentIndex];
+
+            // Render text line
+            document.getElementById('current-question-index-label').innerText = currentIndex + 1;
+            document.getElementById('question-render-space').innerText = activeQuestion.q;
+
+            // Handle Render for SVG Diagrams if present
+            const diagramTarget = document.getElementById('diagram-render-target');
+            if (activeQuestion.diagram) {
+                diagramTarget.innerHTML = activeQuestion.diagram;
+                diagramTarget.className = "diagram-space";
+            } else {
+                diagramTarget.innerHTML = "";
+                diagramTarget.className = "";
+            }
+
+            // Render operational choices
+            const optionsBox = document.getElementById('options-render-space');
+            optionsBox.innerHTML = '';
+
+            const prefixes = ['A', 'B', 'C', 'D'];
+            activeQuestion.o.forEach((optText, index) => {
+                const li = document.createElement('li');
+                li.className = 'option-item';
+                
+                const isSelected = responses[currentSubject][currentIndex] === optText;
+                if(isSelected) li.classList.add('selected');
+
+                li.innerHTML = `
+                    <input type="radio" name="q-option" id="opt-${index}" value="${optText}" ${isSelected ? 'checked' : ''}>
+                    <label for="opt-${index}" style="width:100%; cursor:pointer;"><strong>${prefixes[index]}.</strong> ${optText}</label>
+                `;
+
+                li.onclick = () => {
+                    responses[currentSubject][currentIndex] = optText;
+                    document.getElementById(`opt-${index}`).checked = true;
+                    
+                    document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+                    li.classList.add('selected');
+                    
+                    renderNavigator();
+                    updateGlobalProgress();
+                };
+
+                optionsBox.appendChild(li);
+            });
+
+            // Adjust navigation boundaries
+            document.getElementById('prev-btn').disabled = (currentIndex === 0);
+            document.getElementById('next-btn').disabled = (currentIndex === 19);
+        }
+
+        function navigateQuestion(step) {
+            const nextIdx = currentIndex + step;
+            if(nextIdx >= 0 && nextIdx < 20) {
+                currentIndex = nextIdx;
+                renderNavigator();
+                renderQuestion();
+            }
+        }
+
+        function updateGlobalProgress() {
+            let answeredCount = 0;
+            ['mat', 'dig', 'fas'].forEach(sub => {
+                answeredCount += Object.keys(responses[sub]).length;
+            });
+            const percentage = (answeredCount / 60) * 100;
+            document.getElementById('exam-progress').style.width = `${percentage}%`;
+        }
+
+        function triggerManualSubmit() {
+            let totalAnswered = 0;
+            ['mat', 'dig', 'fas'].forEach(s => totalAnswered += Object.keys(responses[s]).length);
+            const unanswered = 60 - totalAnswered;
+
+            const msg = `Are you sure you want to finalize submission?\n\nYou answered ${totalAnswered} questions.\nYou have ${unanswered} unanswered items remaining.`;
+            if (confirm(msg)) {
+                executeFinalSubmission(false);
+            }
+        }
+
+        function executeFinalSubmission(isForced = false) {
+            isSubmitted = true;
+            clearInterval(timerInstance);
+
+            const userKey = studentDetails.reg;
+            
+            if(userKey) {
+                localStorage.setItem(`SHIS_STATUS_${userKey}`, "COMPLETED");
+            }
+
+            // CALCULATE SPLIT SCORES
+            let summaryHTML = "";
+            let grossCorrect = 0;
+
+            const subjectsMeta = {
+                mat: { title: "MATHEMATICS SSS 1", pool: questionBank.mat },
+                dig: { title: "DIGITAL TECHNOLOGIES SSS 1", pool: questionBank.dig },
+                fas: { title: "FASHION DESIGN & GARMENT MAKING SSS 1", pool: questionBank.fas }
+            };
+
+            for (let subKey in subjectsMeta) {
+                let subCorrect = 0;
+                const totalSubQuestions = 20;
+                const pool = subjectsMeta[subKey].pool;
+
+                for (let i = 0; i < totalSubQuestions; i++) {
+                    if (responses[subKey][i] === pool[i].a) {
+                        subCorrect++;
+                        grossCorrect++;
+                    }
+                }
+
+                let subPercent = (subCorrect / totalSubQuestions) * 100;
+                summaryHTML += `
+                    <tr>
+                        <td><strong>${subjectsMeta[subKey].title}</strong></td>
+                        <td>${totalSubQuestions}</td>
+                        <td>${subCorrect}</td>
+                        <td><strong>${subPercent.toFixed(1)}%</strong></td>
+                    </tr>
+                `;
+            }
+
+            // Calculate overall parameters
+            const overallPercent = (grossCorrect / 60) * 100;
+            let finalGrade = "F9";
+            
+            if (overallPercent >= 75) finalGrade = "A1";
+            else if (overallPercent >= 70) finalGrade = "B2";
+            else if (overallPercent >= 65) finalGrade = "B3";
+            else if (overallPercent >= 60) finalGrade = "C4";
+            else if (overallPercent >= 55) finalGrade = "C5";
+            else if (overallPercent >= 50) finalGrade = "C6";
+            else if (overallPercent >= 45) finalGrade = "D7";
+            else if (overallPercent >= 40) finalGrade = "E8";
+
+            // Render Output Page data variables
+            document.getElementById('res-name').innerText = studentDetails.name;
+            document.getElementById('res-reg').innerText = studentDetails.reg;
+            document.getElementById('result-table-body').innerHTML = summaryHTML;
+            
+            document.getElementById('grand-total-score').innerHTML = `
+                Total Correct: ${grossCorrect} / 60 Questions <br>
+                Cumulative Percentage Score: ${overallPercent.toFixed(1)}% <br>
+                Overall Weighted Alphabetical Grade: <span style="color:var(--success-green); font-weight: bold;">${finalGrade}</span>
+            `;
+
+            // Display results hide others
+            document.getElementById('exam-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
