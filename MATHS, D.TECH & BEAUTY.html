@@ -1,0 +1,1329 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <style>
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #1565c0;
+            --accent-color: #2e7d32;
+            --danger-color: #c62828;
+            --light-bg: #f5f7fa;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Utility classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+
+        /* Header Setup */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 5px;
+            opacity: 0.9;
+            letter-spacing: 2px;
+            color: #ffeb3b;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px auto;
+            border: 2px solid #fff;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Container Structure */
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Login Screen Card */
+        .login-card {
+            background: white;
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .login-card h3 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.1s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: #0b3c8f; }
+        .btn:active { transform: scale(0.98); }
+        .btn-success { background-color: var(--accent-color); }
+        .btn-success:hover { background-color: #236327; }
+        .btn-danger { background-color: var(--danger-color); }
+        .btn-danger:hover { background-color: #a02020; }
+
+        /* Dashboard/CBT Main Panel */
+        .cbt-panel {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        /* Info Subbar */
+        .info-bar {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .info-item {
+            font-size: 0.95rem;
+        }
+        .info-item strong { color: var(--primary-color); }
+
+        .timer-box {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Subject Tab Header */
+        .subject-tabs {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 5px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 10px;
+            background: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Question Work Area */
+        .question-area {
+            background: white;
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 450px;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #111;
+        }
+
+        .diagram-box {
+            background: #fafafa;
+            border: 1px dashed #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: #fafafa;
+        }
+
+        .option-item:hover {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-item.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .option-item input {
+            margin-right: 15px;
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        .nav-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: fit-content;
+        }
+
+        .sidebar h4 {
+            margin-bottom: 15px;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .num-btn {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .num-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .num-btn.answered {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .num-btn.current {
+            outline: 3px solid #ff9800;
+            outline-offset: 1px;
+        }
+
+        .sidebar-footer {
+            margin-top: 25px;
+        }
+
+        /* Modal Overlay Configuration */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--danger-color);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* Result Presentation */
+        .result-card {
+            background: white;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .result-header {
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .result-table th {
+            background-color: #f4f4f4;
+            color: var(--primary-color);
+        }
+
+        .grand-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-top: 20px;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.85; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsiveness Media Queries */
+        @media (max-width: 950px) {
+            .cbt-panel {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                grid-row: 2;
+            }
+            .grid-container {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.3rem; }
+            header h2 { font-size: 0.85rem; letter-spacing: 1px; }
+            .grid-container { grid-template-columns: repeat(5, 1fr); }
+            .info-bar { flex-direction: column; align-items: flex-start; }
+            .timer-box { width: 100%; text-align: center; margin-top: 5px; }
+            .nav-actions { flex-direction: column; }
+            .subject-tabs { flex-direction: column; gap: 2px; }
+            .tab-btn { border-radius: 4px; padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-placeholder">S H</div>
+        <h1>STANDARD HEIGHT INTERNATIONAL SCHOOL</h1>
+        <h2>HUMANITY DEPARTMENT • C.B.T. SYSTEM</h2>
+    </header>
+
+    <div class="container">
+
+        <!-- LOGIN CONTAINER -->
+        <div id="login-container" class="login-card">
+            <h3 class="text-center">Student Portal Access</h3>
+            <div id="login-error" style="color: var(--danger-color); font-weight: bold; margin-bottom: 15px; display: none;" class="text-center"></div>
+            
+            <div class="form-group">
+                <label for="student-name">Full Name (Format: SURNAME MIDDLE OTHER)</label>
+                <input type="text" id="student-name" placeholder="e.g., OKONKWO CHIDI EMEKA" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-number">Registration Number</label>
+                <input type="text" id="reg-number" placeholder="e.g., SHIS/2026/SSS2/054" autocomplete="off">
+            </div>
+            
+            <button class="btn" onclick="attemptLogin()">Start Examination</button>
+        </div>
+
+        <!-- CBT PANEL CONTAINER -->
+        <div id="cbt-container" class="cbt-panel hidden">
+            
+            <div class="info-bar">
+                <div class="info-item">Candidate: <span id="display-student-name" style="font-weight: bold;"></span></div>
+                <div class="info-item">Reg No: <span id="display-reg-no" style="font-weight: bold;"></span></div>
+                <div id="timer" class="timer-box">50:00</div>
+            </div>
+
+            <div class="subject-tabs">
+                <button id="tab-math" class="tab-btn active" onclick="switchSubject('MATHEMATICS')">MATHEMATICS (SS 2)</button>
+                <button id="tab-digital" class="tab-btn" onclick="switchSubject('DIGITAL')">DIGITAL TECHNOLOGIES (SSS 2)</button>
+                <button id="tab-beauty" class="tab-btn" onclick="switchSubject('BEAUTY')">BEAUTY & COSMETOLOGY (SSS 2)</button>
+            </div>
+
+            <div class="question-area">
+                <div>
+                    <div class="progress-container">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    <div id="question-header" class="question-header">Question 1 of 20</div>
+                    <div id="question-text" class="question-text">Loading question text...</div>
+                    
+                    <div id="diagram-container" class="diagram-box hidden"></div>
+                    
+                    <ul class="options-list">
+                        <li class="option-item" onclick="selectOption('A')">
+                            <input type="radio" name="q-option" id="opt-A" value="A">
+                            <span id="text-A">Option A text</span>
+                        </li>
+                        <li class="option-item" onclick="selectOption('B')">
+                            <input type="radio" name="q-option" id="opt-B" value="B">
+                            <span id="text-B">Option B text</span>
+                        </li>
+                        <li class="option-item" onclick="selectOption('C')">
+                            <input type="radio" name="q-option" id="opt-C" value="C">
+                            <span id="text-C">Option C text</span>
+                        </li>
+                        <li class="option-item" onclick="selectOption('D')">
+                            <input type="radio" name="q-option" id="opt-D" value="D">
+                            <span id="text-D">Option D text</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="btn" style="background-color: #78909c; width: auto;" onclick="navigateQuestion(-1)">Previous</button>
+                    <button class="btn" style="background-color: #4f5b66; width: auto;" onclick="navigateQuestion(1)">Next Question</button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div>
+                    <h4 id="navigator-title">Mathematics Grid Map</h4>
+                    <div id="question-grid" class="grid-container"></div>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <button class="btn btn-success" onclick="triggerSubmitConfirmation()">Submit Quiz</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RESULT PRESENTATION VIEW -->
+        <div id="result-container" class="result-card hidden">
+            <div class="result-header text-center">
+                <h2 style="color: var(--primary-color);">Official Examination Statement Result</h2>
+                <p style="margin-top: 5px; font-weight: 600; color:#666;">Standard Height International School</p>
+                <p style="font-size:0.85rem; color:#888;">Science Division Panel Academic Evaluation</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <p><strong>Student Name:</strong> <span id="res-name"></span></p>
+                <p><strong>Registration Number:</strong> <span id="res-reg"></span></p>
+                <p><strong>Status:</strong> Completed / Logged</p>
+            </div>
+
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Subject Course</th>
+                        <th>Total Tasks</th>
+                        <th>Correct Picks</th>
+                        <th>Percentage Metric</th>
+                        <th>Letter Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="result-tbody">
+                </tbody>
+            </table>
+
+            <div id="grand-score-box" class="grand-total text-center"></div>
+
+            <button class="btn" style="margin-top: 30px; background-color: var(--secondary-color);" onclick="window.location.reload()">Exit Portal System</button>
+        </div>
+
+    </div>
+
+    <!-- MODAL CONFIRMATION DIALOG -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Confirm Exam Submission</h3>
+            <p style="margin: 15px 0; color: #555;">Are you completely sure you want to end your examination and submit your answers? This action is irreversible.</p>
+            <div id="modal-unanswered-warning" style="color: var(--danger-color); margin-bottom: 15px; font-weight: bold;"></div>
+            <div class="modal-buttons">
+                <button class="btn" style="background-color: #78909c;" onclick="closeModal()">Cancel & Go Back</button>
+                <button class="btn btn-success" onclick="finalSubmitExam()">Yes, Submit Final</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QUESTION BANK DEPLOYMENT ENGINE (20 Math, 20 Tech, 20 Beauty)
+        const mathematicsQuestions = [
+            { id: 1, question: "Formulate a linear programming constraint statement: A student wants to buy x notebooks and y pens. Notebooks cost #200 each and pens cost #100 each. The student has a total budget of at most #2,000. Which inequality represents this situation?", options: { A: "200x + 100y <= 2000", B: "200x + 100y >= 2000", C: "100x + 200y <= 2000", D: "200x + 100y < 2000" }, answer: "A" },
+            { id: 2, question: "Given the objective function Z = 4x + 5y, find the maximum value of Z achievable at the feasible region corner points (0,0), (0,4), (5,0), and (3,2).", options: { A: "20", B: "25", C: "22", D: "12" }, answer: "B" },
+            { id: 3, question: "Which of the following describes the non-negativity constraints typically included in real-life linear programming problems?", options: { A: "x < 0, y < 0", B: "x >= 0, y >= 0", C: "x + y <= 1", D: "x = y" }, answer: "B" },
+            { id: 4, question: "Identify the inequality described by the unshaded region under the boundary line in the diagram below.", options: { A: "y <= -x + 4", B: "y >= -x + 4", C: "y < x - 4", D: "y > x" }, answer: "A", diagram: `<svg width="200" height="150" viewBox="0 0 200 150"><line x1="20" y1="130" x2="180" y2="130" stroke="#333" stroke-width="2"/><line x1="30" y1="10" x2="30" y2="140" stroke="#333" stroke-width="2"/><line x1="30" y1="100" x2="150" y2="130" stroke="blue" stroke-width="2"/><path d="M 30,100 L 150,130 L 30,130 Z" fill="rgba(74,144,226,0.3)"/><text x="50" y="120" font-size="11" font-weight="bold">Feasible Region</text><text x="15" y="15" font-size="10">Y</text><text x="185" y="140" font-size="10">X</text></svg>` },
+            { id: 5, question: "When drawing the graph of the strict inequality y > 2x + 5, what type of boundary line must be used?", options: { A: "Solid continuous line", B: "Dotted or broken line", C: "Thick bold line", D: "Wavy line" }, answer: "B" },
+            { id: 6, question: "Convert the standard compass bearing N 45° E into a 3-digit true bearing format.", options: { A: "045°", B: "135°", C: "225°", D: "315°" }, answer: "A" },
+            { id: 7, question: "A hunter walks on a true bearing of 300°. Express this pathway using standard 4-point compass cardinal directions.", options: { A: "N 30° W", B: "N 60° W", C: "S 60° W", D: "N 30° E" }, answer: "B" },
+            { id: 8, question: "A ship travels 6 km due East from port A to point B, then travels 8 km due North to point C. Calculate the direct straight-line distance from port A to point C.", options: { A: "14 km", B: "10 km", C: "12 km", D: "48 km" }, answer: "B" },
+            { id: 9, question: "Using the geometric bearing matrix diagram shown below, find the alternating interior true angle value of θ.", options: { A: "40°", B: "50°", C: "90°", D: "140°" }, answer: "B", diagram: `<svg width="200" height="150" viewBox="0 0 200 150"><line x1="100" y1="10" x2="100" y2="130" stroke="#333" stroke-dasharray="4"/><line x1="40" y1="70" x2="160" y2="70" stroke="#333" stroke-dasharray="4"/><line x1="100" y1="70" x2="150" y2="30" stroke="red" stroke-width="2"/><path d="M 100,50 A 20,20 0 0,1 115,58" fill="none" stroke="green" stroke-width="2"/><text x="110" y="45" font-size="12">θ = 50°</text><text x="95" y="5" font-size="10">N</text></svg>` },
+            { id: 10, question: "An airplane flies from town X to town Y on a bearing of 070°. What is the return back-bearing heading from town Y to town X?", options: { A: "070°", B: "110°", C: "250°", D: "290°" }, answer: "C" },
+            { id: 11, question: "What is the angle formed between an observer's straight horizontal line of sight and their view looking downward at an object on the ground?", options: { A: "Angle of Elevation", B: "Angle of Depression", C: "Reflex Angle", D: "Right Angle" }, answer: "B" },
+            { id: 12, question: "From the right-angled elevation diagram, if the height of the pole is h and the angle of elevation from the ground observer is 45° at 20 meters away, find h.", options: { A: "10 meters", B: "20 meters", C: "20√3 meters", D: "40 meters" }, answer: "B", diagram: `<svg width="200" height="130" viewBox="0 0 200 130"><line x1="40" y1="110" x2="160" y2="110" stroke="#333" stroke-width="2"/><line x1="160" y1="20" x2="160" y2="110" stroke="#333" stroke-width="2"/><line x1="40" y1="110" x2="160" y2="20" stroke="purple" stroke-width="2"/><text x="55" y="105" font-size="11">45°</text><text x="80" y="125" font-size="11">20 meters base</text><text x="165" y="65" font-size="11">h</text></svg>` },
+            { id: 13, question: "The angle of elevation of a bird perched on a tree branch from an observer on the ground is 30°. If the observer is 15 meters from the tree base, calculate the height of the bird. (Take tan 30° = 0.577)", options: { A: "8.66 meters", B: "25.9 meters", C: "15 meters", D: "5.15 meters" }, answer: "A" },
+            { id: 14, question: "A girl looks down from a window on the second floor of a building at a ball on the floor. If the window is 12m high and the angle of depression is 60°, find the distance of the ball from the base of the building. (Take tan 60° = 1.732)", options: { A: "6.93 meters", B: "20.78 meters", C: "12 meters", D: "4.5 meters" }, answer: "A" },
+            { id: 15, question: "If the angle of depression of a car on the ground from a 50m high cliff is 45°, how far is the car located from the base cliff boundary line?", options: { A: "25 meters", B: "50 meters", C: "100 meters", D: "75 meters" }, answer: "B" },
+            { id: 16, question: "Calculate the length of the hypotenuse of a right-angled triangle whose adjacent and opposite base sides measure 9 cm and 12 cm respectively.", options: { A: "15 cm", B: "21 cm", C: "13 cm", D: "25 cm" }, answer: "A" },
+            { id: 17, question: "Determine the basic trigonometric fractional calculation value of sin(30°).", options: { A: "0.5", B: "0.866", C: "1.0", D: "0.707" }, answer: "A" },
+            { id: 18, question: "Consider the alternate elevation-depression framework configuration below. Find the value of alternate matching target angle Z.", options: { A: "30°", B: "60°", C: "90°", D: "45°" }, answer: "A", diagram: `<svg width="200" height="120" viewBox="0 0 200 120"><line x1="30" y1="30" x2="170" y2="30" stroke="#666" stroke-dasharray="4"/><line x1="30" y1="100" x2="170" y2="100" stroke="#333" stroke-width="2"/><line x1="30" y1="30" x2="150" y2="100" stroke="blue" stroke-width="2"/><text x="50" y="25" font-size="11">30° (Depression)</text><text x="120" y="95" font-size="11">Angle Z</text></svg>` },
+            { id: 19, question: "A simple ladder leans against a vertical wall. If the ladder length is 10 meters and it forms an angle of elevation of 60° with the level ground, calculate how far the ladder foot is from the wall base. (Take cos 60° = 0.5)", options: { A: "5 meters", B: "8.66 meters", C: "20 meters", D: "7 meters" }, answer: "A" },
+            { id: 20, question: "Evaluate the maximum value of Z = x + 2y subject to non-negativity parameters inside a constraints corner grid bounding vertices at (0,3) and (4,0).", options: { A: "4", B: "6", C: "8", D: "0" }, answer: "B" }
+        ];
+
+        const digitalQuestions = [
+            { id: 1, question: "What does API stand for in mobile application development ecosystems?", options: { A: "Application Programming Interface", B: "App Performance Indicator", C: "Automated Program Integration", D: "Apple Primary Installation" }, answer: "A" },
+            { id: 2, question: "Which operating system core platform utilizes the open-source Linux kernel managed by Google?", options: { A: "iOS", B: "Android", C: "Windows Mobile", D: "Symbian OS" }, answer: "B" },
+            { id: 3, question: "Which IDE tool is officially designated by Google for native Android application programming development?", options: { A: "Xcode", B: "Android Studio", C: "VS Code", D: "NetBeans" }, answer: "B" },
+            { id: 4, question: "What language is primarily recognized as the modern official standard for building native iOS mobile apps?", options: { A: "Kotlin", B: "Java", C: "Swift", D: "C++" }, answer: "C" },
+            { id: 5, question: "Cross-platform mobile frameworks allow a single codebase deployment. Which tool belongs to this ecosystem?", options: { A: "Swift UI", B: "Flutter", C: "Kotlin Native", D: "Objective-C" }, answer: "B" },
+            { id: 6, question: "What is the primary extension format of an installer file package downloaded on Android systems?", options: { A: ".exe", B: ".apk", C: ".ipa", D: ".dmg" }, answer: "B" },
+            { id: 7, question: "Which development view model focuses heavily on UI layout presentation design via canvas drag-drops?", options: { A: "Backend Layout", B: "WYSIWYG Layout Design", C: "Database Indexing", D: "Thread Concurrency" }, answer: "B" },
+            { id: 8, question: "What does SDK stand for in engineering mobile code libraries?", options: { A: "System Delivery Kernel", B: "Software Development Kit", C: "Secure Data Key", D: "Source Diagram Knowledge" }, answer: "B" },
+            { id: 9, question: "Cloud computing delivery models are structured into tiers. What does SaaS represent?", options: { A: "Storage as a System", B: "Software as a Service", C: "Security as an Asset", D: "Server as a Service" }, answer: "B" },
+            { id: 10, question: "Google Drive, Microsoft OneDrive, and Dropbox are direct functional examples of which service infrastructure tier?", options: { A: "IaaS", B: "PaaS", C: "SaaS", D: "Bare Metal" }, answer: "C" },
+            { id: 11, question: "Which cloud architecture tier provides virtual machines, raw storage arrays, and network configurations?", options: { A: "SaaS", B: "PaaS", C: "IaaS", D: "DaaS" }, answer: "C" },
+            { id: 12, question: "AWS Elastic Beanstalk and Heroku provide runtime deployment structures for programmers. This represents...", options: { A: "Infrastructure as a Service", B: "Platform as a Service", C: "Software as a Service", D: "Storage as a Service" }, answer: "B" },
+            { id: 13, question: "What primary core utility characterizes cloud data resource scalability benefits?", options: { A: "On-demand availability without local infrastructure footprint", B: "Increased localized hardware maintenance", C: "Mandatory dependency on desktop hardware upgrades", D: "Slower remote computation frameworks" }, answer: "A" },
+            { id: 14, question: "Who is credited with inventing the decentralized architecture framework of Blockchain via Bitcoin?", options: { A: "Satoshi Nakamoto", B: "Tim Berners-Lee", C: "Ada Lovelace", D: "Mark Zuckerberg" }, answer: "A" },
+            { id: 15, question: "What structural mechanism ensures data blocks cannot be maliciously modified retroactively in a blockchain ledger network?", options: { A: "Cryptographic Hashing links", B: "Simple text file passwords", C: "Local administrative recycling bins", D: "Anti-virus scans" }, answer: "A" },
+            { id: 16, question: "What type of distributed record database mechanism is the core architectural blueprint of blockchain systems?", options: { A: "Centralized SQL Server Matrix", B: "Distributed Ledger Technology (DLT)", C: "Flat-file spreadsheet documents", D: "Dynamic memory caches" }, answer: "B" },
+            { id: 17, question: "Which term describes automated, self-executing contracts written into code scripts directly inside blockchain systems?", options: { A: "Smart Contracts", B: "Legal PDFs", C: "AI Prompts", D: "Digital Crypts" }, answer: "A" },
+            { id: 18, question: "Beyond trading coins, what application domain benefits from blockchain verification systems?", options: { A: "Supply Chain Provenance tracking", B: "Offline CD-ROM burning", C: "Analog radio transmission filtering", D: "Local CPU power cooling loops" }, answer: "A" },
+            { id: 19, question: "What consensus validation strategy requires miners to solve complex mathematical puzzles to secure blockchain transactions?", options: { A: "Proof of Work (PoW)", B: "Proof of Velocity", C: "Proof of Storage", D: "Proof of Identity" }, answer: "A" },
+            { id: 20, question: "What is the name of the decentralized cryptographic token system running natively on the Ethereum blockchain platform?", options: { A: "Bitcoin", B: "Ether", C: "Litecoin", D: "Ripple" }, answer: "B" }
+        ];
+
+        const beautyQuestions = [
+            { id: 1, question: "Which of the following is the outermost layer of the human skin?", options: { A: "Dermis", B: "Epidermis", C: "Hypodermis", D: "Subcutaneous fat layer" }, answer: "B" },
+            { id: 2, question: "Skin that produces an excess amount of sebum, leading to shine and enlarged pores, is classified as ________.", options: { A: "Dry Skin", B: "Oily Skin", C: "Sensitive Skin", D: "Normal Skin" }, answer: "B" },
+            { id: 3, question: "Which of the following is a primary protective function of the human skin?", options: { A: "Synthesizing heavy metals for digestion", B: "Acting as a barrier against bacteria and injury", C: "Regulating blood pressure levels throughout the body", D: "Generating oxygen cells for respiration" }, answer: "B" },
+            { id: 4, question: "The middle layer of the skin which contains collagen fibers, blood vessels, and sweat glands is the ________.", options: { A: "Epidermis", B: "Dermis", C: "Stratum corneum", D: "Adipose layer" }, answer: "B" },
+            { id: 5, question: "Which skin type is characterized by flaking, tightness, and fine lines due to a lack of moisture?", options: { A: "Oily Skin", B: "Dry Skin", C: "Combination Skin", D: "Melanated Skin" }, answer: "B" },
+            { id: 6, question: "Which layer of the skin contains the pigment-producing cells known as melanocytes?", options: { A: "Subcutaneous layer", B: "Epidermis", C: "Deep Dermis", D: "Muscle fascia" }, answer: "B" },
+            { id: 7, question: "What is the primary cause of acne formation in teenagers and young adults?", options: { A: "Excessive exposure to wind and cold air", B: "Clogged hair follicles due to sebum and dead cells", C: "Lack of physical exercise and physical movement", D: "Using water-based skin moisturizers frequently" }, answer: "B" },
+            { id: 8, question: "Which of the following is a standard cosmetic method used to treat active acne outbreaks?", options: { A: "Applying thick heavy oil creams overnight", B: "Using topical treatments containing Salicylic Acid", C: "Scrubbing the skin roughly with hard brushes", D: "Exposing the skin to heavy soot environments" }, answer: "B" },
+            { id: 9, question: "Anti-aging treatments like chemical peels work primarily by ________.", options: { A: "Freezing facial muscles permanently", B: "Removing dead surface cells to promote skin renewal", C: "Adding synthetic artificial pigments to the epidermis", D: "Reducing the amount of water the skin retains" }, answer: "B" },
+            { id: 10, question: "The structural skin protein that decreases as people age, leading to the formation of wrinkles, is ________.", options: { A: "Keratin", B: "Collagen", C: "Melanin", D: "Hemoglobin" }, answer: "B" },
+            { id: 11, question: "What skincare product protects against premature aging caused by ultraviolet radiation?", options: { A: "Alcohol-based astringent", B: "Broad-spectrum Sunscreen", C: "Heavy petroleum jelly", D: "Liquid foundation powder" }, answer: "B" },
+            { id: 12, question: "Laser hair removal technology targets which part of the hair structure to stop growth?", options: { A: "The visible shaft", B: "The melanin pigment inside the hair follicle", C: "The surrounding sweat gland network", D: "The dead skin scales around the pore" }, answer: "B" },
+            { id: 13, question: "Which of the following is a non-invasive modern technology used for facial skin tightening?", options: { A: "Traditional manual blade shaving", B: "Radiofrequency (RF) therapy", C: "Cold wax extraction strips", D: "Cotton thread weaving loops" }, answer: "B" },
+            { id: 14, question: "Before applying any new modern laser or chemical treatment, a beautician should always perform a ________.", options: { A: "Full facial make-up layer application", B: "Patch test on a small area of skin", C: "Heavy hot water steam session", D: "Deep structural massage routine" }, answer: "B" },
+            { id: 15, question: "The temporary hair removal method that extracts the entire hair from the root using a sticky compound is ________.", options: { A: "Shaving", B: "Waxing", C: "Depilatory creaming", D: "Bleaching" }, answer: "B" },
+            { id: 16, question: "The ancient hair removal method that involves using a twisted cotton loop to pull out hairs is called ________.", options: { A: "Tweezing", B: "Threading", C: "Electrolysis", D: "Shaving" }, answer: "B" },
+            { id: 17, question: "Which hair removal method cuts hair off at the skin surface line but does not remove the root?", options: { A: "Waxing", B: "Shaving", C: "Threading", D: "Laser therapy" }, answer: "B" },
+            { id: 18, question: "What is a common side effect of incorrect waxing or shaving techniques?", options: { A: "Complete skin color transformation", B: "Ingrown hairs and folliculitis irritation", C: "Permanent loss of skin sensations", D: "Immediate reduction in skin wrinkles" }, answer: "B" },
+            { id: 19, question: "Which of the following skin types requires products without fragrances or harsh chemicals to avoid redness?", options: { A: "Oily Skin", B: "Sensitive Skin", C: "Normal Skin", D: "Thick Skin" }, answer: "B" },
+            { id: 20, question: "What does the abbreviation 'SPF' stand for in cosmetic dermatology?", options: { A: "Skin Purification Factor", B: "Sun Protection Factor", C: "Sebum Production Formula", D: "Surface Peeling Function" }, answer: "B" }
+        ];
+
+        // RUNTIME STATE VARIABLES
+        let currentSubject = "MATHEMATICS";
+        let currentMathIndex = 0;
+        let currentDigitalIndex = 0;
+        let currentBeautyIndex = 0;
+        
+        let studentAnswers = {
+            MATHEMATICS: Array(20).fill(null),
+            DIGITAL: Array(20).fill(null),
+            BEAUTY: Array(20).fill(null)
+        };
+
+        let currentStudentName = "";
+        let currentRegNumber = "";
+        let examTimeSeconds = 50 * 60; // 50 Minutes
+        let timerInterval = null;
+        let isExamSubmitted = false;
+
+        // AUTHENTICATION LOGIC
+        function attemptLogin() {
+            const nameInput = document.getElementById('student-name').value.trim().toUpperCase();
+            const regInput = document.getElementById('reg-number').value.trim().toUpperCase();
+            const errorDiv = document.getElementById('login-error');
+
+            if (!nameInput || !regInput) {
+                errorDiv.innerText = "Error: All configuration credentials field markers are strictly required.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            const nameParts = nameInput.split(/\s+/);
+            if (nameParts.length < 2) {
+                errorDiv.innerText = "Error: Provide your Full Name in the requested format order (SURNAME MIDDLE OTHER).";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            if (localStorage.getItem(`CBT_COMPLETED_${regInput}`)) {
+                errorDiv.innerText = "Access Blocked: You have already completed this examination terminal layout session.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            currentStudentName = nameInput;
+            currentRegNumber = regInput;
+            errorDiv.style.display = "none";
+
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('cbt-container').classList.remove('hidden');
+
+            document.getElementById('display-student-name').innerText = currentStudentName;
+            document.getElementById('display-reg-no').innerText = currentRegNumber;
+
+            startTimer();
+            renderQuestionGrid();
+            displayQuestion();
+            initAntiCheat();
+        }
+
+        // SUBJECT SELECTION SWITCHES
+        function switchSubject(subjectCode) {
+            currentSubject = subjectCode;
+            
+            // Toggle active styles
+            document.getElementById('tab-math').classList.remove('active');
+            document.getElementById('tab-digital').classList.remove('active');
+            document.getElementById('tab-beauty').classList.remove('active');
+
+            if (subjectCode === "MATHEMATICS") {
+                document.getElementById('tab-math').classList.add('active');
+                document.getElementById('navigator-title').innerText = "Mathematics Grid Map";
+            } else if (subjectCode === "DIGITAL") {
+                document.getElementById('tab-digital').classList.add('active');
+                document.getElementById('navigator-title').innerText = "Digital Tech Grid Map";
+            } else {
+                document.getElementById('tab-beauty').classList.add('active');
+                document.getElementById('navigator-title').innerText = "Beauty & Cosmetology Grid Map";
+            }
+
+            renderQuestionGrid();
+            displayQuestion();
+        }
+
+        // CORE UI CONTENT INJECTORS
+        function displayQuestion() {
+            let index = currentMathIndex;
+            let questions = mathematicsQuestions;
+
+            if (currentSubject === "DIGITAL") {
+                index = currentDigitalIndex;
+                questions = digitalQuestions;
+            } else if (currentSubject === "BEAUTY") {
+                index = currentBeautyIndex;
+                questions = beautyQuestions;
+            }
+
+            const activeQuestion = questions[index];
+
+            // Set text strings
+            document.getElementById('question-header').innerText = `Subject: ${currentSubject} — Question ${index + 1} of 20`;
+            document.getElementById('question-text').innerText = activeQuestion.question;
+
+            // Handle pure vector diagrams
+            const diagContainer = document.getElementById('diagram-container');
+            if (currentSubject === "MATHEMATICS" && activeQuestion.diagram) {
+                diagContainer.innerHTML = activeQuestion.diagram;
+                diagContainer.classList.remove('hidden');
+            } else {
+                diagContainer.classList.add('hidden');
+                diagContainer.innerHTML = "";
+            }
+
+            // Assign structural choices
+            document.getElementById('text-A').innerText = activeQuestion.options.A;
+            document.getElementById('text-B').innerText = activeQuestion.options.B;
+            document.getElementById('text-C').innerText = activeQuestion.options.C;
+            document.getElementById('text-D').innerText = activeQuestion.options.D;
+
+            // Refresh selections
+            const options = ['A', 'B', 'C', 'D'];
+            options.forEach(opt => {
+                document.getElementById(`opt-${opt}`).checked = false;
+                document.getElementById(`opt-${opt}`).parentElement.classList.remove('selected');
+            });
+
+            const savedAnswer = studentAnswers[currentSubject][index];
+            if (savedAnswer) {
+                document.getElementById(`opt-${savedAnswer}`).checked = true;
+                document.getElementById(`opt-${savedAnswer}`).parentElement.classList.add('selected');
+            }
+
+            updateProgressBar();
+            updateGridHighlights();
+        }
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = "";
+            
+            for (let i = 0; i < 20; i++) {
+                const btn = document.createElement('button');
+                btn.className = "num-btn";
+                btn.innerText = i + 1;
+                btn.onclick = () => jumpToQuestion(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        function updateGridHighlights() {
+            const gridButtons = document.getElementById('question-grid').children;
+            let currentIndex = currentMathIndex;
+
+            if (currentSubject === "DIGITAL") currentIndex = currentDigitalIndex;
+            if (currentSubject === "BEAUTY") currentIndex = currentBeautyIndex;
+
+            const answers = studentAnswers[currentSubject];
+
+            for (let i = 0; i < 20; i++) {
+                gridButtons[i].classList.remove('answered', 'current');
+                
+                if (answers[i] !== null) {
+                    gridButtons[i].classList.add('answered');
+                }
+                if (i === currentIndex) {
+                    gridButtons[i].classList.add('current');
+                }
+            }
+        }
+
+        function updateProgressBar() {
+            const mathCount = studentAnswers.MATHEMATICS.filter(a => a !== null).length;
+            const digitalCount = studentAnswers.DIGITAL.filter(a => a !== null).length;
+            const beautyCount = studentAnswers.BEAUTY.filter(a => a !== null).length;
+            const totalAnswered = mathCount + digitalCount + beautyCount;
+            
+            const percent = (totalAnswered / 60) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        // SELECTION EVENTS
+        function selectOption(letter) {
+            let index = currentMathIndex;
+            if (currentSubject === "DIGITAL") index = currentDigitalIndex;
+            if (currentSubject === "BEAUTY") index = currentBeautyIndex;
+            
+            studentAnswers[currentSubject][index] = letter;
+            
+            const options = ['A', 'B', 'C', 'D'];
+            options.forEach(opt => {
+                document.getElementById(`opt-${opt}`).parentElement.classList.remove('selected');
+            });
+            document.getElementById(`opt-${letter}`).checked = true;
+            document.getElementById(`opt-${letter}`).parentElement.classList.add('selected');
+
+            updateProgressBar();
+            updateGridHighlights();
+        }
+
+        // NAVIGATION LOGIC
+        function navigateQuestion(direction) {
+            if (currentSubject === "MATHEMATICS") {
+                currentMathIndex += direction;
+                if (currentMathIndex < 0) currentMathIndex = 0;
+                if (currentMathIndex > 19) currentMathIndex = 19;
+            } else if (currentSubject === "DIGITAL") {
+                currentDigitalIndex += direction;
+                if (currentDigitalIndex < 0) currentDigitalIndex = 0;
+                if (currentDigitalIndex > 19) currentDigitalIndex = 19;
+            } else {
+                currentBeautyIndex += direction;
+                if (currentBeautyIndex < 0) currentBeautyIndex = 0;
+                if (currentBeautyIndex > 19) currentBeautyIndex = 19;
+            }
+            displayQuestion();
+        }
+
+        function jumpToQuestion(targetIdx) {
+            if (currentSubject === "MATHEMATICS") currentMathIndex = targetIdx;
+            if (currentSubject === "DIGITAL") currentDigitalIndex = targetIdx;
+            if (currentSubject === "BEAUTY") currentBeautyIndex = targetIdx;
+            displayQuestion();
+        }
+
+        // CHRONOMETER SYSTEM DRIVERS
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                examTimeSeconds--;
+
+                let mins = Math.floor(examTimeSeconds / 60);
+                let secs = examTimeSeconds % 60;
+
+                document.getElementById('timer').innerText = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (examTimeSeconds <= 60) {
+                    document.getElementById('timer').style.backgroundColor = "#ff3333";
+                }
+
+                if (examTimeSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time has completely run out! Initializing system auto-submission calculations.");
+                    finalSubmitExam();
+                }
+            }, 1000);
+        }
+
+        // SECURITY AUTO-SUBMIT COMPONENT 
+        function initAntiCheat() {
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden" && !isExamSubmitted) {
+                    executeForcedDefensiveSubmission();
+                }
+            });
+
+            window.addEventListener("blur", () => {
+                if (!isExamSubmitted) {
+                    executeForcedDefensiveSubmission();
+                }
+            });
+        }
+
+        function executeForcedDefensiveSubmission() {
+            isExamSubmitted = true;
+            clearInterval(timerInterval);
+            
+            localStorage.setItem(`CBT_COMPLETED_${currentRegNumber}`, "true");
+            alert("SECURITY VIOLATION DETECTED:\n\nYou shifted windows, closed tabs or minimized the active browser portal frame. Your quiz has been finalized and automatically submitted.");
+            processAndShowResults();
+        }
+
+        // SUBMISSION PIPELINES
+        function triggerSubmitConfirmation() {
+            const mathUn = studentAnswers.MATHEMATICS.filter(a => a === null).length;
+            const digUn = studentAnswers.DIGITAL.filter(a => a === null).length;
+            const btyUn = studentAnswers.BEAUTY.filter(a => a === null).length;
+            const totalUnanswered = mathUn + digUn + btyUn;
+
+            const warningBox = document.getElementById('modal-unanswered-warning');
+            if (totalUnanswered > 0) {
+                warningBox.innerText = `Warning: You have ${totalUnanswered} completely blank unanswered task item(s) left!`;
+            } else {
+                warningBox.innerText = "All questions have been assigned responses.";
+            }
+
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+        function finalSubmitExam() {
+            isExamSubmitted = true;
+            clearInterval(timerInterval);
+            closeModal();
+            
+            localStorage.setItem(`CBT_COMPLETED_${currentRegNumber}`, "true");
+            processAndShowResults();
+        }
+
+        function calculateGrade(percentage) {
+            if (percentage >= 75) return { letter: "A1", remark: "Excellent" };
+            if (percentage >= 70) return { letter: "B2", remark: "Very Good" };
+            if (percentage >= 65) return { letter: "B3", remark: "Good" };
+            if (percentage >= 60) return { letter: "C4", remark: "Credit" };
+            if (percentage >= 55) return { letter: "C5", remark: "Credit" };
+            if (percentage >= 50) return { letter: "C6", remark: "Credit" };
+            if (percentage >= 45) return { letter: "D7", remark: "Pass" };
+            if (percentage >= 40) return { letter: "E8", remark: "Pass" };
+            return { letter: "F9", remark: "Fail" };
+        }
+
+        function processAndShowResults() {
+            document.getElementById('cbt-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+
+            // Math Calculation Engine
+            let mathCorrect = 0;
+            mathematicsQuestions.forEach((q, idx) => {
+                if (studentAnswers.MATHEMATICS[idx] === q.answer) mathCorrect++;
+            });
+            let mathPercent = (mathCorrect / 20) * 100;
+            let mathGrade = calculateGrade(mathPercent);
+
+            // Digital Tech Calculation Engine
+            let digitalCorrect = 0;
+            digitalQuestions.forEach((q, idx) => {
+                if (studentAnswers.DIGITAL[idx] === q.answer) digitalCorrect++;
+            });
+            let digitalPercent = (digitalCorrect / 20) * 100;
+            let digitalGrade = calculateGrade(digitalPercent);
+
+            // Beauty Calculation Engine
+            let beautyCorrect = 0;
+            beautyQuestions.forEach((q, idx) => {
+                if (studentAnswers.BEAUTY[idx] === q.answer) beautyCorrect++;
+            });
+            let beautyPercent = (beautyCorrect / 20) * 100;
+            let beautyGrade = calculateGrade(beautyPercent);
+
+            // Comprehensive Aggregations
+            let grandTotalCorrect = mathCorrect + digitalCorrect + beautyCorrect;
+            let grandPercent = (grandTotalCorrect / 60) * 100;
+            let grandGrade = calculateGrade(grandPercent);
+
+            document.getElementById('res-name').innerText = currentStudentName;
+            document.getElementById('res-reg').innerText = currentRegNumber;
+
+            const tbody = document.getElementById('result-tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td><strong>MATHEMATICS</strong></td>
+                    <td>20</td>
+                    <td>${mathCorrect}</td>
+                    <td>${mathPercent.toFixed(1)}%</td>
+                    <td><strong style="color:var(--primary-color);">${mathGrade.letter}</strong> (${mathGrade.remark})</td>
+                </tr>
+                <tr>
+                    <td><strong>DIGITAL TECHNOLOGIES</strong></td>
+                    <td>20</td>
+                    <td>${digitalCorrect}</td>
+                    <td>${digitalPercent.toFixed(1)}%</td>
+                    <td><strong style="color:var(--primary-color);">${digitalGrade.letter}</strong> (${digitalGrade.remark})</td>
+                </tr>
+                <tr>
+                    <td><strong>BEAUTY & COSMETOLOGY</strong></td>
+                    <td>20</td>
+                    <td>${beautyCorrect}</td>
+                    <td>${beautyPercent.toFixed(1)}%</td>
+                    <td><strong style="color:var(--primary-color);">${beautyGrade.letter}</strong> (${beautyGrade.remark})</td>
+                </tr>
+            `;
+
+            document.getElementById('grand-score-box').innerHTML = `
+                COMBINED GRAND SCORE CALCULATION: ${grandTotalCorrect} / 60 (${grandPercent.toFixed(1)}%)<br>
+                OVERALL STANDING EVALUATION CRITERIA: ${grandGrade.letter} — ${grandGrade.remark}
+            `;
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+
+<!-- ======================= -->
+<!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            const authSession = JSON.parse(localStorage.getItem('authSession'));
+            if (authSession && authSession.name && authSession.regNum) {
+                const nameInput = document.getElementById('student-name') || document.getElementById('studentName');
+                const regInput = document.getElementById('reg-number') || document.getElementById('regNum');
+                
+                if (nameInput) nameInput.value = authSession.name;
+                if (regInput) regInput.value = authSession.regNum;
+                
+                // Auto-login if function exists
+                if (typeof handleLogin === 'function') {
+                    // Slight delay to ensure DOM is fully ready
+                    setTimeout(handleLogin, 300);
+                } else if (typeof authenticateCandidate === 'function') {
+                    setTimeout(authenticateCandidate, 300);
+                }
+            }
+        } catch (e) {
+            console.error("Portal Hub Injection Error:", e);
+        }
+    });
+</script>
+
+<!-- ===================================== -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.1 -->
+<!-- ===================================== -->
+<script>
+(function () {
+    'use strict';
+
+    function getSaveKey(regNum) {
+        var fn = window.location.pathname.split('/').pop().replace(/\.html$/i, '');
+        return 'SHIS_PROG_' + regNum + '_' + fn;
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function isValidPassword(input) {
+        var now = new Date();
+        var h24 = now.getHours();
+        var h12 = h24 % 12 || 12;
+        var m   = now.getMinutes();
+        var p24 = pad(h24) + pad(m);
+        var p12 = pad(h12) + pad(m);
+        return String(input).trim() === p24 || String(input).trim() === p12;
+    }
+
+    function fmtSecs(s) {
+        if (!s || s < 0) return '--:--';
+        return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var _style = document.createElement('style');
+    _style.textContent =
+        '#shis-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(6px);}' +
+        '#shis-card{background:#fff;border-radius:18px;padding:36px 30px 28px;max-width:460px;width:92%;box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid #0d47a1;animation:shis-up .4s cubic-bezier(.22,.68,0,1.2);}' +
+        '@keyframes shis-up{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}' +
+        '#shis-card .si{text-align:center;font-size:2.5rem;margin-bottom:10px;}' +
+        '#shis-card h2{text-align:center;color:#0d47a1;font-size:1.3rem;font-weight:700;margin:0 0 5px;}' +
+        '#shis-card .ss{text-align:center;color:#777;font-size:.85rem;margin:0 0 18px;}' +
+        '#shis-card .sinfo{background:#e8f0fe;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.86rem;color:#1a237e;line-height:2;}' +
+        '#shis-card .sinfo b{color:#0d47a1;}' +
+        '.sbadge{background:#2e7d32;color:#fff;border-radius:20px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-left:6px;vertical-align:middle;}' +
+        '#shis-card .slbl{display:block;font-weight:600;font-size:.85rem;color:#333;margin-bottom:7px;}' +
+        '#shis-card .slbl small{font-weight:400;color:#aaa;}' +
+        '#shis-pw{width:100%;padding:13px;font-size:1.5rem;border:2px solid #ccc;border-radius:10px;text-align:center;letter-spacing:8px;font-weight:700;outline:none;transition:border .2s;margin-bottom:5px;box-sizing:border-box;}' +
+        '#shis-pw:focus{border-color:#0d47a1;}' +
+        '#shis-err{color:#c62828;font-size:.8rem;text-align:center;min-height:20px;margin-bottom:12px;}' +
+        '.sbtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px;}' +
+        '.sbtn:active{transform:scale(.98);}' +
+        '.sbtn-pri{background:#0d47a1;color:#fff;}' +
+        '.sbtn-pri:hover{background:#1565c0;}' +
+        '.sbtn-sec{background:#f0f0f0;color:#555;border:1.5px solid #ddd;}' +
+        '.sbtn-sec:hover{background:#e0e0e0;}' +
+        '.shint{text-align:center;color:#bbb;font-size:.74rem;margin-top:2px;}';
+    document.head.appendChild(_style);
+
+    function _save() {
+        try {
+            var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+            if (!sess || !sess.regNum) return;
+            if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                localStorage.removeItem(getSaveKey(sess.regNum)); return;
+            }
+            
+            // Support both old (candidateAnswers) and new (studentAnswers) variable names
+            var ans  = (typeof studentAnswers !== 'undefined') ? studentAnswers : ((typeof candidateAnswers !== 'undefined') ? candidateAnswers : null);
+            var tsec = (typeof totalExamSecondsLeft !== 'undefined') ? totalExamSecondsLeft : ((typeof totalSecondsRemaining !== 'undefined') ? totalSecondsRemaining : null);
+            var qi   = (typeof currentQuestionIndex !== 'undefined') ? currentQuestionIndex : ((typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0);
+            var si   = (typeof currentSubjectIdx !== 'undefined') ? currentSubjectIdx : 0;
+            
+            if (!ans || Object.keys(ans).length === 0) return;
+            
+            localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
+                name: sess.name, regNum: sess.regNum,
+                subjectGroup: sess.subjectGroup || '',
+                answers: ans, tsec: tsec, qi: qi, si: si,
+                at: new Date().toISOString(),
+                count: Object.keys(ans).length
+            }));
+        } catch (e) {}
+    }
+    setInterval(_save, 5000);
+
+    function showModal(st, key) {
+        var ov = document.createElement('div');
+        ov.id = 'shis-ov';
+        ov.innerHTML =
+            '<div id="shis-card">' +
+              '<div class="si">&#x26A0;&#xFE0F;</div>' +
+              '<h2>Interrupted Exam Detected</h2>' +
+              '<p class="ss">An unfinished session was found on this device.</p>' +
+              '<div class="sinfo">' +
+                '&#x1F464; <b>Student:</b> ' + esc(st.name) + '<br>' +
+                '&#x1FAA6; <b>Reg No:</b> '  + esc(st.regNum) + '<br>' +
+                '&#x1F4DD; <b>Answered:</b> ' + st.count + ' question(s) <span class="sbadge">Progress Saved &#x2713;</span><br>' +
+                '&#x23F1; <b>Time left:</b> ' + fmtSecs(st.tsec) +
+              '</div>' +
+              '<label class="slbl" for="shis-pw">&#x1F511; Examiner Password &nbsp;<small>(leave blank for basic restore)</small></label>' +
+              '<input id="shis-pw" type="text" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="off" inputmode="numeric">' +
+              '<div id="shis-err"></div>' +
+              '<button class="sbtn sbtn-pri" id="shis-go">&#x2705; Resume Exam</button>' +
+              '<button class="sbtn sbtn-sec" id="shis-discard">&#x1F5D1; Discard &amp; Start Fresh</button>' +
+              '<p class="shint">Password = time on examiner phone (e.g. 15:12 &#x2192; 1512 &nbsp;|&nbsp; 3:15 &#x2192; 0315)</p>' +
+            '</div>';
+        document.body.appendChild(ov);
+        setTimeout(function () { var el = document.getElementById('shis-pw'); if (el) el.focus(); }, 350);
+
+        function attempt() {
+            var pw  = (document.getElementById('shis-pw').value || '').trim();
+            var err = document.getElementById('shis-err');
+            if (pw !== '') {
+                if (!isValidPassword(pw)) {
+                    err.textContent = 'Incorrect password. Check the current time and try again.';
+                    document.getElementById('shis-pw').style.borderColor = '#c62828';
+                    setTimeout(function () {
+                        err.textContent = '';
+                        document.getElementById('shis-pw').style.borderColor = '#ccc';
+                    }, 3200);
+                    return;
+                }
+                ov.remove(); doResume(st, true);
+            } else {
+                ov.remove(); doResume(st, false);
+            }
+        }
+
+        document.getElementById('shis-go').addEventListener('click', attempt);
+        document.getElementById('shis-pw').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') attempt();
+        });
+        document.getElementById('shis-discard').addEventListener('click', function () {
+            if (confirm('Discard all saved answers and start a fresh exam?')) {
+                localStorage.removeItem(key); ov.remove();
+            }
+        });
+    }
+
+    function doResume(st, full) {
+        var examUp = document.getElementById('screen-exam') && !document.getElementById('screen-exam').classList.contains('hidden') || 
+                     document.getElementById('cbt-screen') && !document.getElementById('cbt-screen').classList.contains('hidden');
+
+        if (!examUp) {
+            var ni = document.getElementById('student-name') || document.getElementById('studentName');
+            var ri = document.getElementById('reg-number') || document.getElementById('regNum');
+            if (ni) ni.value = st.name;
+            if (ri) ri.value = st.regNum;
+            
+            try { 
+                if (typeof handleLogin === 'function') handleLogin(); 
+                else if (typeof authenticateCandidate === 'function') authenticateCandidate();
+            } catch (e) {}
+        }
+
+        setTimeout(function () {
+            try {
+                // Restore answers
+                Object.keys(st.answers).forEach(function (k) {
+                    var parsedKey = isNaN(parseInt(k, 10)) ? k : parseInt(k, 10);
+                    if (typeof studentAnswers !== 'undefined') studentAnswers[parsedKey] = st.answers[k];
+                    else if (typeof candidateAnswers !== 'undefined') candidateAnswers[parsedKey] = st.answers[k];
+                });
+                
+                // Restore state
+                if (full) {
+                    if (st.tsec !== null && st.tsec > 0) {
+                        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = st.tsec;
+                        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = st.tsec;
+                    }
+                    try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = st.qi || 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = st.qi || 0;
+                    } catch (e) {}
+                } else {
+                    try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = 0;
+                    } catch (e) {}
+                }
+                
+                // Re-render UI
+                try { 
+                    if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
+                    else if (typeof renderQuestion === 'function') renderQuestion();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix();
+                    else if (typeof buildNavigationGrid === 'function') buildNavigationGrid();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof updateConsoleStatusHighlights === 'function') updateConsoleStatusHighlights();
+                    else if (typeof updateNavGridHighlight === 'function') updateNavGridHighlight();
+                } catch (e) {}
+                
+                try {
+                    if (typeof updateProgressBars === 'function') updateProgressBars();
+                } catch (e) {}
+
+            } catch (ex) { console.error("Resume Engine Error:", ex); }
+        }, examUp ? 80 : 350);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            try {
+                var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+                if (!sess || !sess.regNum) return;
+                
+                // If exam is completed and submitted, do not prompt resume
+                if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                    return;
+                }
+                
+                var key = getSaveKey(sess.regNum);
+                var raw = localStorage.getItem(key);
+                if (!raw) return;
+                var st = JSON.parse(raw);
+                if (!st || !st.answers || st.count < 1) return;
+                if (st.regNum !== sess.regNum) return;
+                showModal(st, key);
+            } catch (e) {}
+        }, 800);
+    });
+
+}());
+</script>
+</body>
+</html>

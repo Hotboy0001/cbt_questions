@@ -1,0 +1,1122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Height International School - CBT System</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0d9488;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #ea580c;
+            --gray-300: #d1d5db;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        
+        /* Header styling */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            letter-spacing: 2px;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0 auto 8px auto;
+        }
+
+        /* Container & Auth Card */
+        .container {
+            flex: 1;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 550px;
+            width: 100%;
+            margin: 40px auto;
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: #1d4ed8; }
+        .btn-success { background-color: var(--success); }
+        .btn-success:hover { background-color: #15803d; }
+        .btn-secondary { background-color: #4b5563; }
+        .btn-secondary:hover { background-color: #374151; }
+        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
+
+        /* Dashboard & Layout Content */
+        .meta-bar {
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-item { font-weight: 600; font-size: 0.95rem; }
+        .meta-item span { color: var(--primary-light); }
+        #timer-display { font-size: 1.2rem; color: var(--danger); font-weight: bold; }
+
+        .progress-container {
+            background-color: var(--gray-300);
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* Sidebar Navigation Grid */
+        .sidebar {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar h4 {
+            margin-bottom: 12px;
+            color: var(--dark);
+            border-bottom: 1px solid var(--light);
+            padding-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .nav-btn {
+            background: #e5e7eb;
+            border: none;
+            padding: 10px 0;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.answered {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+
+        .nav-btn.current {
+            background-color: var(--dark) !important;
+            color: var(--white) !important;
+            outline: 2px solid var(--primary);
+        }
+
+        /* Main Examination Worksheet Space */
+        .main-work-area {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+
+        .subject-badge {
+            background-color: #dbeafe;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: #f9fafb;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .option-item.selected {
+            background-color: #eff6ff;
+            border-color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .control-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid var(--light);
+            padding-top: 20px;
+        }
+
+        .control-actions .btn { width: auto; min-width: 120px; }
+
+        /* Custom Modal Box Alert Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-box h4 { margin-bottom: 12px; font-size: 1.3rem; color: var(--dark); }
+        .modal-box p { margin-bottom: 20px; color: #4b5563; line-height: 1.5; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .modal-buttons .btn { width: auto; min-width: 100px; }
+
+        /* Score Matrix Table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid var(--gray-300);
+            padding: 12px;
+            text-align: left;
+        }
+        .results-table th { background-color: var(--light); color: var(--dark); }
+
+        /* Responsiveness Media Queries */
+        @media (max-width: 868px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: 2;
+            }
+            .main-work-area {
+                order: 1;
+                min-height: auto;
+            }
+            .nav-grid {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.3rem; }
+            header h2 { font-size: 0.9rem; }
+            .meta-bar { flex-direction: column; align-items: flex-start; }
+            .nav-grid { grid-template-columns: repeat(5, 1fr); }
+            .control-actions { flex-wrap: wrap; }
+            .control-actions .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-placeholder">S.H.I.S</div>
+        <h1>Standard Height International School</h1>
+        <h2>SCIENCE DEPARTMENT • C.B.T SYSTEM</h2>
+    </header>
+
+    <div class="container">
+
+        <div id="screen-already-submitted" class="card hidden">
+            <h3 style="color: var(--danger);">Access Denied</h3>
+            <p style="text-align: center; line-height: 1.6; margin-bottom: 20px;">
+                You have already completed this examination. Re-taking or multiple attempts are strictly prohibited on this registration credential.
+            </p>
+            <button class="btn btn-secondary" onclick="location.reload()">Return Back</button>
+        </div>
+
+        <div id="screen-auth" class="card">
+            <h3>Student Authentication Portal</h3>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Full Name Form Factor</label>
+                    <input type="text" id="studentName" class="form-control" placeholder="SURNAME MIDDLE OTHER" required>
+                    <small style="color:#6b7280; display:block; margin-top:4px;">Format: Enter Surname first, followed by middle and other names.</small>
+                </div>
+                <div class="form-group">
+                    <label>Registration Number</label>
+                    <input type="text" id="regNumber" class="form-control" placeholder="SHIS/2026/000" required>
+                </div>
+                <button type="submit" class="btn">Authenticate &amp; Start Test</button>
+            </form>
+        </div>
+
+        <div id="screen-exam" class="hidden">
+            <div class="meta-bar">
+                <div class="meta-item">Candidate: <span id="meta-student-name">...</span></div>
+                <div class="meta-item">Reg No: <span id="meta-reg-num">...</span></div>
+                <div id="timer-display">45:00</div>
+            </div>
+
+            <div class="progress-container">
+                <div id="exam-progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div class="exam-layout">
+                <div class="sidebar">
+                    <h4>Question Navigator</h4>
+                    <div id="questions-grid" class="nav-grid"></div>
+                </div>
+
+                <div class="main-work-area">
+                    <div class="question-header">
+                        <span id="current-question-indicator" style="font-weight: 600;">Question 1 of 60</span>
+                        <span id="current-subject-badge" class="subject-badge">English Language</span>
+                    </div>
+
+                    <div id="question-text-container" class="question-text">
+                        Loading evaluation parameter configurations...
+                    </div>
+
+                    <div id="options-container" class="options-list">
+                    </div>
+
+                    <div class="control-actions">
+                        <button id="btn-prev" class="btn btn-secondary" onclick="navigateQuestion(-1)">Previous</button>
+                        <button id="btn-next" class="btn btn-secondary" onclick="navigateQuestion(1)">Next</button>
+                        <button class="btn btn-success" style="margin-left: auto;" onclick="triggerSubmitConfirmation()">Submit Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-results" class="card hidden" style="max-width: 700px;">
+            <h3 style="color: var(--success);">Examination Summary Sheet</h3>
+            
+            <div style="margin-bottom: 20px; line-height: 1.6;">
+                <p><strong>Student Name:</strong> <span id="res-name"></span></p>
+                <p><strong>Registration Number:</strong> <span id="res-reg"></span></p>
+                <p><strong>Overall Evaluation Verdict:</strong> <span id="res-verdict" style="font-weight: bold;"></span></p>
+            </div>
+
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Subject Domain</th>
+                        <th>Total Questions</th>
+                        <th>Correct Metric</th>
+                        <th>Score %</th>
+                    </tr>
+                </thead>
+                <tbody id="results-table-body">
+                </tbody>
+            </table>
+
+            <button class="btn" style="margin-top: 15px;" onclick="localStorage.clear(); location.reload();">Close Matrix</button>
+        </div>
+
+    </div>
+
+    <div id="modal-confirm" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h4>Submit Examination?</h4>
+            <p>Are you certain you wish to conclude this evaluation script assignment? You will not be allowed to return to modify items.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="toggleModal(false)">Cancel</button>
+                <button class="btn btn-success" onclick="executeFinalSubmission()">Confirm Submission</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QUESTION CORE DATABASE ARCHITECTURE MATRIX ARRAY (60 Questions total)
+        const questionsDatabase = [
+            // --- ENGLISH LANGUAGE (1 - 20) ---
+            { id: 1, subject: "ENGLISH LANGUAGE SSS 2", q: "Complete the following statement: By this time tomorrow, we _______ completed the grammar task.", options: ["A. will have", "B. shall be", "C. have", "D. would had"], correct: 0 },
+            { id: 2, subject: "ENGLISH LANGUAGE SSS 2", q: "Identify the prefix that means 'before' or 'in front of' within industrial terms.", options: ["A. Post-", "B. Pre-", "C. Sub-", "D. Anti-"], correct: 1 },
+            { id: 3, subject: "ENGLISH LANGUAGE SSS 2", q: "Which word below indicates an extremely large, powerful corporate entity or industry industrial model?", options: ["A. Behemoth", "B. Troupe", "C. Acronym", "D. Calumny"], correct: 0 },
+            { id: 4, subject: "ENGLISH LANGUAGE SSS 2", q: "If I _______ the financial capital earlier, I would have set up the printing press layout.", options: ["A. have secured", "B. had secured", "C. secure", "D. would secure"], correct: 1 },
+            { id: 5, subject: "ENGLISH LANGUAGE SSS 2", q: "Choose the correct spelling variant from the dictionary index below.", options: ["A. Proffessionalism", "B. Professionalism", "C. Profesonalism", "D. Professonalism"], correct: 1 },
+            { id: 6, subject: "ENGLISH LANGUAGE SSS 2", q: "Change the following sentence to passive voice: 'The printing press produced the textbooks.'", options: ["A. The printing press was producing textbooks.", "B. Textbooks were produced by the printing press.", "C. Textbooks had been produced by the press.", "D. Textbooks are produced by the printing press."], correct: 1 },
+            { id: 7, subject: "ENGLISH LANGUAGE SSS 2", q: "What is the primary operational rule when drafting a brief summary statement of a lecture?", options: ["A. Include secondary examples", "B. Extract only the main primary thesis ideas", "C. Copy text word-for-word", "D. Extend sentences with idioms"], correct: 1 },
+            { id: 8, subject: "ENGLISH LANGUAGE SSS 2", q: "A speech delivered to honor colleagues departing from an educational or commercial enterprise is called a/an _______ address.", options: ["A. Welcome", "B. Farewell", "C. Inaugural", "D. Prize-giving"], correct: 1 },
+            { id: 9, subject: "ENGLISH LANGUAGE SSS 2", q: "An article written for publication in national print media requires which structural form?", options: ["A. Formal address heading headers", "B. An explicit descriptive title/heading", "C. Signature lists at bottom left corner", "D. Complete omission of objective voice"], correct: 1 },
+            { id: 10, subject: "ENGLISH LANGUAGE SSS 2", q: "The word 'Calumny' as defined in standard text units translates closely to:", options: ["A. False accusation to damage reputation", "B. Generous donation system", "C. Extreme poverty", "D. High praise standard"], correct: 0 },
+            { id: 11, subject: "ENGLISH LANGUAGE SSS 2", q: "Select the option that represents an unchangeable condition: If water reaches 100 degrees Celsius, it _______.", options: ["A. boils", "B. would boil", "C. boiled", "D. might boil"], correct: 0 },
+            { id: 12, subject: "ENGLISH LANGUAGE SSS 2", q: "Which word relates specifically to the activities of publishing and manufacturing industries?", options: ["A. Typography", "B. Arboreal", "C. Mawkish", "D. Diffident"], correct: 0 },
+            { id: 13, subject: "ENGLISH LANGUAGE SSS 2", q: "What root extension morphology occurs when the prefix 'Dis-' is added to 'repute'?", options: ["A. Changes definition polarity to negative status", "B. Transverts verb structural profile to adjective", "C. Maintains exactly duplicated original intent", "D. Converts word into acronym status"], correct: 0 },
+            { id: 14, subject: "ENGLISH LANGUAGE SSS 2", q: "Find the synonym for 'indigent' within secondary reading scopes.", options: ["A. Wealthy", "B. Impoverished/Poor", "C. Deceptive", "D. Hardworking"], correct: 1 },
+            { id: 15, subject: "ENGLISH LANGUAGE SSS 2", q: "Identify the complex sentence structure down below:", options: ["A. The bell rang.", "B. The boys played football while the girls watched attentively.", "C. She cooked and he cleaned the system dashboard.", "D. They went out to work."], correct: 1 },
+            { id: 16, subject: "ENGLISH LANGUAGE SSS 2", q: "In a welcome address speech structure, which element must appear first?", options: ["A. Vote of thanks", "B. Formal protocol salutation of dignitaries", "C. Historical reference timelines", "D. Personal biographical background notes"], correct: 1 },
+            { id: 17, subject: "ENGLISH LANGUAGE SSS 2", q: "The word 'Camaraderie' represents:", options: ["A. Hostility", "B. Mutual trust and friendship", "C. Isolation", "D. Deep ignorance"], correct: 1 },
+            { id: 18, subject: "ENGLISH LANGUAGE SSS 2", q: "Which word below is an antonym of 'Frivolous'?", options: ["A. Serious/Prudent", "B. Silly", "C. Tiny", "D. Lightweight"], correct: 0 },
+            { id: 19, subject: "ENGLISH LANGUAGE SSS 2", q: "A textbook index contains a compilation of terminology terms. This database is called a/an _______.", options: ["A. Glossary", "B. Preamble", "C. Affidavit", "D. Appendix"], correct: 0 },
+            { id: 20, subject: "ENGLISH LANGUAGE SSS 2", q: "Identify the active voice sentence:", options: ["A. The lesson was taught by Mr. Adegoke.", "B. The student wrote the examination script.", "C. The system was automatically shut down.", "D. The results were published online."], correct: 1 },
+
+            // --- PHYSICS (21 - 40) ---
+            { id: 21, subject: "PHYSICS SSS 2", q: "The spatial region where an electric charge experiences an electrostatic force component is called an electric _______.", options: ["A. Field", "B. Flux flux", "C. Current", "D. Resistance"], correct: 0 },
+            { id: 22, subject: "PHYSICS SSS 2", q: "State the primary unit definition metric for measuring Capacitance.", options: ["A. Ohm", "B. Farad", "C. Coulomb", "D. Tesla"], correct: 1 },
+            { id: 23, subject: "PHYSICS SSS 2", q: "Coulomb's Law states that force between two static point charges is inversely proportional to the _______.", options: ["A. Product of charges", "B. Square of the distance between them", "C. Absolute potential difference", "D. Magnetic flux line count"], correct: 1 },
+            { id: 24, subject: "PHYSICS SSS 2", q: "Magnetic lines of force outside an isolated bar magnet always point from _______.", options: ["A. South Pole to North Pole", "B. East Pole to West Pole", "C. North Pole to South Pole", "D. Center point outward"], correct: 2 },
+            { id: 25, subject: "PHYSICS SSS 2", q: "The total number of magnetic field lines passing normal through a specific surface cross section is called magnetic _______.", options: ["A. Inductance", "B. Potential", "C. Flux", "D. Field intensity"], correct: 2 },
+            { id: 26, subject: "PHYSICS SSS 2", q: "Which component is primarily utilized to store electrical energy charges within simple AC structural networks?", options: ["A. Resistor", "B. Transistor", "C. Capacitor", "D. Rheostat"], correct: 2 },
+            { id: 27, subject: "PHYSICS SSS 2", q: "Faraday’s first law of electromagnetic induction establishes that induced electromotive force depends directly on the rate of change of _______.", options: ["A. Electrical resistance", "B. Heat dissipation", "C. Magnetic flux linkage", "D. Mechanical friction"], correct: 2 },
+            { id: 28, subject: "PHYSICS SSS 2", q: "Lenz's law is a direct consequence of the fundamental law of conservation of _______.", options: ["A. Momentum", "B. Charge mass", "C. Energy", "D. Total mass"], correct: 2 },
+            { id: 29, subject: "PHYSICS SSS 2", q: "An electric generator operational layout transforms _______ energy directly into electrical energy values.", options: ["A. Chemical", "B. Thermal", "C. Mechanical", "D. Nuclear"], correct: 2 },
+            { id: 30, subject: "PHYSICS SSS 2", q: "What is the relation profile between the root-mean-square voltage (Vrms) and peak voltage (V0) in standard AC circuits?", options: ["A. Vrms = V0 / √2", "B. Vrms = V0 × √2", "C. Vrms = 2 × V0", "D. Vrms = V0 / 2"], correct: 0 },
+            { id: 31, subject: "PHYSICS SSS 2", q: "A step-down transformer configuration works by reducing the overall voltage while simultaneously _______.", options: ["A. Decreasing current levels", "B. Increasing current levels", "C. Multiplying standard frequency", "D. Destroying total load power"], correct: 1 },
+            { id: 32, subject: "PHYSICS SSS 2", q: "Which element maps out a visual path representing the direction of the Earth's magnetic field components?", options: ["A. Compass Needle tracking", "B. Silicon diode gate", "C. Glass Prism block", "D. Copper Wire conductor"], correct: 0 },
+            { id: 33, subject: "PHYSICS SSS 2", q: "In a circuit containing purely resistive elements, the phase angle between alternating voltage and current is _______.", options: ["A. 90 degrees out of phase", "B. 0 degrees (In phase)", "C. 180 degrees lagging", "D. 45 degrees leading"], correct: 1 },
+            { id: 34, subject: "PHYSICS SSS 2", q: "The opposition offered to the flow of alternating current by an inductor element alone is named _______ reactance.", options: ["A. Capacitive", "B. Inductive", "C. Ohmic", "D. Thermal"], correct: 1 },
+            { id: 35, subject: "PHYSICS SSS 2", q: "Which materials exhibit very powerful attractive alignment properties when introduced inside magnetic profiles?", options: ["A. Diamagnetic materials", "B. Ferromagnetic materials", "C. Insulators", "D. Plastisols"], correct: 1 },
+            { id: 36, subject: "PHYSICS SSS 2", q: "The angle between the geographic north-south direction and the magnetic north-south direction of the Earth is called angle of _______.", options: ["A. Inclination/Dip", "B. Declination", "C. Refraction", "D. Deviation"], correct: 1 },
+            { id: 37, subject: "PHYSICS SSS 2", q: "What constitutes the core structural component material used inside industrial transformer systems to minimize eddy currents?", options: ["A. Soft iron laminated plates", "B. Bare Solid copper slabs", "C. Uninsulated Cast zinc bars", "D. Hardened carbon sheets"], correct: 0 },
+            { id: 38, subject: "PHYSICS SSS 2", q: "Alternating Current (AC) differs from Direct Current (DC) because AC _______.", options: ["A. Flows only in one uniform direction", "B. Continuously reverses direction at intervals", "C. Cannot power heating elements", "D. Travels faster through vacuum spaces"], correct: 1 },
+            { id: 39, subject: "PHYSICS SSS 2", q: "The field mapping configuration surrounding a straight current-carrying wire takes what shape pattern?", options: ["A. Straight divergent lines", "B. Concentric geometric circles", "C. Square looped forms", "D. Parabolic paths"], correct: 1 },
+            { id: 40, subject: "PHYSICS SSS 2", q: "If two similar positive point charges are positioned within close proximity, their field lines will indicate _______.", options: ["A. Complete direct attractive loops", "B. Mutual repulsion pushing apart", "C. Absolute infinite neutralization", "D. Convergence to single source center"], correct: 1 },
+
+            // --- CHEMISTRY (41 - 60) ---
+            { id: 41, subject: "CHEMISTRY SSS 2", q: "Which crystalline allotrope form of Sulphur is stable at temperatures below 96 degrees Celsius?", options: ["A. Monoclinic Sulphur", "B. Rhombic Sulphur", "C. Plastic Sulphur", "D. Amorphous Sulphur"], correct: 1 },
+            { id: 42, subject: "CHEMISTRY SSS 2", q: "The commercial production of Sulphuric Acid (H2SO4) is achieved globally via the _______ Process.", options: ["A. Haber", "B. Contact", "C. Downs", "D. Solvay"], correct: 1 },
+            { id: 43, subject: "CHEMISTRY SSS 2", q: "Sulphur Dioxide (SO2) gas turns acidified potassium dichromate paper from orange color to _______.", options: ["A. Blue", "B. Dark red", "C. Emerald Green", "D. Colorless"], correct: 2 },
+            { id: 44, subject: "CHEMISTRY SSS 2", q: "Which element exhibits catenation features, allowing it to link into long chains or ring shapes?", options: ["A. Nitrogen", "B. Carbon", "C. Sulphur", "D. Hydrogen"], correct: 1 },
+            { id: 45, subject: "CHEMISTRY SSS 2", q: "An allotrope form of Carbon that acts as an excellent electrical conductor within standard electrode configurations is _______.", options: ["A. Diamond", "B. Graphite", "C. Coal matrix", "D. Lampblack"], correct: 1 },
+            { id: 46, subject: "CHEMISTRY SSS 2", q: "Name the industrial chemical synthesis procedure used for the massive production of Ammonia gas (NH3).", options: ["A. Contact Process", "B. Haber-Bosch Process", "C. Castner-Kellner scheme", "D. Ostwald Process"], correct: 1 },
+            { id: 47, subject: "CHEMISTRY SSS 2", q: "Organic compounds sharing an identical functional group, basic structural formula pattern, and regular chemical trends form a/an _______.", options: ["A. Allotropic mix", "B. Homologous series", "C. Isotopic configuration", "D. Heterogeneous alloy"], correct: 1 },
+            { id: 48, subject: "CHEMISTRY SSS 2", q: "State the official IUPAC name format assignment for the compound CH3-CH2-CH2-OH.", options: ["A. Propan-1-ol", "B. Ethanol", "C. Butanol", "D. Methanol"], correct: 0 },
+            { id: 49, subject: "CHEMISTRY SSS 2", q: "Hydrocarbons containing strictly single carbon-carbon bonds across their structural skeleton are called _______.", options: ["A. Alkenes", "B. Alkanes", "C. Alkynes", "D. Aromatics"], correct: 1 },
+            { id: 50, subject: "CHEMISTRY SSS 2", q: "What hazardous, toxic gas is formed during incomplete combustion of carbon-based fuels?", options: ["A. Carbon Dioxide", "B. Carbon Monoxide", "C. Methane gas", "D. Oxygen gas oxide"], correct: 1 },
+            { id: 51, subject: "CHEMISTRY SSS 2", q: "The catalytic agent used during the high-scale Contact Process transformation stage is _______.", options: ["A. Finely divided iron", "B. Vanadium (V) Oxide (V2O5)", "C. Nickel pellet catalyst", "D. Platinum gauze wire"], correct: 1 },
+            { id: 52, subject: "CHEMISTRY SSS 2", q: "What functional group is characteristic of organic carboxylic acid series derivatives?", options: ["A. -OH group", "B. -COOH group", "C. -CHO structure", "D. -NH2 profile"], correct: 1 },
+            { id: 53, subject: "CHEMISTRY SSS 2", q: "Calcium Carbonate (CaCO3) breaks down thermally upon high heating to generate Calcium Oxide and _______ gas.", options: ["A. Carbon Dioxide (CO2)", "B. Oxygen (O2)", "C. Carbon Monoxide (CO)", "D. Hydrogen (H2)"], correct: 0 },
+            { id: 54, subject: "CHEMISTRY SSS 2", q: "Hydrogen Chloride (HCl) gas is prepared industrially by reacting concentrated H2SO4 directly with _______.", options: ["A. Sodium Chloride (NaCl)", "B. Calcium metal slabs", "C. Pure sulfur flour", "D. Ammonium nitrate salt"], correct: 0 },
+            { id: 55, subject: "CHEMISTRY SSS 2", q: "The structural prefix name for an organic compound layout containing exactly two carbon atoms is _______.", options: ["A. Meth-", "B. Eth-", "C. Prop-", "D. But-"], correct: 1 },
+            { id: 56, subject: "CHEMISTRY SSS 2", q: "Ammonia gas demonstrates which characteristic physical or chemical property during evaluation checks?", options: ["A. Highly acidic profile", "B. Extremely soluble in water forming alkaline solutions", "C. Deep blue color density", "D. Totally odorless profile" ], correct: 1 },
+            { id: 57, subject: "CHEMISTRY SSS 2", q: "Which general operational formula perfectly identifies the Alkene homologous family?", options: ["A. CnH2n+2", "B. CnH2n", "C. CnH2n-2", "D. CnH2n+1OH"], correct: 1 },
+            { id: 58, subject: "CHEMISTRY SSS 2", q: "Sulphuric acid exhibits strong dehydrating effects, removing water elements from compounds like sugar to leave a black residue of _______.", options: ["A. Sulphur powder", "B. Carbon cake residue", "C. Hydride salts", "D. Oxide scales"], correct: 1 },
+            { id: 59, subject: "CHEMISTRY SSS 2", q: "Which form of amorphous carbon is widely utilized inside filtering mechanisms for decoloring raw sugar syrups?", options: ["A. Wood Charcoal", "B. Animal Charcoal", "C. Coke fuel", "D. Carbon Black"], correct: 1 },
+            { id: 60, subject: "CHEMISTRY SSS 2", q: "The structural representation of Ethyne belongs to which family sequence category?", options: ["A. Alkanes", "B. Alkenes", "C. Alkynes", "D. Alkanols"], correct: 2 }
+        ];
+
+        // ENGINE RUNTIME STATE MANAGEMENT DATA LOCKS
+        let currentQuestionIndex = 0;
+        let studentAnswers = {}; // Map storage structure: { questionId: selectedOptionIndex }
+        let examTimerInstance = null;
+        let totalExamSecondsLeft = 45 * 60; // 45 Minutes converted to real seconds metric
+
+        // BOOTSTRAP INITIALIZATION ON PAGE LOAD
+        window.onload = function() {
+            // Verify if completion vector exists in localStorage
+            if (localStorage.getItem("shis_cbt_completed_status")) {
+                hideAllScreens();
+                document.getElementById("screen-already-submitted").classList.remove("hidden");
+            }
+            
+            // Monitor visibility states for page blurring / app minimization events
+            document.addEventListener("visibilitychange", handleAppMinimizationTrap);
+        };
+
+        function hideAllScreens() {
+            document.getElementById("screen-auth").classList.add("hidden");
+            document.getElementById("screen-exam").classList.add("hidden");
+            document.getElementById("screen-results").classList.add("hidden");
+            document.getElementById("screen-already-submitted").classList.add("hidden");
+        }
+
+        // ENTRY GATEWAY ACCESS MANAGEMENT CONTROLLER
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const rawNameInput = document.getElementById("studentName").value.trim();
+            const rawRegInput = document.getElementById("regNumber").value.trim();
+
+            if (!rawNameInput || !rawRegInput) {
+                alert("Please fill out all authorization input credentials.");
+                return;
+            }
+
+            // Security check against individual localized submission logs
+            if (localStorage.getItem("shis_submission_log_" + rawRegInput.toLowerCase())) {
+                hideAllScreens();
+                document.getElementById("screen-already-submitted").classList.remove("hidden");
+                return;
+            }
+
+            // Bind values to UI
+            document.getElementById("meta-student-name").innerText = rawNameInput.toUpperCase();
+            document.getElementById("meta-reg-num").innerText = rawRegInput.toUpperCase();
+
+            // Transition interfaces
+            document.getElementById("screen-auth").classList.add("hidden");
+            document.getElementById("screen-exam").classList.remove("hidden");
+
+            // Setup questions map grid and initialize operational views
+            buildNavigationGrid();
+            renderActiveQuestionCard();
+            launchExamTimerCounter();
+        }
+
+        // CORE NAV DRAWER INTERACTIVE MAP FACTORY
+        function buildNavigationGrid() {
+            const gridContainer = document.getElementById("questions-grid");
+            gridContainer.innerHTML = "";
+
+            questionsDatabase.forEach((qItem, idx) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "nav-btn";
+                btn.id = "nav-btn-" + idx;
+                btn.innerText = idx + 1;
+                btn.onclick = function() { jumpToQuestionIndex(idx); };
+                gridContainer.appendChild(btn);
+            });
+            updateNavigationGridHighlights();
+        }
+
+        function updateNavigationGridHighlights() {
+            questionsDatabase.forEach((qItem, idx) => {
+                const btn = document.getElementById("nav-btn-" + idx);
+                if (!btn) return;
+
+                // Reset baseline layout
+                btn.className = "nav-btn";
+
+                if (studentAnswers[qItem.id] !== undefined) {
+                    btn.classList.add("answered");
+                }
+                if (idx === currentQuestionIndex) {
+                    btn.classList.add("current");
+                }
+            });
+
+            // Re-calculate quantitative completion data metrics bar
+            const totalAnswered = Object.keys(studentAnswers).length;
+            const progressPercent = (totalAnswered / questionsDatabase.length) * 100;
+            document.getElementById("exam-progress-bar").style.width = progressPercent + "%";
+        }
+
+        // PRESENTATION LAYER ROUTINE FOR RENDERING ACTIVE ITEMS
+        function renderActiveQuestionCard() {
+            const currentQuestion = questionsDatabase[currentQuestionIndex];
+            
+            // Set Indicator Strings
+            document.getElementById("current-question-indicator").innerText = `Question ${currentQuestionIndex + 1} of ${questionsDatabase.length}`;
+            document.getElementById("current-subject-badge").innerText = currentQuestion.subject;
+            document.getElementById("question-text-container").innerText = currentQuestion.q;
+
+            // Render Options list
+            const optionsBox = document.getElementById("options-container");
+            optionsBox.innerHTML = "";
+
+            currentQuestion.options.forEach((optStr, optIdx) => {
+                const optItemDiv = document.createElement("div");
+                optItemDiv.className = "option-item";
+                if (studentAnswers[currentQuestion.id] === optIdx) {
+                    optItemDiv.classList.add("selected");
+                }
+
+                // Inline structure binding
+                optItemDiv.innerHTML = `
+                    <input type="radio" name="q_opt" id="opt_${optIdx}" value="${optIdx}" ${studentAnswers[currentQuestion.id] === optIdx ? 'checked' : ''}>
+                    <label style="cursor:pointer; width:100%;" for="opt_${optIdx}">${optStr}</label>
+                `;
+
+                optItemDiv.onclick = function() {
+                    document.getElementById(`opt_${optIdx}`).checked = true;
+                    saveAnswerState(currentQuestion.id, optIdx);
+                };
+
+                optionsBox.appendChild(optItemDiv);
+            });
+
+            // Set button state visibilities using the disabled property
+            document.getElementById("btn-prev").disabled = (currentQuestionIndex === 0);
+            document.getElementById("btn-next").disabled = (currentQuestionIndex === questionsDatabase.length - 1);
+        }
+
+        function saveAnswerState(qId, choiceIndex) {
+            studentAnswers[qId] = choiceIndex;
+            updateNavigationGridHighlights();
+            
+            // Auto-highlight selected wrapper styling element dynamically
+            const items = document.querySelectorAll(".option-item");
+            items.forEach((div, idx) => {
+                if(idx === choiceIndex) div.classList.add("selected");
+                else div.classList.remove("selected");
+            });
+        }
+
+        function navigateQuestion(stepVector) {
+            const targetedIdx = currentQuestionIndex + stepVector;
+            if (targetedIdx >= 0 && targetedIdx < questionsDatabase.length) {
+                currentQuestionIndex = targetedIdx;
+                renderActiveQuestionCard();
+                updateNavigationGridHighlights();
+            }
+        }
+
+        function jumpToQuestionIndex(targetIdx) {
+            if (targetIdx >= 0 && targetIdx < questionsDatabase.length) {
+                currentQuestionIndex = targetIdx;
+                renderActiveQuestionCard();
+                updateNavigationGridHighlights();
+            }
+        }
+
+        // REALTIME COUNTDOWN LOOP MANAGEMENT
+        function launchExamTimerCounter() {
+            examTimerInstance = setInterval(function() {
+                if (totalExamSecondsLeft <= 0) {
+                    clearInterval(examTimerInstance);
+                    alert("Time has completely expired! Your script will now automatically compute.");
+                    executeFinalSubmission();
+                } else {
+                    totalExamSecondsLeft--;
+                    renderTimerString();
+                }
+            }, 1000);
+        }
+
+        function renderTimerString() {
+            const minutes = Math.floor(totalExamSecondsLeft / 60);
+            const seconds = totalExamSecondsLeft % 60;
+            const formattedMin = minutes < 10 ? "0" + minutes : minutes;
+            const formattedSec = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById("timer-display").innerText = `${formattedMin}:${formattedSec}`;
+        }
+
+        // SECURITY MONITOR TRAP SYSTEM INTERCEPTOR FOR APP SWITCHING
+        function handleAppMinimizationTrap() {
+            // Trigger automatic background compilation immediately if candidate leaves screen
+            if (document.visibilityState === "hidden") {
+                const examScreenActive = !document.getElementById("screen-exam").classList.contains("hidden");
+                if (examScreenActive) {
+                    clearInterval(examTimerInstance);
+                    executeFinalSubmission();
+                }
+            }
+        }
+
+        // INTERFACE MODAL CONTROLLER OVERLAYS
+        function toggleModal(shouldShow) {
+            const modal = document.getElementById("modal-confirm");
+            if (shouldShow) modal.classList.remove("hidden");
+            else modal.classList.add("hidden");
+        }
+
+        function triggerSubmitConfirmation() {
+            toggleModal(true);
+        }
+
+        // COMPUTATION COMPILER ENGINE & ANALYTICS METRIX GENERATOR
+        function executeFinalSubmission() {
+            clearInterval(examTimerInstance);
+            toggleModal(false);
+
+            const sName = document.getElementById("studentName").value.trim().toUpperCase();
+            const rNum = document.getElementById("regNumber").value.trim().toUpperCase();
+
+            // Structure subject performance separation arrays
+            const subjectsProfile = {
+                "ENGLISH LANGUAGE SSS 2": { total: 0, correct: 0 },
+                "PHYSICS SSS 2": { total: 0, correct: 0 },
+                "CHEMISTRY SSS 2": { total: 0, correct: 0 }
+            };
+
+            // Compile scores
+            questionsDatabase.forEach(item => {
+                const subKey = item.subject;
+                if (subjectsProfile[subKey] !== undefined) {
+                    subjectsProfile[subKey].total++;
+                    if (studentAnswers[item.id] === item.correct) {
+                        subjectsProfile[subKey].correct++;
+                    }
+                }
+            });
+
+            // Set localStorage vectors to prevent retakes
+            localStorage.setItem("shis_cbt_completed_status", "true");
+            localStorage.setItem("shis_submission_log_" + rNum.toLowerCase(), "true");
+
+            // Build analytical table reporting screen
+            document.getElementById("res-name").innerText = sName;
+            document.getElementById("res-reg").innerText = rNum;
+
+            let grossTotalQuestions = 0;
+            let grossTotalCorrect = 0;
+            const tBody = document.getElementById("results-table-body");
+            tBody.innerHTML = "";
+
+            for (const key in subjectsProfile) {
+                const record = subjectsProfile[key];
+                grossTotalQuestions += record.total;
+                grossTotalCorrect += record.correct;
+                const percent = ((record.correct / record.total) * 100).toFixed(1);
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${key}</strong></td>
+                    <td>${record.total}</td>
+                    <td>${record.correct}</td>
+                    <td><strong>${percent}%</strong></td>
+                `;
+                tBody.appendChild(row);
+            }
+
+            // Compute overall metric profiles
+            const absolutePercentage = ((grossTotalCorrect / grossTotalQuestions) * 100).toFixed(1);
+            let finalGrade = "F";
+            if (absolutePercentage >= 75) finalGrade = "A1";
+            else if (absolutePercentage >= 65) finalGrade = "B2";
+            else if (absolutePercentage >= 50) finalGrade = "C4";
+            else if (absolutePercentage >= 40) finalGrade = "D7";
+
+            document.getElementById("res-verdict").innerText = `${grossTotalCorrect} / ${grossTotalQuestions} Correct — Grade: ${finalGrade} (${absolutePercentage}%)`;
+
+            // Display Results Screen
+            hideAllScreens();
+            document.getElementById("screen-results").classList.remove("hidden");
+        }
+    </script>
+
+
+<!-- ======================= -->
+<!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            const authSession = JSON.parse(localStorage.getItem('authSession'));
+            if (authSession && authSession.name && authSession.regNum) {
+                const nameInput = document.getElementById('student-name') || document.getElementById('studentName');
+                const regInput = document.getElementById('reg-number') || document.getElementById('regNum');
+                
+                if (nameInput) nameInput.value = authSession.name;
+                if (regInput) regInput.value = authSession.regNum;
+                
+                // Auto-login if function exists
+                if (typeof handleLogin === 'function') {
+                    // Slight delay to ensure DOM is fully ready
+                    setTimeout(handleLogin, 300);
+                } else if (typeof authenticateCandidate === 'function') {
+                    setTimeout(authenticateCandidate, 300);
+                }
+            }
+        } catch (e) {
+            console.error("Portal Hub Injection Error:", e);
+        }
+    });
+</script>
+
+<!-- ===================================== -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.1 -->
+<!-- ===================================== -->
+<script>
+(function () {
+    'use strict';
+
+    function getSaveKey(regNum) {
+        var fn = window.location.pathname.split('/').pop().replace(/\.html$/i, '');
+        return 'SHIS_PROG_' + regNum + '_' + fn;
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function isValidPassword(input) {
+        var now = new Date();
+        var h24 = now.getHours();
+        var h12 = h24 % 12 || 12;
+        var m   = now.getMinutes();
+        var p24 = pad(h24) + pad(m);
+        var p12 = pad(h12) + pad(m);
+        return String(input).trim() === p24 || String(input).trim() === p12;
+    }
+
+    function fmtSecs(s) {
+        if (!s || s < 0) return '--:--';
+        return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var _style = document.createElement('style');
+    _style.textContent =
+        '#shis-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(6px);}' +
+        '#shis-card{background:#fff;border-radius:18px;padding:36px 30px 28px;max-width:460px;width:92%;box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid #0d47a1;animation:shis-up .4s cubic-bezier(.22,.68,0,1.2);}' +
+        '@keyframes shis-up{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}' +
+        '#shis-card .si{text-align:center;font-size:2.5rem;margin-bottom:10px;}' +
+        '#shis-card h2{text-align:center;color:#0d47a1;font-size:1.3rem;font-weight:700;margin:0 0 5px;}' +
+        '#shis-card .ss{text-align:center;color:#777;font-size:.85rem;margin:0 0 18px;}' +
+        '#shis-card .sinfo{background:#e8f0fe;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.86rem;color:#1a237e;line-height:2;}' +
+        '#shis-card .sinfo b{color:#0d47a1;}' +
+        '.sbadge{background:#2e7d32;color:#fff;border-radius:20px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-left:6px;vertical-align:middle;}' +
+        '#shis-card .slbl{display:block;font-weight:600;font-size:.85rem;color:#333;margin-bottom:7px;}' +
+        '#shis-card .slbl small{font-weight:400;color:#aaa;}' +
+        '#shis-pw{width:100%;padding:13px;font-size:1.5rem;border:2px solid #ccc;border-radius:10px;text-align:center;letter-spacing:8px;font-weight:700;outline:none;transition:border .2s;margin-bottom:5px;box-sizing:border-box;}' +
+        '#shis-pw:focus{border-color:#0d47a1;}' +
+        '#shis-err{color:#c62828;font-size:.8rem;text-align:center;min-height:20px;margin-bottom:12px;}' +
+        '.sbtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px;}' +
+        '.sbtn:active{transform:scale(.98);}' +
+        '.sbtn-pri{background:#0d47a1;color:#fff;}' +
+        '.sbtn-pri:hover{background:#1565c0;}' +
+        '.sbtn-sec{background:#f0f0f0;color:#555;border:1.5px solid #ddd;}' +
+        '.sbtn-sec:hover{background:#e0e0e0;}' +
+        '.shint{text-align:center;color:#bbb;font-size:.74rem;margin-top:2px;}';
+    document.head.appendChild(_style);
+
+    function _save() {
+        try {
+            var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+            if (!sess || !sess.regNum) return;
+            if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                localStorage.removeItem(getSaveKey(sess.regNum)); return;
+            }
+            
+            // Support both old (candidateAnswers) and new (studentAnswers) variable names
+            var ans  = (typeof studentAnswers !== 'undefined') ? studentAnswers : ((typeof candidateAnswers !== 'undefined') ? candidateAnswers : null);
+            var tsec = (typeof totalExamSecondsLeft !== 'undefined') ? totalExamSecondsLeft : ((typeof totalSecondsRemaining !== 'undefined') ? totalSecondsRemaining : null);
+            var qi   = (typeof currentQuestionIndex !== 'undefined') ? currentQuestionIndex : ((typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0);
+            var si   = (typeof currentSubjectIdx !== 'undefined') ? currentSubjectIdx : 0;
+            
+            if (!ans || Object.keys(ans).length === 0) return;
+            
+            localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
+                name: sess.name, regNum: sess.regNum,
+                subjectGroup: sess.subjectGroup || '',
+                answers: ans, tsec: tsec, qi: qi, si: si,
+                at: new Date().toISOString(),
+                count: Object.keys(ans).length
+            }));
+        } catch (e) {}
+    }
+    setInterval(_save, 5000);
+
+    function showModal(st, key) {
+        var ov = document.createElement('div');
+        ov.id = 'shis-ov';
+        ov.innerHTML =
+            '<div id="shis-card">' +
+              '<div class="si">&#x26A0;&#xFE0F;</div>' +
+              '<h2>Interrupted Exam Detected</h2>' +
+              '<p class="ss">An unfinished session was found on this device.</p>' +
+              '<div class="sinfo">' +
+                '&#x1F464; <b>Student:</b> ' + esc(st.name) + '<br>' +
+                '&#x1FAA6; <b>Reg No:</b> '  + esc(st.regNum) + '<br>' +
+                '&#x1F4DD; <b>Answered:</b> ' + st.count + ' question(s) <span class="sbadge">Progress Saved &#x2713;</span><br>' +
+                '&#x23F1; <b>Time left:</b> ' + fmtSecs(st.tsec) +
+              '</div>' +
+              '<label class="slbl" for="shis-pw">&#x1F511; Examiner Password &nbsp;<small>(leave blank for basic restore)</small></label>' +
+              '<input id="shis-pw" type="text" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="off" inputmode="numeric">' +
+              '<div id="shis-err"></div>' +
+              '<button class="sbtn sbtn-pri" id="shis-go">&#x2705; Resume Exam</button>' +
+              '<button class="sbtn sbtn-sec" id="shis-discard">&#x1F5D1; Discard &amp; Start Fresh</button>' +
+              '<p class="shint">Password = time on examiner phone (e.g. 15:12 &#x2192; 1512 &nbsp;|&nbsp; 3:15 &#x2192; 0315)</p>' +
+            '</div>';
+        document.body.appendChild(ov);
+        setTimeout(function () { var el = document.getElementById('shis-pw'); if (el) el.focus(); }, 350);
+
+        function attempt() {
+            var pw  = (document.getElementById('shis-pw').value || '').trim();
+            var err = document.getElementById('shis-err');
+            if (pw !== '') {
+                if (!isValidPassword(pw)) {
+                    err.textContent = 'Incorrect password. Check the current time and try again.';
+                    document.getElementById('shis-pw').style.borderColor = '#c62828';
+                    setTimeout(function () {
+                        err.textContent = '';
+                        document.getElementById('shis-pw').style.borderColor = '#ccc';
+                    }, 3200);
+                    return;
+                }
+                ov.remove(); doResume(st, true);
+            } else {
+                ov.remove(); doResume(st, false);
+            }
+        }
+
+        document.getElementById('shis-go').addEventListener('click', attempt);
+        document.getElementById('shis-pw').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') attempt();
+        });
+        document.getElementById('shis-discard').addEventListener('click', function () {
+            if (confirm('Discard all saved answers and start a fresh exam?')) {
+                localStorage.removeItem(key); ov.remove();
+            }
+        });
+    }
+
+    function doResume(st, full) {
+        var examUp = document.getElementById('screen-exam') && !document.getElementById('screen-exam').classList.contains('hidden') || 
+                     document.getElementById('cbt-screen') && !document.getElementById('cbt-screen').classList.contains('hidden');
+
+        if (!examUp) {
+            var ni = document.getElementById('student-name') || document.getElementById('studentName');
+            var ri = document.getElementById('reg-number') || document.getElementById('regNum');
+            if (ni) ni.value = st.name;
+            if (ri) ri.value = st.regNum;
+            
+            try { 
+                if (typeof handleLogin === 'function') handleLogin(); 
+                else if (typeof authenticateCandidate === 'function') authenticateCandidate();
+            } catch (e) {}
+        }
+
+        setTimeout(function () {
+            try {
+                // Restore answers
+                Object.keys(st.answers).forEach(function (k) {
+                    var parsedKey = isNaN(parseInt(k, 10)) ? k : parseInt(k, 10);
+                    if (typeof studentAnswers !== 'undefined') studentAnswers[parsedKey] = st.answers[k];
+                    else if (typeof candidateAnswers !== 'undefined') candidateAnswers[parsedKey] = st.answers[k];
+                });
+                
+                // Restore state
+                if (full) {
+                    if (st.tsec !== null && st.tsec > 0) {
+                        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = st.tsec;
+                        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = st.tsec;
+                    }
+                    try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = st.qi || 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = st.qi || 0;
+                    } catch (e) {}
+                } else {
+                    try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = 0;
+                    } catch (e) {}
+                }
+                
+                // Re-render UI
+                try { 
+                    if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
+                    else if (typeof renderQuestion === 'function') renderQuestion();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix();
+                    else if (typeof buildNavigationGrid === 'function') buildNavigationGrid();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof updateConsoleStatusHighlights === 'function') updateConsoleStatusHighlights();
+                    else if (typeof updateNavGridHighlight === 'function') updateNavGridHighlight();
+                } catch (e) {}
+                
+                try {
+                    if (typeof updateProgressBars === 'function') updateProgressBars();
+                } catch (e) {}
+
+            } catch (ex) { console.error("Resume Engine Error:", ex); }
+        }, examUp ? 80 : 350);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            try {
+                var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+                if (!sess || !sess.regNum) return;
+                
+                // If exam is completed and submitted, do not prompt resume
+                if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                    return;
+                }
+                
+                var key = getSaveKey(sess.regNum);
+                var raw = localStorage.getItem(key);
+                if (!raw) return;
+                var st = JSON.parse(raw);
+                if (!st || !st.answers || st.count < 1) return;
+                if (st.regNum !== sess.regNum) return;
+                showModal(st, key);
+            } catch (e) {}
+        }, 800);
+    });
+
+}());
+</script>
+</body>
+</html>
+

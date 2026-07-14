@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - BUSINESS DEPARTMENT CBT</title>
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - COMBINED CBT SYSTEM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -36,6 +36,7 @@
             flex-direction: column;
         }
 
+        /* Utilities */
         .hidden { display: none !important; }
         
         /* HEADER STYLES */
@@ -142,7 +143,7 @@
             font-size: 0.9rem;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border-color);
@@ -176,7 +177,7 @@
 
         .btn-start:hover { background: var(--secondary-color); }
 
-        /* DASHBOARD GRID SYSTEM */
+        /* MAIN SYSTEM LAYOUT */
         .dashboard {
             display: grid;
             grid-template-columns: 280px 1fr;
@@ -184,7 +185,7 @@
             height: calc(100vh - 85px);
         }
 
-        /* SIDEBAR PANEL */
+        /* SIDEBAR / NAVIGATOR */
         .sidebar {
             background: white;
             border-right: 1px solid var(--border-color);
@@ -272,9 +273,9 @@
 
         .num-btn:hover { border-color: var(--primary-color); }
         .num-btn.answered { background: var(--secondary-color); color: white; border-color: var(--secondary-color); }
-        .num-btn.current { box-shadow: 0 0 0 3px var(--warning-color); font-weight: bold;}
+        .num-btn.current { outline: 2px solid black; box-shadow: 0 0 0 3px var(--warning-color); font-weight: bold;}
 
-        /* CONTENT FOCUS AREA */
+        /* MAIN QUESTION CONTAINER */
         .main-content {
             padding: 25px;
             display: flex;
@@ -295,7 +296,7 @@
         }
 
         .progress-container {
-            width: 40%;
+            width: 50%;
             background-color: #e0e0e0;
             border-radius: 10px;
             height: 10px;
@@ -333,23 +334,6 @@
             line-height: 1.6;
             margin-bottom: 25px;
             font-weight: 500;
-        }
-
-        /* Accounting Table Component Data UI */
-        .table-diagram {
-            margin: 15px 0 25px 0;
-            border-collapse: collapse;
-            width: 100%;
-            max-width: 450px;
-            font-size: 0.95rem;
-        }
-        .table-diagram td, .table-diagram th {
-            border: 1px solid #bdc3c7;
-            padding: 8px 12px;
-        }
-        .table-diagram th {
-            background-color: #f2f2f2;
-            text-align: left;
         }
 
         .options-container {
@@ -416,7 +400,7 @@
         .btn-submit { background: var(--success-color); color: white; margin-left: auto;}
         .btn-submit:hover { background: #1b5e20; }
 
-        /* REPORT VIEW GRAPHICS */
+        /* RESULTS VIEW */
         .result-container {
             max-width: 750px;
             width: 90%;
@@ -473,7 +457,7 @@
         }
         .grand-total-box h3 { font-size: 2rem; margin-top: 5px; }
 
-        /* OVERLAY CONFIRMATION */
+        /* CUSTOM MODAL DIALOG */
         .modal-overlay {
             position: fixed;
             top:0; left:0; width:100%; height:100%;
@@ -496,18 +480,33 @@
         .modal-box p { margin-bottom: 25px; color: #666; font-size: 0.95rem; }
         .modal-btns { display: flex; justify-content: center; gap: 15px; }
 
-        /* RESPONSIVE CSS STYLING OVERRIDES */
+        /* RESPONSIVE BREAKPOINTS (SMARTPHONE & TABLET VIEW) */
         @media (max-width: 868px) {
-            header { padding: 12px 15px; }
+            header {
+                padding: 12px 15px;
+            }
             .school-title h1 { font-size: 1.05rem; }
             .school-title h2 { font-size: 0.75rem; }
             .logo-placeholder { width: 40px; height: 40px; font-size: 16px; }
             .timer-box { font-size: 0.9rem; padding: 5px 10px; }
 
-            .dashboard { grid-template-columns: 1fr; height: auto; }
-            .sidebar { border-right: none; border-bottom: 1px solid var(--border-color); }
-            .grid-container { grid-template-columns: repeat(10, 1fr); max-height: 120px; }
-            .top-status-bar { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .dashboard {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .grid-container {
+                grid-template-columns: repeat(10, 1fr);
+                max-height: 120px;
+            }
+            .top-status-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
             .progress-container { width: 100%; }
             .question-card { padding: 20px; }
             .question-text { font-size: 1rem; }
@@ -516,7 +515,9 @@
         }
 
         @media (max-width: 480px) {
-            .grid-container { grid-template-columns: repeat(6, 1fr); }
+            .grid-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
         }
     </style>
 </head>
@@ -527,7 +528,7 @@
             <div class="logo-placeholder">SH</div>
             <div class="school-title">
                 <h1>Standard Height International School</h1>
-                <h2>BUSINESS DEPARTMENT • C.B.T. PORTAL</h2>
+                <h2>EXAMINATION PORTAL • ENGLISH & COMMERCE</h2>
             </div>
         </div>
         <div class="header-right">
@@ -545,7 +546,7 @@
     </div>
 
     <div id="loginScreen" class="login-container">
-        <h2>Student Examination Login</h2>
+        <h2>Candidate Portal Entrance</h2>
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label for="surname">Surname</label>
@@ -561,7 +562,7 @@
             </div>
             <div class="form-group">
                 <label for="regNum">Registration Number</label>
-                <input type="text" id="regNum" placeholder="e.g., SHIS/SSS1/001" required style="text-transform: uppercase;">
+                <input type="text" id="regNum" placeholder="e.g., SHIS/2026/001" required style="text-transform: uppercase;">
             </div>
             <button type="submit" class="btn-start">
                 <span>Start Examination</span> <i class="fa-solid fa-arrow-right"></i>
@@ -580,13 +581,13 @@
             </div>
 
             <div class="subject-tabs">
-                <button id="tabCitizenship" class="sub-tab active" onclick="switchSubject('citizenship')">
-                    <span>CITIZENSHIP & HERITAGE</span>
-                    <span id="badgeCit" class="badge">0/20</span>
+                <button id="tabEnglish" class="sub-tab active" onclick="switchSubject('english')">
+                    <span>ENGLISH LANGUAGE SSS 1</span>
+                    <span id="badgeEng" class="badge">0/20</span>
                 </button>
-                <button id="tabAccounting" class="sub-tab" onclick="switchSubject('accounting')">
-                    <span>FINANCIAL ACCOUNTING</span>
-                    <span id="badgeAcc" class="badge">0/20</span>
+                <button id="tabCommerce" class="sub-tab" onclick="switchSubject('commerce')">
+                    <span>COMMERCE SSS 1</span>
+                    <span id="badgeCom" class="badge">0/20</span>
                 </button>
             </div>
 
@@ -598,7 +599,7 @@
             <div class="top-status-bar">
                 <div>
                     <span style="font-weight: 600; color:#555;">Subject: </span>
-                    <span id="currentSubjectTitle" style="font-weight: 700; color: var(--primary-color);">Citizenship & Heritage</span>
+                    <span id="currentSubjectTitle" style="font-weight: 700; color: var(--primary-color);">ENGLISH LANGUAGE SSS 1</span>
                 </div>
                 <div class="progress-container">
                     <div id="progressBar" class="progress-bar"></div>
@@ -630,20 +631,20 @@
         <div class="result-card-meta">
             <div class="meta-item">Candidate Surname: <span id="resSurname"></span></div>
             <div class="meta-item">Registration Number: <span id="resReg"></span></div>
-            <div class="meta-item">Department: <span>Business Department</span></div>
-            <div class="meta-item">Total Balanced Questions: <span>40</span></div>
+            <div class="meta-item">Academic Window: <span>General Assessment</span></div>
+            <div class="meta-item">Total Structural Questions: <span>40</span></div>
         </div>
 
         <div class="subject-score-block">
-            <h4>CITIZENSHIP & HERITAGE STUDIES RESULT</h4>
-            <p>Score: <strong id="resCitScore">0</strong> out of 20</p>
-            <p>Percentage: <strong id="resCitPercent">0%</strong></p>
+            <h4>ENGLISH LANGUAGE RESULT</h4>
+            <p>Score: <strong id="resEngScore">0</strong> out of 20</p>
+            <p>Percentage: <strong id="resEngPercent">0%</strong></p>
         </div>
 
         <div class="subject-score-block">
-            <h4>FINANCIAL ACCOUNTING RESULT</h4>
-            <p>Score: <strong id="resAccScore">0</strong> out of 20</p>
-            <p>Percentage: <strong id="resAccPercent">0%</strong></p>
+            <h4>COMMERCE RESULT</h4>
+            <p>Score: <strong id="resComScore">0</strong> out of 20</p>
+            <p>Percentage: <strong id="resComPercent">0%</strong></p>
         </div>
 
         <div class="grand-total-box">
@@ -665,284 +666,289 @@
     </div>
 
     <script>
-        // Restructured Database combining Citizenship & Financial Accounting Questions
+        // 40 Combined Questions extracted directly from your database files
         const questionsDatabase = {
-            citizenship: [
+            english: [
                 {
                     id: 1,
-                    text: "Who is a global citizen?",
-                    options: [
-                        "Someone who travels by air every day",
-                        "Someone who identifies as a member of the emerging world community",
-                        "Someone who does not have a local passport",
-                        "A citizen who speaks only foreign languages"
-                    ],
+                    text: "What is the exact antonym of the word 'Good'?",
+                    options: ["Excellent", "Bad", "Fair", "Nice"],
                     correct: 1
                 },
                 {
                     id: 2,
-                    text: "Which of the following is a fundamental responsibility of a citizen?",
-                    options: [
-                        "Evading civic responsibilities",
-                        "Paying valid taxes regularly to government authorities",
-                        "Disobeying standard traffic regulations",
-                        "Criticizing all community infrastructure developments"
-                    ],
-                    correct: 1
-                },
-                {
-                    id: 3,
-                    text: "The interconnectedness of world economies, cultures, and populations is called _______.",
-                    options: ["Nationalism", "Isolationism", "Globalization", "Regionalism"],
+                    text: "Choose the word exactly opposite in meaning to 'Friendly'.",
+                    options: ["Kind", "Warm", "Hostile", "Polite"],
                     correct: 2
                 },
                 {
+                    id: 3,
+                    text: "Identify the antonym of the word 'Discipline'.",
+                    options: ["Indiscipline", "Obedience", "Order", "Control"],
+                    correct: 0
+                },
+                {
                     id: 4,
-                    text: "Citizenship training in the United States of America places strong emphasis on which core principle?",
-                    options: ["Absolute monarchy alignment", "Democratic tenets and constitutional patriotism", "A rigid single-party structure", "Total absence of public voting protocols"],
-                    correct: 1
+                    text: "The temporary workers were laid off. What is the antonym of 'Temporary'?",
+                    options: ["Brief", "Short", "Permanent", "Momentary"],
+                    correct: 2
                 },
                 {
                     id: 5,
-                    text: "Which of these European nations operates a system where civic obligations co-exist with a symbolic constitutional monarchy?",
-                    options: ["The United Kingdom", "The United States", "The Republic of Ghana", "The Republic of South Africa"],
-                    correct: 0
+                    text: "Mr. Chukwu is a rich merchant. What is the opposite of 'Rich'?",
+                    options: ["Wealthy", "Poor", "Affluent", "Lucky"],
+                    correct: 1
                 },
                 {
                     id: 6,
-                    text: "In West Africa, Ghana was originally known by what historic colonial title?",
-                    options: ["Gold Coast", "Ivory Coast", "Grain Coast", "Songhai Empire"],
-                    correct: 0
+                    text: "The room was light. What is the exact antonym of 'Light'?",
+                    options: ["Bright", "Dark", "Shiny", "Dim"],
+                    correct: 1
                 },
                 {
                     id: 7,
-                    text: "The administrative operational capital city of South Africa's executive administration branch is located in _______.",
-                    options: ["Johannesburg", "Cape Town", "Pretoria", "Durban"],
+                    text: "What is the absolute antonym of the word 'Man'?",
+                    options: ["Boy", "Child", "Woman", "Human"],
                     correct: 2
                 },
                 {
                     id: 8,
-                    text: "What does the abbreviation global acronym 'UN' officially stand for?",
-                    options: ["United Nationalists", "United Nations", "Universal Network", "Union of Nations"],
+                    text: "Complete this sentence with the right stress phrasing component: 'Pick up ___ book.'",
+                    options: ["those", "that", "them", "there"],
                     correct: 1
                 },
                 {
                     id: 9,
-                    text: "The primary historical mission of the African Union (AU) is focused squarely on what track?",
-                    options: [
-                        "Promoting unity, integration, and development across African states",
-                        "Enforcing European monetary policies",
-                        "Organizing transatlantic naval defense treaties",
-                        "Abolishing local traditional cultural practices"
-                    ],
-                    correct: 0
+                    text: "Choose the word nearly opposite in meaning to 'Cheerful'.",
+                    options: ["Happy", "Unhappy", "Excited", "Lively"],
+                    correct: 1
                 },
                 {
                     id: 10,
-                    text: "How many sovereign West African nations currently form the regional ECOWAS block membership?",
-                    options: ["5 nations", "10 nations", "15 nations", "25 nations"],
-                    correct: 2
-                },
-                {
-                    id: 11,
-                    text: "The Commonwealth of Nations is essentially a voluntary association made up mostly of countries that were formerly under the colonial governance of which empire?",
-                    options: ["French Empire", "British Empire", "Spanish Empire", "Portuguese Empire"],
-                    correct: 1
-                },
-                {
-                    id: 12,
-                    text: "What does the domestic institutional acronym 'NHRC' stand for in Nigeria?",
-                    options: ["National Human Rights Commission", "National Housing and Refugee Council", "Nigerian Health Research Center", "National Heritage Resource Committee"],
+                    text: "The sickly child was treated. Choose the word nearly opposite to 'Sickly'.",
+                    options: ["Healthy", "Weak", "Ill", "Dying"],
                     correct: 0
                 },
                 {
-                    id: 13,
-                    text: "Non-Governmental Organizations (NGOs) derive their primary institutional authority from which sector?",
-                    options: ["Direct executive government military decrees", "Independent civil society initiatives", "Direct funding from foreign legislative bodies", "The state police high command structure"],
+                    id: 11,
+                    text: "Harmonious relationships are best. Choose the word nearly opposite to 'Harmonious'.",
+                    options: ["Discordant", "Peaceful", "Friendly", "Musical"],
+                    correct: 0
+                },
+                {
+                    id: 12,
+                    text: "Her gold necklace is genuine. Choose the word nearly opposite to 'Genuine'.",
+                    options: ["Real", "False", "Authentic", "Original"],
                     correct: 1
                 },
                 {
-                    id: 14,
-                    text: "Which branch of state government is traditionally vested with the primary constitutional task of interpreting laws and protecting human rights?",
-                    options: ["The Executive", "The Legislature", "The Judiciary", "The Press"],
+                    id: 13,
+                    text: "The meat was very tough. Choose the word nearly opposite to 'Tough'.",
+                    options: ["Hard", "Strong", "Tender", "Rough"],
                     correct: 2
+                },
+                {
+                    id: 14,
+                    text: "Provide a valid synonym matching the word 'Quick'.",
+                    options: ["Slow", "Fast", "Lazy", "Heavy"],
+                    correct: 1
                 },
                 {
                     id: 15,
-                    text: "The prominent International Court of Justice (ICJ) holds its permanent judicial seat in which world location?",
-                    options: ["New York, USA", "London, UK", "The Hague, Netherlands", "Geneva, Switzerland"],
-                    correct: 2
+                    text: "Provide a valid synonym matching the word 'Strong'.",
+                    options: ["Weak", "Powerful", "Soft", "Fragile"],
+                    correct: 1
                 },
                 {
                     id: 16,
-                    text: "A foundational human right that guarantees citizens the basic power to elect leaders freely is classified as a _______.",
-                    options: ["Economic right", "Political right", "Cultural right", "Environmental right"],
+                    text: "The manager is busy at the moment. What is a synonym for 'Busy'?",
+                    options: ["Free", "Engaged", "Idle", "Sleeping"],
                     correct: 1
                 },
                 {
                     id: 17,
-                    text: "Which document constitutes the supreme framework of law within a sovereign democratic country?",
-                    options: ["A local community magazine", "The National Constitution", "A business partnership ledger", "An academic journal volume"],
-                    correct: 1
+                    text: "The soldier was very brave. What is a synonym for 'Brave'?",
+                    options: ["Fearless", "Timid", "Scared", "Cowardly"],
+                    correct: 0
                 },
                 {
                     id: 18,
-                    text: "Global human rights declarations are explicitly designed to apply across which demographic demographic criteria?",
-                    options: ["Only wealthy national figures", "Universally to all human beings without discrimination", "Strictly to adult corporate professionals", "Exclusively to individuals with advanced formal training"],
+                    text: "Identify an adverbs adjunct of place from the following choices.",
+                    options: ["Yesterday", "In the classroom", "Quickly", "Because of rain"],
                     correct: 1
                 },
                 {
                     id: 19,
-                    text: "Which body of the UN is primarily tasked with maintaining international peace and security?",
-                    options: ["The Economic Council", "The Trusteeship Council", "The Security Council", "The Secretariat"],
-                    correct: 2
+                    text: "In the sentence 'He ran quickly', what class of adjunct is 'quickly'?",
+                    options: ["Manner", "Place", "Time", "Reason"],
+                    correct: 0
                 },
                 {
                     id: 20,
-                    text: "What major factor has accelerated globalization in the 21st century?",
-                    options: ["Primitive farming techniques", "Advances in Information and Communication Technology", "The closure of international borders", "Decreased usage of digital media networks"],
-                    correct: 1
+                    text: "Which summary connector word indicates an addition to an earlier point?",
+                    options: ["Furthermore", "Despite", "However", "First"],
+                    correct: 0
                 }
             ],
-            accounting: [
+            commerce: [
                 {
                     id: 1,
-                    text: "What is a Balance Sheet?",
+                    text: "What is a Public Enterprise?",
                     options: [
-                        "A statement showing cash income and expenditure only",
-                        "A statement of the financial position of a business at a specific date",
-                        "A book used to record daily credit sales transactions",
-                        "An account used to calculate the net profit of a firm"
+                        "A business setup run and financed by individual friends",
+                        "A business organization owned, managed, and funded by the government",
+                        "A small retail store in the market square",
+                        "A multinational business owned exclusively by foreign companies"
                     ],
                     correct: 1
                 },
                 {
                     id: 2,
-                    text: "Which of the following is classified as a Fixed Asset (Non-current Asset)?",
-                    options: ["Cash at bank", "Stock of goods", "Motor Vehicles", "Trade Debtors"],
-                    correct: 2
+                    text: "Which of the following is a primary feature of Public Corporations?",
+                    options: [
+                        "They aim to make the maximum possible profit at all cost",
+                        "They are set up by an act of parliament or decree to provide essential services",
+                        "They are managed by private family boards",
+                        "They do not need government capital to run"
+                    ],
+                    correct: 1
                 },
                 {
                     id: 3,
-                    text: "Current Liabilities are debts that are expected to be paid within how long?",
-                    options: ["Five years", "One year", "Ten years", "Indefinite period"],
+                    text: "A major disadvantage of public enterprises is:",
+                    options: ["Provision of employment opportunities", "Bureaucracy and political interference", "Low costs of public goods", "Availability of large capital setups"],
                     correct: 1
                 },
                 {
                     id: 4,
-                    text: "Which layout or format displays assets on the left side and liabilities/capital on the right side?",
-                    options: ["The Report Form", "The T-Account Form", "The Statement Form", "The Vertical Form"],
+                    text: "Which of these is a valid example of a public enterprise in Nigeria?",
+                    options: ["Adegoke Tech Shop", "Nigerian Railway Corporation (NRC)", "Local Corner Store", "Private Electronic Market"],
                     correct: 1
                 },
                 {
                     id: 5,
-                    text: "Look at the balance sheet items snippet below:<br><table class='table-diagram'><tr><th>Item</th><th>Amount (₦)</th></tr><tr><td>Capital</td><td>50,000</td></tr><tr><td>Net Profit</td><td>10,000</td></tr></table>Calculate the closing Capital balance.",
-                    options: ["₦40,000", "₦50,000", "₦60,000", "₦10,000"],
-                    correct: 2
+                    text: "What is the minimum number of shareholders required to form a Private Limited Company?",
+                    options: ["Two (2)", "Seven (7)", "Fifty (50)", "No minimum limit"],
+                    correct: 0
                 },
                 {
                     id: 6,
-                    text: "Which structural equation represents the accounting system standard for a Balance Sheet?",
-                    options: ["Assets = Capital - Liabilities", "Assets = Capital + Liabilities", "Capital = Assets + Liabilities", "Liabilities = Capital + Assets"],
+                    text: "How can you identify a public limited company easily from its official registered name?",
+                    options: ["It ends with the abbreviation 'Ltd'", "It ends with the abbreviation 'Plc'", "It begins with 'Gov'", "It has no unique naming identity"],
                     correct: 1
                 },
                 {
                     id: 7,
-                    text: "Which of the following items is a clear example of a Current Asset?",
-                    options: ["Office Machinery", "Bank Overdraft", "Stock of Goods", "Long-term Loan"],
-                    correct: 2
+                    text: "Which document contains the internal rules and regulations regulating a limited liability company?",
+                    options: ["Memorandum of Association", "Articles of Association", "Certificate of Incorporation", "Trading License Certificate"],
+                    correct: 1
                 },
                 {
                     id: 8,
-                    text: "What is the primary function of a Sales Ledger Control Account?",
-                    options: ["To find total cash purchases", "To summarize transactions relating to credit trade debtors", "To record the asset values of office buildings", "To record internal cash distributions"],
+                    text: "What does the phrase 'Limited Liability' mean to a shareholder?",
+                    options: [
+                        "The shareholder loses all personal houses and properties if the business crashes",
+                        "The loss of the shareholder is limited only to the amount invested in shares",
+                        "The company cannot borrow any money from external commercial banks",
+                        "The company has a limited lifespan and must close in one year"
+                    ],
                     correct: 1
                 },
                 {
                     id: 9,
-                    text: "Another name for the Sales Ledger Control Account is what?",
-                    options: ["Total Creditors Control Account", "Total Debtors Control Account", "Nominal Ledger Account", "General Cash Book"],
+                    text: "The document issued by the Registrar of Companies allowing a Public Company to start full trade operations is:",
+                    options: ["Memorandum Draft", "Trading Certificate (Certificate of Trading)", "Prospectus", "Tax Assessment Sheet"],
                     correct: 1
                 },
                 {
                     id: 10,
-                    text: "From which source book is the Sales Ledger Control Account primarily compiled?",
-                    options: ["Sales Journal", "Purchases Returns Book", "Petty Cash Book", "General Ledger"],
-                    correct: 0
+                    text: "A Public Limited Company invites members of the general public to purchase its shares by issuing a document called:",
+                    options: ["Articles Booklet", "Prospectus", "Credit Note", "Debenture Receipt"],
+                    correct: 1
                 },
                 {
                     id: 11,
-                    text: "If a business has Opening Debtors of ₦2,000, and Credit Sales of ₦10,000, what is the total value of debtors before payments?",
-                    options: ["₦8,000", "₦12,000", "₦5,000", "₦20,000"],
+                    text: "Which of the following is an advantage of a Public Limited Company over a Private Limited Company?",
+                    options: ["Secrecy of financial records", "Ability to raise vast capital from public stock exchanges", "Ease of control by one single family owner", "Absence of government strict laws"],
                     correct: 1
                 },
                 {
                     id: 12,
-                    text: "On which side of the Total Debtors Control Account are credit sales recorded?",
-                    options: ["Debit side", "Credit side", "Receipts footer", "No side"],
-                    correct: 0
+                    text: "Who are the actual legal owners of a limited liability company?",
+                    options: ["The Hired Board of Directors", "The Shareholders", "The Factory Creditors", "The Auditing Clerks"],
+                    correct: 1
                 },
                 {
                     id: 13,
-                    text: "The Purchases Ledger Control Account is checked to track transactions concerning whom?",
-                    options: ["Cash customers", "Credit suppliers (Creditors)", "Bank directors", "School administrators"],
+                    text: "What is a Trade Association?",
+                    options: [
+                        "A group of workers forming a political party",
+                        "An association of business operators in the same line of trade to protect common interests",
+                        "A court setup to judge market disputes",
+                        "A consumer protection club run by school students"
+                    ],
                     correct: 1
                 },
                 {
                     id: 14,
-                    text: "Where do we enter 'Cash paid to Creditors' inside the Purchases Ledger Control Account?",
-                    options: ["Debit side", "Credit side", "Balance brought down line", "Footnote column"],
-                    correct: 0
+                    text: "Which of these is a prime objective role of a typical Trade Association?",
+                    options: [
+                        "To steal competitive goods from other nations",
+                        "To promote unity, standardize fair practices, and look after members",
+                        "To arrest customers who fail to pay balance sheets",
+                        "To convert private schools to state facilities"
+                    ],
+                    correct: 1
                 },
                 {
                     id: 15,
-                    text: "What does a credit balance brought down in the Purchases Ledger Control Account represent?",
-                    options: ["Total amount owed to creditors at start", "Total value of assets owned", "Net loss for the academic year", "Total cash discounts received"],
+                    text: "Which organization stands out as a clear example of a trade body or manufacturer group in Nigeria?",
+                    options: ["Manufacturers Association of Nigeria (MAN)", "West African Examinations Council", "Lagos Football Club", "State Judicial Panel"],
                     correct: 0
                 },
                 {
                     id: 16,
-                    text: "The term 'Net Profit' is added to which item in the balance sheet structure?",
-                    options: ["Fixed Assets", "Capital Account", "Current Liabilities", "Drawings Account"],
-                    correct: 1
+                    text: "Trade associations protect their market operators through which method?",
+                    options: ["By setting up uniform product standards and advising members", "By printing national currency notes", "By managing state balance sheets", "By forcing all citizens to trade daily"],
+                    correct: 0
                 },
                 {
                     id: 17,
-                    text: "When a business owner takes cash out of the company for personal home use, it is called:",
-                    options: ["Investments", "Drawings", "Liabilities", "Capital savings"],
+                    text: "What is a major disadvantage of Private Limited Companies?",
+                    options: ["Shares can be sold freely on public stock markets", "Shares cannot be transferred without agreement of other members", "They have unlimited personal liabilities", "They always require 500 board directors"],
                     correct: 1
                 },
                 {
                     id: 18,
-                    text: "Calculate Net Assets if Total Assets are ₦90,000 and Total Liabilities are ₦30,000.",
-                    options: ["₦120,000", "₦60,000", "₦30,000", "₦2,700"],
+                    text: "Who manages the day-to-day operations of a Public Limited Company on behalf of investors?",
+                    options: ["The Registrar of Companies", "The Board of Directors", "The Debtors Association", "The Minority Shareholders"],
                     correct: 1
                 },
                 {
                     id: 19,
-                    text: "Control accounts are prepared mainly to check for what in the ledgers?",
-                    options: ["The number of employees", "Arithmetical accuracy and fraud", "Daily sales values of competitors", "The depreciation of buildings"],
-                    correct: 1
+                    text: "Which enterprise type is financed primarily through government budgetary allocations?",
+                    options: ["Sole Proprietorship", "Partnership firm", "Public Corporation", "Private Club Ltd"],
+                    correct: 2
                 },
                 {
                     id: 20,
-                    text: "Which of these entries will decrease the balance of trade debtors in a control account?",
-                    options: ["Bad debts written off", "Additional credit sales", "Interest charged on overdue accounts", "Debtor checks that bounced"],
-                    correct: 0
+                    text: "Which document sets out the external relations of the company with the outside business world?",
+                    options: ["Articles of Association", "Memorandum of Association", "Partnership Deed Form", "Adegoke Tech Syllabus"],
+                    correct: 1
                 }
             ]
         };
 
-        // ENVIRONMENT APPS VARIABLE CONTROLS
-        let currentSubject = 'citizenship';
-        let currentIndices = { citizenship: 0, accounting: 0 };
-        let studentAnswers = { citizenship: {}, accounting: {} };
+        // RUNTIME COMPONENT APP STATE
+        let currentSubject = 'english';
+        let currentIndices = { english: 0, commerce: 0 };
+        let studentAnswers = { english: {}, commerce: {} };
         let timerInterval = null;
-        let examDurationSeconds = 45 * 60; // Configured to standard requested 45 minutes
+        let examDurationSeconds = 45 * 60; // Set to standard 45 Minutes
         let studentData = {};
         let systemSubmitted = false;
 
-        // AUTH FILTER AND PERSISTENT RE-TAKE SAFEGUARDS
+        // AUTHENTICATION AND ANTI-RETAKE COMPLIANCE
         function handleLogin(e) {
             e.preventDefault();
             
@@ -952,10 +958,11 @@
             const rNum = document.getElementById('regNum').value.trim().toUpperCase();
 
             if(!sName || !mName || !oName || !rNum) {
-                alert("Please complete the authorization process fully.");
+                alert("Please fill out all fields explicitly according to school rules.");
                 return;
             }
 
+            // LocalStorage Check to enforce Anti-Retake guardrail
             if(localStorage.getItem("SHIS_CBT_TAKEN_" + rNum)) {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('lockoutScreen').classList.remove('hidden');
@@ -964,6 +971,7 @@
 
             studentData = { surname: sName, middle: mName, other: oName, regNum: rNum };
             
+            // Switch Views
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('examDashboard').classList.remove('hidden');
             document.getElementById('timerDisplay').classList.remove('hidden');
@@ -971,23 +979,24 @@
             document.getElementById('displayStudentName').innerText = `${sName}, ${mName} ${oName}`;
             document.getElementById('displayRegNum').innerText = rNum;
 
+            // Initialize CBT Loops
             initQuestionGrid();
             renderCurrentQuestion();
             startTimerCountdown();
             setupAntiCheatDetection();
         }
 
-        // TRIGGER FORCE AUTO-SUBMIT ON VISIBILITY LOSS
+        // TRIGGER CHEATING PROOF AUTO-SUBMIT UPON LEAVING WINDOW/TAB
         function setupAntiCheatDetection() {
             window.addEventListener('blur', function() {
                 if(!systemSubmitted) {
-                    alert("System Notice: Focus loss event verified (Tab switch / minimization). Answers processing into final storage indices now.");
+                    alert("System Notice: Tab change, window minimize, or application swapping detected. Your responses are auto-submitting immediately.");
                     forceAutomaticSubmission();
                 }
             });
         }
 
-        // POPULATING CORE INTERFACE CONSOLE MATRIX MAPS
+        // DYNAMIC CONVERSION OF NAVIGATION NUMBERS
         function initQuestionGrid() {
             const grid = document.getElementById('numberGrid');
             grid.innerHTML = '';
@@ -1000,6 +1009,7 @@
                 btn.innerText = index + 1;
                 btn.id = `numbtn_${currentSubject}_${index}`;
                 
+                // Colors state sync
                 if(studentAnswers[currentSubject][index] !== undefined) {
                     btn.classList.add('answered');
                 }
@@ -1016,23 +1026,23 @@
             updateStatusCounters();
         }
 
-        // INTERFACE NAVIGATION SYSTEM SUB-TRACK SWITCHING
+        // SWITCH SUBJECT TABS
         function switchSubject(subjectKey) {
             currentSubject = subjectKey;
-            if(subjectKey === 'citizenship') {
-                document.getElementById('tabCitizenship').classList.add('active');
-                document.getElementById('tabAccounting').classList.remove('active');
-                document.getElementById('currentSubjectTitle').innerText = "CITIZENSHIP & HERITAGE STUDIES SSS 1";
+            if(subjectKey === 'english') {
+                document.getElementById('tabEnglish').classList.add('active');
+                document.getElementById('tabCommerce').classList.remove('active');
+                document.getElementById('currentSubjectTitle').innerText = "ENGLISH LANGUAGE SSS 1";
             } else {
-                document.getElementById('tabAccounting').classList.add('active');
-                document.getElementById('tabCitizenship').classList.remove('active');
-                document.getElementById('currentSubjectTitle').innerText = "FINANCIAL ACCOUNTING SSS 1";
+                document.getElementById('tabCommerce').classList.add('active');
+                document.getElementById('tabEnglish').classList.remove('active');
+                document.getElementById('currentSubjectTitle').innerText = "COMMERCE SSS 1";
             }
             initQuestionGrid();
             renderCurrentQuestion();
         }
 
-        // WORKSPACE RENDERING LAYER SETUP
+        // RENDERING MECHANISM
         function renderCurrentQuestion() {
             const currentIdx = currentIndices[currentSubject];
             const currentQ = questionsDatabase[currentSubject][currentIdx];
@@ -1058,12 +1068,14 @@
                 wrapper.appendChild(label);
             });
 
+            // Adjust highlighting of number buttons dynamically
             const allNumButtons = document.querySelectorAll('.num-btn');
             allNumButtons.forEach(btn => btn.classList.remove('current'));
             const matchBtn = document.getElementById(`numbtn_${currentSubject}_${currentIdx}`);
             if(matchBtn) matchBtn.classList.add('current');
         }
 
+        // SELECT ANSWER & SAVE STATE
         function selectAnswer(optionIndex) {
             const currentIdx = currentIndices[currentSubject];
             studentAnswers[currentSubject][currentIdx] = optionIndex;
@@ -1071,6 +1083,7 @@
             const matchBtn = document.getElementById(`numbtn_${currentSubject}_${currentIdx}`);
             if(matchBtn) matchBtn.classList.add('answered');
 
+            // Visual layout update
             const labels = document.querySelectorAll('.option-label');
             labels.forEach((l, i) => {
                 if(i === optionIndex) l.classList.add('selected');
@@ -1080,6 +1093,7 @@
             updateStatusCounters();
         }
 
+        // NEXT / PREVIOUS NAVIGATION
         function navigateQuestion(direction) {
             const maxLen = questionsDatabase[currentSubject].length;
             let nextIndex = currentIndices[currentSubject] + direction;
@@ -1090,21 +1104,21 @@
             }
         }
 
-        // PROGRESS DATA CALCULATIONS TRACKER
+        // CALCULATION METRICS UPDATE
         function updateStatusCounters() {
-            const citAns = Object.keys(studentAnswers.citizenship).length;
-            const accAns = Object.keys(studentAnswers.accounting).length;
-            const absoluteTotalAns = citAns + accAns;
+            const engAns = Object.keys(studentAnswers.english).length;
+            const comAns = Object.keys(studentAnswers.commerce).length;
+            const absoluteTotalAns = engAns + comAns;
 
-            document.getElementById('badgeCit').innerText = `${citAns}/20`;
-            document.getElementById('badgeAcc').innerText = `${accAns}/20`;
+            document.getElementById('badgeEng').innerText = `${engAns}/20`;
+            document.getElementById('badgeCom').innerText = `${comAns}/20`;
             
             document.getElementById('completionCount').innerText = `Progress: ${absoluteTotalAns} / 40`;
             const percentageProgress = (absoluteTotalAns / 40) * 100;
             document.getElementById('progressBar').style.width = `${percentageProgress}%`;
         }
 
-        // SYSTEM INTERVAL TICK ARCHITECTURE Engine
+        // TIME ARCHITECTURE
         function startTimerCountdown() {
             const timeString = document.getElementById('timeString');
             const timerBox = document.getElementById('timerDisplay');
@@ -1120,18 +1134,20 @@
 
                 timeString.innerText = `${mins}:${secs}`;
 
+                // Warning indicator at 5 minutes remaining
                 if(examDurationSeconds <= 300) {
                     timerBox.classList.add('timer-warn');
                 }
 
                 if(examDurationSeconds <= 0) {
                     clearInterval(timerInterval);
-                    alert("Testing period threshold matched. Processing answers automated final entry workflows.");
+                    alert("Time is up! Your inputs are submitting automatically now.");
                     forceAutomaticSubmission();
                 }
             }, 1000);
         }
 
+        // MODAL HANDLERS
         function triggerSubmitConfirmation() {
             document.getElementById('modalOverlay').classList.remove('hidden');
         }
@@ -1139,50 +1155,56 @@
             document.getElementById('modalOverlay').classList.add('hidden');
         }
 
+        // TIMEOUT & ANTI-CHEAT SUBMISSION ESCAPE
         function forceAutomaticSubmission() {
             closeModal();
             finalSubmitSystem();
         }
 
-        // FINAL SCORING COMPILATION MATRIX BALANCER ENGINE
+        // CORE FINAL ENGINE SYSTEM CALCULATOR
         function finalSubmitSystem() {
             if(systemSubmitted) return;
             systemSubmitted = true;
             clearInterval(timerInterval);
 
-            let citCorrect = 0;
-            questionsDatabase.citizenship.forEach((q, idx) => {
-                if(studentAnswers.citizenship[idx] === q.correct) citCorrect++;
+            // Fetch scores
+            let engCorrect = 0;
+            questionsDatabase.english.forEach((q, idx) => {
+                if(studentAnswers.english[idx] === q.correct) engCorrect++;
             });
 
-            let accCorrect = 0;
-            questionsDatabase.accounting.forEach((q, idx) => {
-                if(studentAnswers.accounting[idx] === q.correct) accCorrect++;
+            let comCorrect = 0;
+            questionsDatabase.commerce.forEach((q, idx) => {
+                if(studentAnswers.commerce[idx] === q.correct) comCorrect++;
             });
 
-            const grandTotalCorrect = citCorrect + accCorrect;
+            const grandTotalCorrect = engCorrect + comCorrect;
             const cumulativePercentage = (grandTotalCorrect / 40) * 100;
 
+            // Grade Assignation Standard System
             let finalGrade = 'F';
             if(cumulativePercentage >= 75) finalGrade = 'A1';
             else if(cumulativePercentage >= 65) finalGrade = 'B2';
             else if(cumulativePercentage >= 50) finalGrade = 'C5';
             else if(cumulativePercentage >= 40) finalGrade = 'P7';
 
+            // Lock Anti-Retake Key inside localStorage
             localStorage.setItem("SHIS_CBT_TAKEN_" + studentData.regNum, "COMPLETED");
 
+            // Populate Result Document
             document.getElementById('resSurname').innerText = studentData.surname;
             document.getElementById('resReg').innerText = studentData.regNum;
             
-            document.getElementById('resCitScore').innerText = citCorrect;
-            document.getElementById('resCitPercent').innerText = `${(citCorrect/20)*100}%`;
+            document.getElementById('resEngScore').innerText = engCorrect;
+            document.getElementById('resEngPercent').innerText = `${(engCorrect/20)*100}%`;
 
-            document.getElementById('resAccScore').innerText = accCorrect;
-            document.getElementById('resAccPercent').innerText = `${(accCorrect/20)*100}%`;
+            document.getElementById('resComScore').innerText = comCorrect;
+            document.getElementById('resComPercent').innerText = `${(comCorrect/20)*100}%`;
 
             document.getElementById('resGrandScore').innerText = `${grandTotalCorrect} / 40 (${cumulativePercentage.toFixed(1)}%)`;
             document.getElementById('resGrade').innerText = `RECOGNIZED TERMINAL GRADE: ${finalGrade}`;
 
+            // Switch layout systems to results page
             document.getElementById('examDashboard').classList.add('hidden');
             document.getElementById('timerDisplay').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');

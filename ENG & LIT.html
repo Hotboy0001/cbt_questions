@@ -156,8 +156,6 @@
         }
 
         .btn:hover { background-color: var(--secondary); }
-        .btn-secondary { background-color: #757575; }
-        .btn-secondary:hover { background-color: #616161; }
         .btn-success { background-color: var(--accent); }
         .btn-success:hover { background-color: var(--accent-hover); }
 
@@ -492,6 +490,13 @@
             font-size: 0.95rem;
         }
 
+        .btn-secondary {
+            background-color: #757575;
+        }
+        .btn-secondary:hover {
+            background-color: #616161;
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 900px) {
             .exam-workspace {
@@ -560,24 +565,25 @@
                 </div>
 
                 <div class="timer-box">
-                    Time Left: <span id="time-string">45:00</span>
+                    Time Left: <span id="time-string">30:00</span>
                 </div>
 
                 <div class="subject-tabs">
-                    <div class="sub-tab active" id="tab-crs" onclick="switchSubject(0)">Christian Religious Knowledge</div>
-                    <div class="sub-tab" id="tab-chs" onclick="switchSubject(1)">Citizenship &amp; Heritage Studies</div>
+                    <div class="sub-tab active" id="tab-eng" onclick="switchSubject(0)">English Language</div>
+                    <div class="sub-tab" id="tab-lit" onclick="switchSubject(1)">Literature In English</div>
                 </div>
 
                 <div class="nav-grid-container">
                     <h4 id="nav-title">Questions Tracker</h4>
-                    <div id="question-nav-grid" class="nav-grid"></div>
+                    <div id="question-nav-grid" class="nav-grid">
+                    </div>
                 </div>
             </div>
 
             <div class="main-workarea">
                 <div class="statusbar-card">
                     <div>
-                        <h3 id="current-subject-title">Christian Religious Knowledge SSS 2</h3>
+                        <h3 id="current-subject-title">English Language SSS 2</h3>
                         <p style="font-size:0.85rem; color: var(--text-light);" id="question-index-counter">Question 1 of 20</p>
                     </div>
                     <div style="width: 150px; text-align: right;">
@@ -592,7 +598,8 @@
                     <div id="render-question-text" class="question-text">
                         Loading examination parameters...
                     </div>
-                    <div id="render-options-container" class="options-list"></div>
+                    <div id="render-options-container" class="options-list">
+                    </div>
                 </div>
 
                 <div class="control-panel">
@@ -642,16 +649,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Christian Religious Knowledge</td>
+                            <td>English Language</td>
                             <td>20</td>
-                            <td id="res-crs-correct">0</td>
-                            <td id="res-crs-pct">0%</td>
+                            <td id="res-eng-correct">0</td>
+                            <td id="res-eng-pct">0%</td>
                         </tr>
                         <tr>
-                            <td>Citizenship &amp; Heritage Studies</td>
+                            <td>Literature In English</td>
                             <td>20</td>
-                            <td id="res-chs-correct">0</td>
-                            <td id="res-chs-pct">0%</td>
+                            <td id="res-lit-correct">0</td>
+                            <td id="res-lit-pct">0%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -676,66 +683,58 @@
     </div>
 
     <script>
-        // DATA SUBSYSTEM: COMPREHENSIVE 40-QUESTION POOL (CRS & CHS)
+        // DATA SUBSYSTEM: COMPREHENSIVE 40-QUESTION POOL COMBINING ENGLISH & LITERATURE
         const examDatabase = [
             {
-                subjectCode: "CRS",
-                subjectTitle: "CHRISTIAN RELIGIOUS KNOWLEDGE SSS 2",
+                subjectCode: "ENG",
+                subjectTitle: "ENGLISH LANGUAGE SSS 2",
                 questions: [
-                    // Topic 1: Call of the Disciples
-                    { q: "Who was the first disciple called by Jesus according to the Gospel accounts?", o: ["Andrew", "Simon Peter", "John", "Philip"], a: 0 },
-                    { q: "Which of these pairs of disciples were sons of Zebedee?", o: ["Peter and Andrew", "James and John", "Philip and Bartholomew", "Thomas and Matthew"], a: 1 },
-                    { q: "What was the occupation of Simon Peter and Andrew before their call?", o: ["Tax collectors", "Tentmakers", "Fishermen", "Farmers"], a: 2 },
-                    { q: "What primary promise did Jesus make to the fishermen when calling them to follow Him?", o: ["They would inherit earthly kingdoms", "He would make them fishers of men", "They would never face trials", "They would become rich rulers"], a: 1 },
-                    { q: "Which tax collector left his toll booth to become a disciple of Jesus?", o: ["Zacchaeus", "Matthew (Levi)", "Thaddaeus", "Stephen"], a: 1 },
-                    // Topic 2: Mission of the Disciples
-                    { q: "According to Luke chapter 10, how many other disciples did Jesus send out in pairs?", o: ["Twelve", "Fifty", "Seventy (Seventy-two)", "One Hundred"], a: 2 },
-                    { q: "Why did Jesus instruct the sent disciples to travel without purses, bags, or extra sandals?", o: ["To test their physical strength", "To promote absolute reliance on God's provision", "Because the items were too heavy", "To make them move faster"], a: 1 },
-                    { q: "What specific greeting did Jesus tell His sent disciples to utter when entering any house?", o: ["Repent, for the kingdom is near", "Peace be to this house", "May blessings overflow here", "Salvation has come to you"], a: 1 },
-                    { q: "What city did Jesus state would face a worse judgment than Sodom for rejecting His messengers?", o: ["Capernaum", "Jerusalem", "Nazareth", "Bethsaida"], a: 0 },
-                    { q: "What did the disciples rejoice over when they returned from their mission field?", o: ["They collected plenty of money", "Even the demons submitted to them in Jesus' name", "They became famous across the land", "They received crowns of gold"], a: 1 },
-                    // Topic 3: Trial and Death of Jesus
-                    { q: "In what garden location was Jesus arrested after praying late at night?", o: ["Gethsemane", "Eden", "Bethel", "Golgotha"], a: 0 },
-                    { q: "Which high priest led the Jewish Sanhedrin trial against Jesus?", o: ["Annas", "Caiaphas", "Gamaliel", "Nicodemus"], a: 1 },
-                    { q: "What was the Roman Governor Pontius Pilate's personal verdict regarding the accusations against Jesus?", o: ["He found Him guilty of treason", "He found no basis for a charge against Him", "He ordered immediate stoning", "He delayed judgment for a year"], a: 1 },
-                    { q: "Who was the notorious prisoner released by Pontius Pilate in place of Jesus due to crowd demand?", o: ["Barabbas", "Barnabas", "Silas", "Timon"], a: 0 },
-                    { q: "The place where Jesus was crucified, Golgotha, means what?", o: ["Place of Judgement", "Place of the Skull", "Place of Mourning", "Place of Kings"], a: 1 },
-                    // Topic 4: Resurrection and Second Coming
-                    { q: "Who was the first person to discover the empty tomb of Jesus on the resurrection morning?", o: ["Simon Peter", "John the Beloved", "Mary Magdalene", "Mother Mary"], a: 2 },
-                    { q: "Which disciple refused to believe Jesus rose from the dead until he saw the nail marks?", o: ["Thomas", "Philip", "Judas", "Andrew"], a: 0 },
-                    { q: "For how many days did Jesus appear to His disciples after His resurrection before ascending to heaven?", o: ["7 days", "12 days", "40 days", "50 days"], a: 2 },
-                    { q: "The teaching on the Second Coming of Jesus is technically referred to in theology as what?", o: ["Genesis", "Eschatology", "Apocrypha", "Exodus"], a: 1 },
-                    { q: "How should Christians prepare for the Second Coming of Christ according to New Testament scripts?", o: ["By hiding in caves", "By staying watchful, prayerful, and living righteously", "By ceasing all daily work", "By predicting exact monthly dates"], a: 1 }
+                    { q: "Complete the following statement: By this time tomorrow, we _______ completed the grammar task.", o: ["will have", "shall be", "have", "would had"], a: 0 },
+                    { q: "Identify the prefix that means 'before' or 'in front of' within industrial terms.", o: ["Post-", "Pre-", "Sub-", "Anti-"], a: 1 },
+                    { q: "Which word below indicates an extremely large, powerful corporate entity or industry industrial model?", o: ["Behemoth", "Troupe", "Acronym", "Calumny"], a: 0 },
+                    { q: "If I _______ the financial capital earlier, I would have set up the printing press layout.", o: ["have secured", "had secured", "secure", "would secure"], a: 1 },
+                    { q: "Choose the correct spelling variant from the dictionary index below.", o: ["Proffessionalism", "Professionalism", "Profesonalism", "Professonalism"], a: 1 },
+                    { q: "Change the following sentence to passive voice: 'The printing press produced the textbooks.'", o: ["The printing press was producing textbooks.", "Textbooks were produced by the printing press.", "Textbooks had been produced by the press.", "Textbooks are produced by the printing press."], a: 1 },
+                    { q: "What is the primary operational rule when drafting a brief summary statement of a lecture?", o: ["Include secondary examples", "Extract only the main primary thesis ideas", "Copy text word-for-word", "Extend sentences with idioms"], a: 1 },
+                    { q: "A speech delivered to honor colleagues departing from an educational or commercial enterprise is called a/an _______ address.", o: ["Welcome", "Farewell", "Inaugural", "Prize-giving"], a: 1 },
+                    { q: "An article written for publication in national print media requires which structural form?", o: ["Formal address heading headers", "An explicit descriptive title/heading", "Signature lists at bottom left corner", "Complete omission of objective voice"], a: 1 },
+                    { q: "The word 'Calumny' as defined in standard text units translates closely to:", o: ["False accusation to damage reputation", "Generous donation system", "Extreme poverty", "High praise standard"], a: 0 },
+                    { q: "Select the option that represents an unchangeable condition: If water reaches 100 degrees Celsius, it _______.", o: ["boils", "would boil", "boiled", "might boil"], a: 0 },
+                    { q: "Which word relates specifically to the activities of publishing and manufacturing industries?", o: ["Typography", "Arboreal", "Mawkish", "Diffident"], a: 0 },
+                    { q: "What root extension morphology occurs when the prefix 'Dis-' is added to 'repute'?", o: ["Changes definition polarity to negative status", "Transverts verb structural profile to adjective", "Maintains exactly duplicated original intent", "Converts word into acronym status"], a: 0 },
+                    { q: "Find the synonym for 'indigent' within secondary reading scopes.", o: ["Wealthy", "Impoverished/Poor", "Deceptive", "Hardworking"], a: 1 },
+                    { q: "Identify the complex sentence structure down below:", o: ["The bell rang.", "The boys played football while the girls watched attentively.", "She cooked and he cleaned the system dashboard.", "They went out to work."], a: 1 },
+                    { q: "In a welcome address speech structure, which element must appear first?", o: ["Vote of thanks", "Formal protocol salutation of dignitaries", "Historical reference timelines", "Personal biographical background notes"], a: 1 },
+                    { q: "The word 'Camaraderie' represents:", o: ["Hostility", "Mutual trust and friendship", "Isolation", "Deep ignorance"], a: 1 },
+                    { q: "Which word below is an antonym of 'Frivolous'?", o: ["Serious/Prudent", "Silly", "Tiny", "Lightweight"], a: 0 },
+                    { q: "A textbook index contains a compilation of terminology terms. This database is called a/an _______.", o: ["Glossary", "Preamble", "Affidavit", "Appendix"], a: 0 },
+                    { q: "Identify the active voice sentence:", o: ["The lesson was taught by Mr. Adegoke.", "The student wrote the examination script.", "The system was automatically shut down.", "The results were published online."], a: 1 }
                 ]
             },
             {
-                subjectCode: "CHS",
-                subjectTitle: "CITIZENSHIP & HERITAGE STUDIES SSS 2",
+                subjectCode: "LIT",
+                subjectTitle: "LITERATURE IN ENGLISH SSS 2",
                 questions: [
-                    // Topic 1: Democratic Institutions in Nigeria
-                    { q: "The primary independent agency responsible for organizing and conducting public elections in Nigeria is known as ________.", o: ["INEC", "NTA", "EFCC", "NPC"], a: 0 },
-                    { q: "Which arm of government is constitutionally empowered to interpret laws and settle disputes in democratic Nigeria?", o: ["The Executive", "The Judiciary", "The Legislature", "The Armed Forces"], a: 1 },
-                    { q: "An organized group of citizens who seek to capture, control, and exercise political power through elections is called a ________.", o: ["Trade Union", "Pressure Group", "Political Party", "Secret Society"], a: 2 },
-                    { q: "Who heads the Judicial arm of state government in Nigeria?", o: ["The Attorney General", "The Chief Judge of the State", "The Governor", "The Speaker"], a: 1 },
-                    { q: "What is the primary function of the legislature in Nigeria's democracy?", o: ["Enforcing laws", "Making laws", "Arresting criminals", "Building roads"], a: 1 },
-                    // Topic 2: Elections & Citizenship
-                    { q: "The statutory minimum age requirement for civic voting registration in modern Nigeria is ________.", o: ["15 years", "18 years", "21 years", "25 years"], a: 1 },
-                    { q: "The fundamental right of eligible citizens to vote and be voted for in civic public elections is termed ________.", o: ["Natural Right", "Franchise", "Diplomatic Immunity", "Freedom of Movement"], a: 1 },
-                    { q: "Why are general elections highly important in any running democratic society?", o: ["To make leaders very rich", "To enable peaceful change of political leadership", "To cause chaos and division", "To avoid taxation completely"], a: 1 },
-                    { q: "An essential duty of every registered citizen voter during election periods is to ________.", o: ["Vote multiple times", "Sell their vote for immediate cash rewards", "Cast a single valid vote peacefully on election day", "Snatch available ballot items"], a: 2 },
-                    { q: "The process whereby citizens register their names in an official list before voting is called ________.", o: ["Census counting", "Voter Registration", "Public declaration", "Immigration documentation"], a: 1 },
-                    // Topic 3: Electoral Malpractices
-                    { q: "Which of the following actions constitutes an explicit electoral malpractice?", o: ["Campaigning before guidelines close", "Snatching ballot boxes at polling stations", "Checking names on voter registers", "Queuing up in orderly single lines"], a: 1 },
-                    { q: "Which of the following is an adverse effect of electoral malpractice on a nation's growth?", o: ["Installation of popular competent leaders", "Loss of public confidence in democratic structures", "Rapid economic infrastructural upgrades", "International praise"], a: 1 },
-                    { q: "An effective solution to reduce occurrences of electoral malpractices in Nigeria is ________.", o: ["Rewarding election riggers with federal appointments", "Adopting electronic voting and strictly penalizing offenders", "Abolishing general elections completely", "Stopping voter registration drives"], a: 1 },
-                    { q: "When an individual votes more than once during an election loop, it is called ________.", o: ["Legal voting", "Plural declaration", "Multiple voting", "Open ballot selection"], a: 2 },
-                    { q: "Altering official election figure data sheets fraudulently to favor a loser candidate is an example of ________.", o: ["Result manipulation/falsification", "Political diplomacy", "Civic education", "Judicial clearance"], a: 0 },
-                    // Topic 4: Media & Citizenship
-                    { q: "The public mass media is popularly referred to as the ________ Estate of the Realm because of its oversight checks on governance.", o: ["First", "Second", "Third", "Fourth"], a: 3 },
-                    { q: "Which of the following serves as a modern digital platform for social media citizenship interactions?", o: ["Printed textbook", "X (formerly Twitter)", "Billboard banners", "Postal letters"], a: 1 },
-                    { q: "Freedom of expression allows citizens to strictly do which of the following?", o: ["Defame and lie about other individuals maliciously", "Express constructive ideas and opinions openly within law bounds", "Plan physical violence structures anonymously", "Inciting civil war breakages"], a: 1 },
-                    { q: "How can the press best perform its citizen duties objectively during elections?", o: ["Publishing unverified rumor files", "Reporting occurrences accurately without bias", "Collecting bribes from rich party flagbearers", "Favouring one particular ethnic candidate"], a: 1 },
-                    { q: "Spreading false stories to cause fear and public tension on social media network setups is an abuse of ________.", o: ["Digital privacy laws", "Freedom of expression", "Electoral voting registration guidelines", "Judicial immunity"], a: 1 }
+                    { q: "What is a primary traditional element heavily integrated into classical African Drama?", o: ["Proverbs, storytelling, and masquerade dynamics", "Silent pantomime acts", "Strict adherence to three-act structures", "Shakespearian sonnet forms"], a: 0 },
+                    { q: "African drama is deeply rooted in which of the following?", o: ["European classical text structures", "Rituals, festivals, and communal celebrations", "Western cinema techniques", "Modern internet blogs"], a: 1 },
+                    { q: "Who acts as the critical bridge between performers and audience in traditional storytelling drama formats?", o: ["The director", "The narrator or lead chanter", "The stage technician", "The script manager"], a: 1 },
+                    { q: "Which of these is NOT a function of traditional African Drama structures?", o: ["Preserving communal history", "Inculcating high moral values", "Providing simple visual isolation from society", "Entertaining community members"], a: 2 },
+                    { q: "What is the role of the audience in a typical indigenous African dramatic performance?", o: ["Passive observation in complete silence", "Active participation through singing, clapping, and responses", "Writing live critique notes", "Voting with scoreboards"], a: 1 },
+                    { q: "Who is the eminent author of the classic drama play 'The Marriage of Anansewa'?", o: ["Wole Soyinka", "Efua Sutherland", "Ama Ata Aidoo", "Zulu Sofola"], a: 1 },
+                    { q: "What country is the geographic setting of 'The Marriage of Anansewa'?", o: ["Nigeria", "Ghana", "Kenya", "South Africa"], a: 1 },
+                    { q: "What is the name of Ananse's beautiful daughter whom he seeks to sell off into marriage?", o: ["Anansewa", "Esi", "Alali", "Odua"], a: 0 },
+                    { q: "In Act One, what is Ananse's primary complaint and motivation for his clever schemes?", o: ["He wants to travel abroad", "He is trapped in severe poverty and wants wealth", "He hates his daughter", "He wants to become a political king"], a: 1 },
+                    { q: "How does Ananse pitch his daughter to various wealthy tribal chiefs in Act One?", o: ["By writing letters and sending her photographs to them", "By placing advertisements on community newsboards", "By forcing her to visit them directly", "By arranging a public wrestling match"], a: 0 },
+                    { q: "What does Ananse accept from multiple chiefs simultaneously, sparking complications in Acts 2 and 3?", o: ["Land documents", "Gifts and marriage engagement tokens", "War treaties", "Royal garments"], a: 1 },
+                    { q: "How does Anansewa feel about her father's dynamic plans to marry her off to any rich bidder?", o: ["She is extremely happy from the start", "She objects initially, wanting to marry for true love", "She leaves the house immediately", "She refuses to speak to anyone"], a: 1 },
+                    { q: "What standard musical/storytelling interlude format did Efua Sutherland employ to drive the narrative forward?", o: ["Opera solos", "Mboguo (musical interludes)", "Jazz sessions", "Shakespearean choruses"], a: 1 },
+                    { q: "Which chief represents the wealthy group of buyers interested in Anansewa?", o: ["The Chief of Mines / Chief of the Plastic Pool", "The Fisher King", "The Palm-wine King", "The Desert Warrior"], a: 0 },
+                    { q: "What character assists Ananse in processing the administrative tasks of his letters and files?", o: ["His mother", "Property lawyers", "Anansewa herself, acting as a typist", "The Village head master"], a: 2 },
+                    { q: "What iconic traditional folklore character archetype is Ananse based upon?", o: ["The giant warrior", "The cunning spider trickster", "The benevolent fairy god", "The ancient wise king"], a: 1 },
+                    { q: "What is the master dramatic scheme Ananse invents to save his neck when all the chiefs arrive at the same time?", o: ["He runs away to another country", "He fakes his daughter Anansewa's sudden death", "He fights them in a duel", "He tells them he lost all the money"], a: 1 },
+                    { q: "Which prominent moral lesson is heavily highlighted by the outcome of 'The Marriage of Anansewa'?", o: ["Greed and excessive materialism create complex troubles", "Children should never attend school", "Money can buy true love instantly", "Trickery is always the best way to live life"], a: 0 },
+                    { q: "The use of 'Mboguo' in the play serves what structural purpose?", o: ["It lets actors sleep backstage", "It engages the audience, comments on actions, and creates transitions", "It makes the play strictly a tragedy", "It stretches time for scene painters"], a: 1 },
+                    { q: "At the resolution of the play, who wins the right to marry Anansewa due to genuine devotion shown?", o: ["The Chief of Mines", "The noble Chief of Akim Abuakwa (The Chief of the Plastic Pool)", "Ananse himself", "The local village hunter"], a: 1 }
                 ]
             }
         ];
@@ -744,7 +743,7 @@
         let currentSubjectIndex = 0;
         let currentQuestionIndex = 0;
         let studentResponses = {}; 
-        let examTimeSeconds = 45 * 60; // 45 Minutes
+        let examTimeSeconds = 30 * 60; 
         let countdownInterval = null;
         let activeRegistrationNumber = "";
         let activeStudentName = "";
@@ -756,21 +755,12 @@
         const modalLayer = document.getElementById("modal-layer");
 
         // ANTI-CHEAT ENGINE INITIALIZATION
-        // Triggers automated forced submission if the student minimizes or switches windows/tabs
-        function activateSecurityAutoSubmitModule() {
-            const handleVisibilityChangeOrBlur = () => {
-                if ((document.hidden || !document.hasFocus()) && !examView.classList.contains("hidden") && resultView.classList.contains("hidden")) {
-                    document.removeEventListener('visibilitychange', handleVisibilityChangeOrBlur);
-                    window.removeEventListener('blur', handleVisibilityChangeOrBlur);
-                    
-                    alert("CRITICAL WARNING VIOLATION DETECTED:\nYou exited, minimized, or switched tabs away from the active examination window. The session is now locked and closed.");
-                    executeFinalSystemSubmission();
-                }
-            };
-
-            document.addEventListener('visibilitychange', handleVisibilityChangeOrBlur);
-            window.addEventListener('blur', handleVisibilityChangeOrBlur);
-        }
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === "hidden" && !examView.classList.contains("hidden")) {
+                alert("CRITICAL WARNING VIOLATION DETECTED:\nYou exited or minimized the active testing viewport environment. The examination system has locked your session and forced an automatic final submission.");
+                executeFinalSystemSubmission();
+            }
+        });
 
         // REGISTRATION SYSTEM MANIPULATION
         document.getElementById("start-btn").addEventListener("click", function() {
@@ -818,7 +808,6 @@
             // Fire up runtime parameters
             switchSubject(0);
             startClockCounter();
-            activateSecurityAutoSubmitModule();
         }
 
         // TIMER CORE ENGINE
@@ -849,8 +838,8 @@
             currentQuestionIndex = 0;
 
             // Toggle Visual Tab classes
-            document.getElementById("tab-crs").classList.toggle("active", subjectIdx === 0);
-            document.getElementById("tab-chs").classList.toggle("active", subjectIdx === 1);
+            document.getElementById("tab-eng").classList.toggle("active", subjectIdx === 0);
+            document.getElementById("tab-lit").classList.toggle("active", subjectIdx === 1);
 
             // Update Header Meta Context
             document.getElementById("current-subject-title").innerText = examDatabase[currentSubjectIndex].subjectTitle;
@@ -1052,11 +1041,11 @@
             document.getElementById("res-grade").innerText = absoluteLetterGrade;
 
             // SPLIT EXAM SUBJECT BREAKDOWN MODULES ASSIGNMENT 
-            document.getElementById("res-crs-correct").innerText = scoreMatrix["CRS"].correct;
-            document.getElementById("res-crs-pct").innerText = scoreMatrix["CRS"].percentage + "%";
+            document.getElementById("res-eng-correct").innerText = scoreMatrix["ENG"].correct;
+            document.getElementById("res-eng-pct").innerText = scoreMatrix["ENG"].percentage + "%";
             
-            document.getElementById("res-chs-correct").innerText = scoreMatrix["CHS"].correct;
-            document.getElementById("res-chs-pct").innerText = scoreMatrix["CHS"].percentage + "%";
+            document.getElementById("res-lit-correct").innerText = scoreMatrix["LIT"].correct;
+            document.getElementById("res-lit-pct").innerText = scoreMatrix["LIT"].percentage + "%";
 
             // TRANSITION GRAPHICAL USER INTERFACE VIEWPORTS
             examView.classList.add("hidden");

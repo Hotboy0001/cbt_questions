@@ -424,42 +424,7 @@
         .badge-success { background: #e8f5e9; color: var(--accent-color); }
         .badge-fail { background: #ffebee; color: var(--danger-color); }
     </style>
-
-<!-- ======================= -->
-<!-- INJECTED BY PORTAL HUB  -->
-<!-- ======================= -->
-<style>
-/* New Bold Result Card CSS */
-.result-container, #resultScreen {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background: #ffffff !important;
-    z-index: 999999 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-top: 15px solid var(--primary-color, #0d47a1) !important;
-    border-radius: 0 !important;
-    margin: 0 !important;
-    max-width: 100% !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
-#resultScreen h2 { font-size: 3rem !important; color: var(--primary-color, #0d47a1) !important; }
-.result-card-meta { font-size: 1.5rem !important; text-align: center; margin-bottom: 20px; }
-.subject-score-block { font-size: 1.4rem !important; margin: 10px 0; border: 2px solid #eee; padding: 15px; border-radius: 10px; width: 60%; text-align: center; }
-.res-grand-box { font-size: 2rem !important; background: #e8f5e9 !important; padding: 20px !important; margin-top: 20px !important; width: 80%; text-align: center; border-radius: 10px; }
-.btn-return, .btn-exit, .nav-buttons, button[onclick*="index.html"] { display: none !important; }
-.result-container.hidden, #resultScreen.hidden { display: none !important; }
-
-/* Hide internal login container */
-.login-container, #loginScreen { display: none !important; }
-</style>
-\n</head>
+</head>
 <body>
 
     <header>
@@ -1016,11 +981,37 @@
         }
     </script>
 
+
 <!-- ======================= -->
 <!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            const authSession = JSON.parse(localStorage.getItem('authSession'));
+            if (authSession && authSession.name && authSession.regNum) {
+                const nameInput = document.getElementById('student-name') || document.getElementById('studentName');
+                const regInput = document.getElementById('reg-number') || document.getElementById('regNum');
+                
+                if (nameInput) nameInput.value = authSession.name;
+                if (regInput) regInput.value = authSession.regNum;
+                
+                // Auto-login if function exists
+                if (typeof handleLogin === 'function') {
+                    // Slight delay to ensure DOM is fully ready
+                    setTimeout(handleLogin, 300);
+                } else if (typeof authenticateCandidate === 'function') {
+                    setTimeout(authenticateCandidate, 300);
+                }
+            }
+        } catch (e) {
+            console.error("Portal Hub Injection Error:", e);
+        }
+    });
+</script>
 
 <!-- ===================================== -->
-<!-- NETWORK FAILSAFE & RESUME ENGINE v1.0 -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.1 -->
 <!-- ===================================== -->
 <script>
 (function () {
@@ -1081,14 +1072,18 @@
         try {
             var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
             if (!sess || !sess.regNum) return;
-            if (localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+            if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
                 localStorage.removeItem(getSaveKey(sess.regNum)); return;
             }
-            var ans  = (typeof candidateAnswers         !== 'undefined') ? candidateAnswers         : null;
-            var tsec = (typeof totalSecondsRemaining    !== 'undefined') ? totalSecondsRemaining    : null;
-            var qi   = (typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0;
-            var si   = (typeof currentSubjectIdx        !== 'undefined') ? currentSubjectIdx        : 0;
+            
+            // Support both old (candidateAnswers) and new (studentAnswers) variable names
+            var ans  = (typeof studentAnswers !== 'undefined') ? studentAnswers : ((typeof candidateAnswers !== 'undefined') ? candidateAnswers : null);
+            var tsec = (typeof totalExamSecondsLeft !== 'undefined') ? totalExamSecondsLeft : ((typeof totalSecondsRemaining !== 'undefined') ? totalSecondsRemaining : null);
+            var qi   = (typeof currentQuestionIndex !== 'undefined') ? currentQuestionIndex : ((typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0);
+            var si   = (typeof currentSubjectIdx !== 'undefined') ? currentSubjectIdx : 0;
+            
             if (!ans || Object.keys(ans).length === 0) return;
+            
             localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
                 name: sess.name, regNum: sess.regNum,
                 subjectGroup: sess.subjectGroup || '',
@@ -1155,35 +1150,71 @@
     }
 
     function doResume(st, full) {
-        var cbtEl  = document.getElementById('cbt-screen');
-        var examUp = cbtEl && !cbtEl.classList.contains('hidden');
+        var examUp = document.getElementById('screen-exam') && !document.getElementById('screen-exam').classList.contains('hidden') || 
+                     document.getElementById('cbt-screen') && !document.getElementById('cbt-screen').classList.contains('hidden');
 
         if (!examUp) {
-            var ni = document.getElementById('student-name');
-            var ri = document.getElementById('reg-number');
+            var ni = document.getElementById('student-name') || document.getElementById('studentName');
+            var ri = document.getElementById('reg-number') || document.getElementById('regNum');
             if (ni) ni.value = st.name;
             if (ri) ri.value = st.regNum;
-            try { if (typeof handleLogin === 'function') handleLogin(); } catch (e) {}
+            
+            try { 
+                if (typeof handleLogin === 'function') handleLogin(); 
+                else if (typeof authenticateCandidate === 'function') authenticateCandidate();
+            } catch (e) {}
         }
 
         setTimeout(function () {
             try {
+                // Restore answers
                 Object.keys(st.answers).forEach(function (k) {
-                    candidateAnswers[parseInt(k, 10)] = st.answers[k];
+                    var parsedKey = isNaN(parseInt(k, 10)) ? k : parseInt(k, 10);
+                    if (typeof studentAnswers !== 'undefined') studentAnswers[parsedKey] = st.answers[k];
+                    else if (typeof candidateAnswers !== 'undefined') candidateAnswers[parsedKey] = st.answers[k];
                 });
+                
+                // Restore state
                 if (full) {
-                    if (st.tsec !== null && st.tsec > 0) totalSecondsRemaining = st.tsec;
+                    if (st.tsec !== null && st.tsec > 0) {
+                        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = st.tsec;
+                        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = st.tsec;
+                    }
                     try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
-                    try { currentQuestionGlobalIdx = st.qi || 0; } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = st.qi || 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = st.qi || 0;
+                    } catch (e) {}
                 } else {
                     try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
-                    try { currentQuestionGlobalIdx = 0; } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = 0;
+                    } catch (e) {}
                 }
-                try { if (typeof renderCurrentQuestionCard       === 'function') renderCurrentQuestionCard();       } catch (e) {}
-                try { if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix(); } catch (e) {}
-                try { if (typeof updateConsoleStatusHighlights   === 'function') updateConsoleStatusHighlights();   } catch (e) {}
-            } catch (ex) {}
-        }, examUp ? 80 : 240);
+                
+                // Re-render UI
+                try { 
+                    if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
+                    else if (typeof renderQuestion === 'function') renderQuestion();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix();
+                    else if (typeof buildNavigationGrid === 'function') buildNavigationGrid();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof updateConsoleStatusHighlights === 'function') updateConsoleStatusHighlights();
+                    else if (typeof updateNavGridHighlight === 'function') updateNavGridHighlight();
+                } catch (e) {}
+                
+                try {
+                    if (typeof updateProgressBars === 'function') updateProgressBars();
+                } catch (e) {}
+
+            } catch (ex) { console.error("Resume Engine Error:", ex); }
+        }, examUp ? 80 : 350);
     }
 
     window.addEventListener('DOMContentLoaded', function () {
@@ -1191,6 +1222,12 @@
             try {
                 var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
                 if (!sess || !sess.regNum) return;
+                
+                // If exam is completed and submitted, do not prompt resume
+                if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                    return;
+                }
+                
                 var key = getSaveKey(sess.regNum);
                 var raw = localStorage.getItem(key);
                 if (!raw) return;
@@ -1199,81 +1236,10 @@
                 if (st.regNum !== sess.regNum) return;
                 showModal(st, key);
             } catch (e) {}
-        }, 650);
+        }, 800);
     });
 
 }());
 </script>
-<!-- ======================= -->
-<script>
-(function() {
-    const sessionStr = localStorage.getItem('authSession');
-    if (!sessionStr) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    const session = JSON.parse(sessionStr);
-    window.authSessionGroup = session.subjectGroup.replace(/\s+/g, '_');
-
-    // Intercept localStorage to namespace the Anti-Cheat Lock
-    const originalSetItem = localStorage.setItem;
-    localStorage.setItem = function(key, value) {
-        if (key.startsWith("SHIS_CBT_TAKEN_") && !key.includes(window.authSessionGroup)) {
-            key = key + "_" + window.authSessionGroup;
-        }
-        originalSetItem.call(this, key, value);
-    };
-    
-    const originalGetItem = localStorage.getItem;
-    localStorage.getItem = function(key) {
-        if (key.startsWith("SHIS_CBT_TAKEN_") && !key.includes(window.authSessionGroup)) {
-            key = key + "_" + window.authSessionGroup;
-        }
-        return originalGetItem.call(this, key);
-    };
-
-    window.addEventListener('DOMContentLoaded', () => {
-        // Check if already taken
-        if(localStorage.getItem("SHIS_CBT_TAKEN_" + session.regNum + "_" + window.authSessionGroup)) {
-            document.body.innerHTML = "<h1 style='text-align:center; margin-top: 20%; color: #c62828; font-family: sans-serif; font-size: 3rem;'>Examination Locked.</h1><p style='text-align:center; font-size: 1.5rem;'>You have already completed the " + session.subjectGroup + " examination.</p>";
-            return;
-        }
-
-        // Set global studentData
-        if (typeof window.studentData !== 'undefined') {
-            window.studentData = { 
-                surname: session.name.split(' ')[0] || '', 
-                middle: session.name.split(' ')[1] || '', 
-                other: session.name.split(' ').slice(2).join(' ') || '', 
-                regNum: session.regNum 
-            };
-        } else {
-            window.studentData = { surname: session.name, middle: '', other: '', regNum: session.regNum };
-        }
-        
-        // Show Dashboard
-        const dash = document.getElementById('examDashboard');
-        if(dash) dash.classList.remove('hidden');
-        
-        const timerDisplay = document.getElementById('timerDisplay');
-        if(timerDisplay) timerDisplay.classList.remove('hidden');
-        
-        const dispName = document.getElementById('displayStudentName');
-        if(dispName) dispName.innerText = session.name;
-        
-        const dispReg = document.getElementById('displayRegNum');
-        if(dispReg) dispReg.innerText = session.regNum;
-
-        // Auto-start exam functions
-        setTimeout(() => {
-            try { if(typeof initQuestionGrid === 'function') initQuestionGrid(); } catch(e){}
-            try { if(typeof renderCurrentQuestion === 'function') renderCurrentQuestion(); } catch(e){}
-            try { if(typeof startTimerCountdown === 'function') startTimerCountdown(); } catch(e){}
-            try { if(typeof setupAntiCheatDetection === 'function') setupAntiCheatDetection(); } catch(e){}
-        }, 300);
-    });
-})();
-</script>
-\n</body>
+</body>
 </html>

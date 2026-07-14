@@ -1,0 +1,1664 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD HEIGHT INTERNATIONAL SCHOOL - CBT SYSTEM</title>
+    <style>
+        :root {
+            --primary-blue: #0d47a1;
+            --light-blue: #1976d2;
+            --accent-blue: #e3f2fd;
+            --dark-text: #212121;
+            --light-bg: #f5f5f5;
+            --white: #ffffff;
+            --success-green: #2e7d32;
+            --danger-red: #c62828;
+            --border-color: #cccccc;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-stack);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid var(--accent-blue);
+        }
+
+        .school-title-area {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .school-title-area h1 {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .school-title-area h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #bbdefb;
+            margin-top: 2px;
+        }
+
+        /* Login Screen Container */
+        .login-container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--light-blue);
+            box-shadow: 0 0 0 3px var(--accent-blue);
+        }
+
+        .instruction-note {
+            background-color: var(--accent-blue);
+            border-left: 4px solid var(--light-blue);
+            padding: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #0d47a1;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--light-blue);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s ease-in-out;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: var(--primary-blue); }
+        .btn-success { background-color: var(--success-green); }
+        .btn-success:hover { background-color: #1b5e20; }
+        .btn-secondary { background-color: #757575; }
+        .btn-secondary:hover { background-color: #424242; }
+
+        /* Dashboard & App Layout */
+        .quiz-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .meta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .student-info-tag { font-weight: 500; }
+        .subject-badge {
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .timer-box {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--danger-red);
+            background: #ffebee;
+            padding: 6px 15px;
+            border-radius: 4px;
+            border: 1px solid #ffcdd2;
+        }
+
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 4px;
+            height: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: var(--success-green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Examination Panel Split */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .navigator-panel {
+                order: 2;
+            }
+        }
+
+        /* Left Side: Question Display Area */
+        .question-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--light-blue);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* Inline Vectors / Diagrams Design */
+        .diagram-space {
+            margin: 15px 0;
+            background: #fafafa;
+            border: 1px dashed var(--border-color);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            background: var(--white);
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background-color: var(--accent-blue);
+            border-color: var(--light-blue);
+        }
+
+        .option-item.selected {
+            background-color: #bbdefb;
+            border-color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .control-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid var(--light-bg);
+            padding-top: 20px;
+        }
+
+        .control-actions .btn { width: auto; min-width: 130px; }
+
+        /* Right Side: Navigator Panel */
+        .navigator-panel {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--light-bg);
+            padding-bottom: 5px;
+        }
+
+        .navigator-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-btn {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover { background: #e0e0e0; }
+        .nav-btn.current {
+            background-color: var(--light-blue) !important;
+            color: var(--white) !important;
+            border-color: var(--primary-blue);
+        }
+        .nav-btn.answered {
+            background-color: var(--success-green);
+            color: var(--white);
+            border-color: #1b5e20;
+        }
+
+        .submit-zone {
+            margin-top: 25px;
+        }
+
+        /* Custom Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal-box {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 6px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--danger-red);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons .btn { width: auto; }
+
+        /* Results Module styling */
+        .results-card {
+            max-width: 750px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .results-header {
+            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .results-table th, .results-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .results-table th { background-color: var(--accent-blue); }
+        .score-highlight {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--success-green);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-placeholder">S.H.I.S</div>
+            <div class="school-title-area">
+                <h1>Standard Height International School</h1>
+                <h2>Science Department — Computer Based Test Portal</h2>
+            </div>
+            <div style="width: 60px;"></div> </div>
+    </header>
+
+    <div id="login-view" class="login-container">
+        <h3 class="text-center" style="margin-bottom: 15px; color: var(--primary-blue);">Student Examination Authentication</h3>
+        <div id="login-error" class="instruction-note hidden" style="background-color:#ffebee; border-left-color:var(--danger-red); color:var(--danger-red);"></div>
+        
+        <div class="instruction-note">
+            <strong>Formatting Requirement:</strong> Enter your full name in the sequential order: <strong>SURNAME MIDDLE OTHER</strong> separated by single spaces.
+        </div>
+
+        <div class="form-group">
+            <label for="student-name">Full Name</label>
+            <input type="text" id="student-name" placeholder="e.g., ABUBAKAR CHIDI OLA" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="student-reg">Registration Number</label>
+            <input type="text" id="student-reg" placeholder="e.g., SHIS/2026/SSS1/042" autocomplete="off">
+        </div>
+
+        <button type="button" id="start-btn" class="btn">Authenticate &amp; Start Test</button>
+    </div>
+
+    <div id="quiz-view" class="quiz-container hidden">
+        <div class="meta-bar">
+            <div class="student-info-tag">
+                Candidate: <span id="display-student-name" style="font-weight: 700;"></span> 
+                (<span id="display-student-reg"></span>)
+            </div>
+            <div>
+                <span id="display-subject-badge" class="subject-badge">MATHEMATICS SSS 1</span>
+            </div>
+            <div class="timer-box">
+                Time Left: <span id="timer-clock">50:00</span>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div id="exam-progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div class="main-layout">
+            <div class="question-card">
+                <div>
+                    <div id="question-index-header" class="question-header">Question 1 of 60</div>
+                    <div id="question-text-target" class="question-text">Loading question content...</div>
+                    <div id="diagram-render-target"></div>
+
+                    <div id="options-box" class="options-container">
+                        </div>
+                </div>
+
+                <div class="control-actions">
+                    <button type="button" id="prev-btn" class="btn btn-secondary">Previous</button>
+                    <button type="button" id="next-btn" class="btn">Next Question</button>
+                </div>
+            </div>
+
+            <div class="navigator-panel">
+                <div class="panel-title">Question Grid Map</div>
+                <div id="nav-buttons-grid" class="navigator-grid">
+                    </div>
+                <div class="submit-zone">
+                    <button type="button" id="exam-submit-trigger" class="btn btn-success">Submit Examination</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="results-view" class="results-card hidden">
+        <div class="results-header text-center">
+            <h2 style="color: var(--primary-blue);">Examination Statement of Result</h2>
+            <p style="font-weight: 600; color: #555; margin-top: 5px;">Standard Height International School (Science Dept)</p>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <p><strong>Candidate Name:</strong> <span id="res-name"></span></p>
+            <p><strong>Registration ID:</strong> <span id="res-reg"></span></p>
+            <p><strong>Status:</strong> Completed &amp; Saved via Central CBT Storage Architecture</p>
+        </div>
+
+        <h3>Subject performance breakdowns</h3>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Subject Category</th>
+                    <th>Total Queries</th>
+                    <th>Correct Invocations</th>
+                    <th>Score (%)</th>
+                </tr>
+            </thead>
+            <tbody id="results-table-body">
+                </tbody>
+        </table>
+
+        <div style="background: var(--light-bg); padding: 15px; border-radius: 4px; margin-top: 20px;">
+            <p><strong>Aggregate Summary Percentage:</strong> <span id="res-total-pct" class="score-highlight">0%</span></p>
+            <p><strong>Determined Final Alpha Grade:</strong> <span id="res-grade" style="font-weight:700; font-size:1.2rem;">F</span></p>
+        </div>
+
+        <div style="margin-top: 30px;" class="text-center">
+            <p style="font-size:0.85rem; color:#777;">System Status: Secure Logged State. Review window complete.</p>
+        </div>
+    </div>
+
+    <div id="modal-system" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div id="modal-title" class="modal-title">Confirm Submission</div>
+            <p id="modal-body-text">Are you sure you want to finish and process your score metrics? You cannot return to the examination panels after this action.</p>
+            <div class="modal-buttons">
+                <button type="button" id="modal-cancel" class="btn btn-secondary">Return</button>
+                <button type="button" id="modal-confirm" class="btn btn-success">Confirm Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /************************************************************************
+         * QUESTION ENGINE SCHEMAS (WAEC COMPLIANT BANK WITH EMBEDDED DIAGRAMS)
+         ************************************************************************/
+        const questionBank = [
+            // --- MATHEMATICS (1 - 20) ---
+            {
+                id: 1,
+                subject: "MATHEMATICS SSS 1",
+                text: "An arc of a circle subtends an angle of 60° at the centre of a circle of radius 7cm. Calculate the length of the arc. [Take &pi; = 22/7]",
+                options: ["A. 3.67cm", "B. 7.33cm", "C. 14.67cm", "D. 22.00cm"],
+                correct: 1 // B
+            },
+            {
+                id: 2,
+                subject: "MATHEMATICS SSS 1",
+                text: "Calculate the perimeter of a sector of a circle of radius 14cm if the angle of the sector is 90°. [Take &pi; = 22/7]",
+                options: ["A. 22cm", "B. 36cm", "C. 50cm", "D. 64cm"],
+                correct: 2 // C
+            },
+            {
+                id: 3,
+                subject: "MATHEMATICS SSS 1",
+                text: "Find the area of a sector of a circle of radius 6cm which subtends an angle of 70° at the center. [Take &pi; = 22/7]",
+                options: ["A. 11.00 cm²", "B. 22.00 cm²", "C. 44.00 cm²", "D. 66.00 cm²"],
+                correct: 1 // B
+            },
+            {
+                id: 4,
+                subject: "MATHEMATICS SSS 1",
+                text: "What is the length of an arc that bounds a sector of area 22 cm² in a circle of radius 4cm?",
+                options: ["A. 5.5cm", "B. 11.0cm", "C. 22.0cm", "D. 44.0cm"],
+                correct: 1 // B
+            },
+            {
+                id: 5,
+                subject: "MATHEMATICS SSS 1",
+                text: "Refer to the diagram below. Calculate the area of the shaded segment of the circle.",
+                diagram: `<svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="80" stroke="#333" stroke-width="2" fill="none"/>
+                    <path d="M 100 20 A 80 80 0 0 1 180 100 L 100 100 Z" fill="#bbdefb" stroke="#0d47a1" stroke-width="1"/>
+                    <line x1="100" y1="20" x2="180" y2="100" stroke="#c62828" stroke-width="2"/>
+                    <text x="105" y="85" font-size="12" font-weight="bold">90°</text>
+                    <text x="110" y="50" font-size="12" fill="#333">r = 7cm</text>
+                </svg>`,
+                options: ["A. 10.5 cm²", "B. 14.0 cm²", "C. 38.5 cm²", "D. 56.0 cm²"],
+                correct: 0 // A
+            },
+            {
+                id: 6,
+                subject: "MATHEMATICS SSS 1",
+                text: "A sector of a circle of radius 12cm with an angle of 120° is folded to form a cone. Find the base radius of the cone.",
+                options: ["A. 2cm", "B. 3cm", "C. 4cm", "D. 6cm"],
+                correct: 2 // C
+            },
+            {
+                id: 7,
+                subject: "MATHEMATICS SSS 1",
+                text: "If a sector of a circle with radius 10cm and sector angle 216° is bent into a cone, calculate the curved surface area of the resulting cone.",
+                options: ["A. 60&pi; cm²", "B. 100&pi; cm²", "C. 120&pi; cm²", "D. 216&pi; cm²"],
+                correct: 0 // A
+            },
+            {
+                id: 8,
+                subject: "MATHEMATICS SSS 1",
+                text: "A regular triangular prism is displayed in the diagram below. Calculate its total surface area.",
+                diagram: `<svg width="220" height="160" viewBox="0 0 220 160">
+                    <polygon points="30,130 90,130 60,80" stroke="#999" stroke-width="1" stroke-dasharray="4" fill="none"/>
+                    <polygon points="130,130 190,130 160,80" stroke="#333" stroke-width="2" fill="none"/>
+                    <line x1="30" y1="130" x2="130" y2="130" stroke="#333" stroke-width="2"/>
+                    <line x1="90" y1="130" x2="190" y2="130" stroke="#333" stroke-width="2"/>
+                    <line x1="60" y1="80" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                    <text x="150" y="145" font-size="11">Length = 10cm</text>
+                    <text x="145" y="110" font-size="11">Base = 6cm</text>
+                    <text x="175" y="100" font-size="11">Height = 4cm</text>
+                </svg>`,
+                options: ["A. 180 cm²", "B. 204 cm²", "C. 228 cm²", "D. 240 cm²"],
+                correct: 1 // B
+            },
+            {
+                id: 9,
+                subject: "MATHEMATICS SSS 1",
+                text: "Find the total surface area of a solid cylinder with base radius 7cm and height 10cm. [Take &pi; = 22/7]",
+                options: ["A. 440 cm²", "B. 594 cm²", "C. 748 cm²", "D. 1540 cm²"],
+                correct: 2 // C
+            },
+            {
+                id: 10,
+                subject: "MATHEMATICS SSS 1",
+                text: "See the geometric cone below. Find the total surface area of this solid configuration.",
+                diagram: `<svg width="200" height="180" viewBox="0 0 200 180">
+                    <ellipse cx="100" cy="140" rx="60" ry="20" stroke="#333" stroke-width="2" fill="none"/>
+                    <line x1="40" y1="140" x2="100" y2="20" stroke="#333" stroke-width="2"/>
+                    <line x1="160" y1="140" x2="100" y2="20" stroke="#333" stroke-width="2"/>
+                    <line x1="100" y1="140" x2="100" y2="20" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="100" y1="140" x2="160" y2="140" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="120" y="155" font-size="11">r = 7cm</text>
+                    <text x="110" y="80" font-size="11">h = 24cm</text>
+                    <text x="50" y="70" font-size="11">l = 25cm</text>
+                </svg>`,
+                options: ["A. 550 cm²", "B. 704 cm²", "C. 1056 cm²", "D. 1232 cm²"],
+                correct: 1 // B
+            },
+            {
+                id: 11,
+                subject: "MATHEMATICS SSS 1",
+                text: "Calculate the volume of a cube whose total surface area is 150 cm².",
+                options: ["A. 25 cm³", "B. 125 cm³", "C. 150 cm³", "D. 625 cm³"],
+                correct: 1 // B
+            },
+            {
+                id: 12,
+                subject: "MATHEMATICS SSS 1",
+                text: "A rectangular container has dimensions 12cm by 8cm by 5cm. Calculate its volume capacity.",
+                options: ["A. 120 cm³", "B. 240 cm³", "C. 480 cm³", "D. 520 cm³"],
+                correct: 2 // C
+            },
+            {
+                id: 13,
+                subject: "MATHEMATICS SSS 1",
+                text: "Calculate the volume of a cone with base radius 3cm and height 7cm. [Take &pi; = 22/7]",
+                options: ["A. 22 cm³", "B. 66 cm³", "C. 198 cm³", "D. 231 cm³"],
+                correct: 1 // B
+            },
+            {
+                id: 14,
+                subject: "MATHEMATICS SSS 1",
+                text: "The diagram exhibits a solid right pyramid on a square base. Compute its overall volume.",
+                diagram: `<svg width="200" height="180" viewBox="0 0 200 180">
+                    <polygon points="30,140 130,140 170,100 70,100" stroke="#333" stroke-width="1.5" fill="none"/>
+                    <line x1="30" y1="140" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                    <line x1="130" y1="140" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                    <line x1="170" y1="100" x2="100" y2="30" stroke="#333" stroke-width="1.5"/>
+                    <line x1="70" y1="100" x2="100" y2="30" stroke="#999" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="100" y1="120" x2="100" y2="30" stroke="#c62828" stroke-width="1.5" stroke-dasharray="2"/>
+                    <text x="75" y="155" font-size="11">Side = 6cm</text>
+                    <text x="105" y="75" font-size="11" fill="#c62828">Height = 8cm</text>
+                </svg>`,
+                options: ["A. 48 cm³", "B. 96 cm³", "C. 144 cm³", "D. 288 cm³"],
+                correct: 0 // A
+            },
+            {
+                id: 15,
+                subject: "MATHEMATICS SSS 1",
+                text: "Find the volume of water required to fill a cylindrical tank of base diameter 14m and height 3m completely. [&pi; = 22/7]",
+                options: ["A. 154 m³", "B. 462 m³", "C. 924 m³", "D. 1848 m³"],
+                correct: 1 // B
+            },
+            {
+                id: 16,
+                subject: "MATHEMATICS SSS 1",
+                text: "Calculate the angle subtended at the center of a circle of radius 21cm by an arc of length 22cm.",
+                options: ["A. 30°", "B. 60°", "C. 90°", "D. 120°"],
+                correct: 0 // A
+            },
+            {
+                id: 17,
+                subject: "MATHEMATICS SSS 1",
+                text: "The volume of a cylinder is 308 cm³. If its height is 8cm, calculate its base radius. [Take &pi; = 22/7]",
+                options: ["A. 3.5cm", "B. 7.0cm", "C. 14.0cm", "D. 24.5cm"],
+                correct: 0 // A
+            },
+            {
+                id: 18,
+                subject: "MATHEMATICS SSS 1",
+                text: "The area of a sector of a circle is 154 cm². If the radius of the circle is 14cm, calculate the sector angle.",
+                options: ["A. 45°", "B. 90°", "C. 120°", "D. 180°"],
+                correct: 1 // B
+            },
+            {
+                id: 19,
+                subject: "MATHEMATICS SSS 1",
+                text: "A sphere is carved out of a uniform solid cube. If the cube side length is 6cm, find the maximum volume the sphere can occupy.",
+                options: ["A. 12&pi; cm³", "B. 36&pi; cm³", "C. 72&pi; cm³", "D. 288&pi; cm³"],
+                correct: 1 // B
+            },
+            {
+                id: 20,
+                subject: "MATHEMATICS SSS 1",
+                text: "A rectangular block of metal with cross-section dimensions 4cm by 3cm is 10cm long. If it is melted down to cast a cylinder of radius 2cm, calculate the theoretical height of the cylinder.",
+                options: ["A. 4.31cm", "B. 9.55cm", "C. 12.00cm", "D. 15.62cm"],
+                correct: 1 // B
+            },
+
+            // --- DIGITAL TECHNOLOGIES (21 - 40) ---
+            {
+                id: 21,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which of the following shortcuts is utilized to save a file dynamically in Microsoft Word?",
+                options: ["A. Ctrl + O", "B. Ctrl + S", "C. Ctrl + P", "D. Ctrl + V"],
+                correct: 1 // B
+            },
+            {
+                id: 22,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What formatting element controls the spacing structure between paragraphs or lines of prose text?",
+                options: ["A. Font Style", "B. Alignment", "C. Line Spacing", "D. Indentation"],
+                correct: 2 // C
+            },
+            {
+                id: 23,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "In word processing platforms, changing the structural layout orientation of a document page from portrait to landscape is found under which tab?",
+                options: ["A. Home", "B. Page Layout / Layout", "C. Review", "D. References"],
+                correct: 1 // B
+            },
+            {
+                id: 24,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which processing module automatically moves text insertion markers down to the subsequent line when a word exceeds margins?",
+                options: ["A. Text Alignment", "B. Word Wrap", "C. AutoCorrect", "D. Macro Execution"],
+                correct: 1 // B
+            },
+            {
+                id: 25,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What basic tool scans a document and matches keywords against a system repository to address typing syntax mistakes?",
+                options: ["A. Mail Merge", "B. Thesaurus", "C. Find and Replace", "D. Spelling and Grammar Checker"],
+                correct: 3 // D
+            },
+            {
+                id: 26,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Every formula or dynamic arithmetic function inside a spreadsheet environment like Microsoft Excel must initiate with which character?",
+                options: ["A. #", "B. @", "C. =", "D. +"],
+                correct: 2 // C
+            },
+            {
+                id: 27,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Identify the correct spreadsheet absolute cell reference notation from the choices below.",
+                options: ["A. A1", "B. $A1", "C. A$1", "D. $A$1"],
+                correct: 3 // D
+            },
+            {
+                id: 28,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which grid structure corresponds to the vertical data columns arrayed in standard spreadsheet interfaces?",
+                options: ["A. Rows denoted by numbers", "B. Columns denoted by letters", "C. Formulas", "D. Worksheets"],
+                correct: 1 // B
+            },
+            {
+                id: 29,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What spreadsheet operation adds together values from cells B1 through B10 continuously?",
+                options: ["A. =ADD(B1:B10)", "B. =SUM(B1:B10)", "C. =TOTAL(B1..B10)", "D. =B1+B10"],
+                correct: 1 // B
+            },
+            {
+                id: 30,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "The location coordinates produced by the intersection of a column letter and a row number in a sheet grid is defined as a:",
+                options: ["A. Label", "B. Cell Address", "C. Range", "D. Workbook Block"],
+                correct: 1 // B
+            },
+            {
+                id: 31,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which functional calculation returns the highest value contained inside a declared cell sequence range?",
+                options: ["A. =HIGH()", "B. =MAX()", "C. =LARGE()", "D. =TOP()"],
+                correct: 1 // B
+            },
+            {
+                id: 32,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What type of visual chart model is ideal for representing percentage breakdowns of a whole data set?",
+                options: ["A. Line Chart", "B. Bar Chart", "C. Pie Chart", "D. Scatter Plot"],
+                correct: 2 // C
+            },
+            {
+                id: 33,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "If cell A1 contains 15 and cell B1 contains 5, what evaluates from the formula `=A1/B1`?",
+                options: ["A. 75", "B. 20", "C. 3", "D. 10"],
+                correct: 2 // C
+            },
+            {
+                id: 34,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What data feature isolates specific records within a spreadsheet matrix based on specified criteria?",
+                options: ["A. Sorting", "B. Filtering", "C. Merging", "D. Validating"],
+                correct: 1 // B
+            },
+            {
+                id: 35,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which component represents the core file container containing multiple worksheets inside Excel?",
+                options: ["A. Document", "B. Presentation", "C. Workbook", "D. Database Table"],
+                correct: 2 // C
+            },
+            {
+                id: 36,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "In Microsoft PowerPoint, what term specifies visual motion tracking applied specifically to structural items on a slide during presentation?",
+                options: ["A. Slide Transition", "B. Animation", "C. Theme Injection", "D. Handout Template"],
+                correct: 1 // B
+            },
+            {
+                id: 37,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which presentation utility mode organizes thumbnails of all slides onto a screen grid for quick sequencing adjustment?",
+                options: ["A. Normal View", "B. Reading View", "C. Slide Sorter View", "D. Outline View"],
+                correct: 2 // C
+            },
+            {
+                id: 38,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What standard hotkey function executes slideshow playback mode starting from the initial slide?",
+                options: ["A. F1", "B. F5", "C. F7", "D. F11"],
+                correct: 1 // B
+            },
+            {
+                id: 39,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "What is the primary function of the Slide Master feature in professional presentation applications?",
+                options: ["A. To record voice narrations", "B. To apply universal style configurations across all slides", "C. To check spelling variations", "D. To convert slides into video files"],
+                correct: 1 // B
+            },
+            {
+                id: 40,
+                subject: "DIGITAL TECHNOLOGIES SSS 1",
+                text: "Which file format extension natively saves presentations created by modern versions of PowerPoint?",
+                options: ["A. .docx", "B. .xlsx", "C. .pptx", "D. .txt"],
+                correct: 2 // C
+            },
+
+            // --- LIVESTOCK FARMING (41 - 60) ---
+            {
+                id: 41,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Which of the following is considered an exotic breed of beef cattle imported to Nigeria?",
+                options: ["A. White Fulani", "B. N'Dama", "C. Red Bororo", "D. Aberdeen Angus"],
+                correct: 3 // D
+            },
+            {
+                id: 42,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Which indigenous cattle breed is highly notable for its resistance against trypanosomiasis in humid zones?",
+                options: ["A. Muturu", "B. Sokoto Gudali", "C. Bunaji", "D. Friesian"],
+                correct: 0 // A
+            },
+            {
+                id: 43,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What housing asset is purposefully constructed to hold and clean cattle from ticks and external parasites?",
+                options: ["A. Paddock", "B. Dipping Tank", "C. Silo Tower", "D. Farrowing Pen"],
+                correct: 1 // B
+            },
+            {
+                id: 44,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "High-moisture green forage crops preserved airtight under fermentation conditions for cattle feed are called:",
+                options: ["A. Hay", "B. Silage", "C. Straw", "D. Concentrates"],
+                correct: 1 // B
+            },
+            {
+                id: 45,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What nutrient concentrate resource provides rich dietary proteins to cattle stock feeds?",
+                options: ["A. Bone Meal", "B. Groundnut Cake (GNC)", "C. Maize Grains", "D. Molasses Syrup"],
+                correct: 1 // B
+            },
+            {
+                id: 46,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What primary utility class defines cattle breeds specialized for milk output production?",
+                options: ["A. Beef Breeds", "B. Dairy Breeds", "C. Work Animals", "D. Dual-Purpose Stocks"],
+                correct: 1 // B
+            },
+            {
+                id: 47,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Which breed option stands out as a high-performing global dairy breed category?",
+                options: ["A. Hereford", "B. Holstein Friesian", "C. Brahman", "D. Santa Gertrudis"],
+                correct: 1 // B
+            },
+            {
+                id: 48,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What operation involves physical removal of the horn buds of calves early in lifecycle development?",
+                options: ["A. Castration", "B. Dehorning / Debudding", "C. Culling", "D. Branding Identification"],
+                correct: 1 // B
+            },
+            {
+                id: 49,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "The process of removing old, sick, or underperforming cattle from the farm herd is called:",
+                options: ["A. Inbreeding", "B. Quarantine", "C. Culling", "D. Weaning"],
+                correct: 2 // C
+            },
+            {
+                id: 50,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What standard practice separates young calves from their dams to transition them to solid field pastures?",
+                options: ["A. Lactation", "B. Weaning", "C. Gestation", "D. Artificial Insemination"],
+                correct: 1 // B
+            },
+            {
+                id: 51,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Mating two closely related animals within a shared lineage grid (e.g., sire to daughter) is defined as:",
+                options: ["A. Outcrossing", "B. Inbreeding", "C. Species Hybridization", "D. Grading Up"],
+                correct: 1 // B
+            },
+            {
+                id: 52,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What first milk substance is secreted by the udder right after calving, rich in antibodies for newborn health?",
+                options: ["A. Skimmed Milk", "B. Colostrum", "C. Whey Fluid", "D. Pasteurized Extract"],
+                correct: 1 // B
+            },
+            {
+                id: 53,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "The target management approach focused on feeding cattle intensely with nutrient rations to maximize weight gains for slaughter market readiness is:",
+                options: ["A. Extensive Grazing", "B. Beef Fattening / Feedlotting", "C. Rotational Strip Pasture", "D. Open Herding"],
+                correct: 1 // B
+            },
+            {
+                id: 54,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What specialized biotechnology introduces premium semen into a cow's reproductive tract using specialized tools?",
+                options: ["A. Natural Service", "B. Embryo Cloning", "C. Artificial Insemination", "D. In Vitro Incubation"],
+                correct: 2 // C
+            },
+            {
+                id: 55,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What vector organism transmits Trypanosomiasis (Sleeping Sickness) within cattle herd communities in West Africa?",
+                options: ["A. Tsetse Fly", "B. Tick Bug", "C. Mosquito Insect", "D. Housefly Vector"],
+                correct: 0 // A
+            },
+            {
+                id: 56,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Identify the contagious viral cattle disease characterized by painful blisters around the mouth area and hooves.",
+                options: ["A. Anthrax Bacteria", "B. Mastitis Infection", "C. Foot and Mouth Disease (FMD)", "D. Brucellosis Disease"],
+                correct: 2 // C
+            },
+            {
+                id: 57,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "An inflammation of the cow's udder tissue, usually caused by bacterial infection and poor milking hygiene, is known as:",
+                options: ["A. Rinderpest", "B. Mastitis", "C. Aspergillosis", "D. Bloat"],
+                correct: 1 // B
+            },
+            {
+                id: 58,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Which operational strategy effectively prevents ticks and tick-borne pathogen infections in intensive cattle ranches?",
+                options: ["A. Regular Deworming injections", "B. Application of Acaricides via spray or dipping", "C. Increasing protein levels in feed rations", "D. Dehorning older bulls"],
+                correct: 1 // B
+            },
+            {
+                id: 59,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "What bio-security procedure isolates newly acquired cattle from the existing farm herd to screen for hidden infections?",
+                options: ["A. Culling", "B. Quarantine", "C. Vaccination Trait", "D. Feed Restriction"],
+                correct: 1 // B
+            },
+            {
+                id: 60,
+                subject: "LIVESTOCK FARMING SSS 1",
+                text: "Which pathogen classification causes Foot-and-Mouth disease and Rinderpest infections in livestock animals?",
+                options: ["A. Bacteria", "B. Protozoa", "C. Virus", "D. Fungus"],
+                correct: 2 // C
+            }
+        ];
+
+        /************************************************************************
+         * STATE ARCHITECTURE REGISTRY
+         ************************************************************************/
+        let currentStudentName = "";
+        let currentStudentReg = "";
+        let currentQuestionIndex = 0;
+        let selectedAnswers = {}; // Map of questionIndex -> optionIndex selected
+        let examTimerInterval = null;
+        let totalExamTimeSeconds = 50 * 60; // 50 minutes total duration
+
+        // Category index bounds tracking
+        // Math: 0-19, Digital Tech: 20-39, Livestock: 40-59
+
+        /************************************************************************
+         * DOM NODE POINTER REGISTRY
+         ************************************************************************/
+        const viewLogin = document.getElementById('login-view');
+        const viewQuiz = document.getElementById('quiz-view');
+        const viewResults = document.getElementById('results-view');
+        
+        const inputName = document.getElementById('student-name');
+        const inputReg = document.getElementById('student-reg');
+        const loginError = document.getElementById('login-error');
+        
+        const displayStudentName = document.getElementById('display-student-name');
+        const displayStudentReg = document.getElementById('display-student-reg');
+        const displaySubjectBadge = document.getElementById('display-subject-badge');
+        const timerClock = document.getElementById('timer-clock');
+        const progressBar = document.getElementById('exam-progress-bar');
+        
+        const qIndexHeader = document.getElementById('question-index-header');
+        const qTextTarget = document.getElementById('question-text-target');
+        const diagramTarget = document.getElementById('diagram-render-target');
+        const optionsBox = document.getElementById('options-box');
+        
+        const btnPrev = document.getElementById('prev-btn');
+        const btnNext = document.getElementById('next-btn');
+        const navButtonsGrid = document.getElementById('nav-buttons-grid');
+        const btnSubmitTrigger = document.getElementById('exam-submit-trigger');
+        
+        // Modal Nodes
+        const modalSystem = document.getElementById('modal-system');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBodyText = document.getElementById('modal-body-text');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalConfirm = document.getElementById('modal-confirm');
+        
+        let modalConfirmCallback = null;
+
+        /************************************************************************
+         * EVENT LISTENERS INITIALIZATION
+         ************************************************************************/
+        document.getElementById('start-btn').addEventListener('click', validateAndStartTest);
+        btnPrev.addEventListener('click', goToPreviousQuestion);
+        btnNext.addEventListener('click', goToNextQuestion);
+        btnSubmitTrigger.addEventListener('click', triggerManualSubmitModal);
+
+        // Security Anti-Cheating Event Handlers
+        window.addEventListener('blur', handleSecurityViolationBlurAutoSubmit);
+
+        /************************************************************************
+         * LOGICAL APPLICATION CONTROLLER CORE
+         ************************************************************************/
+        
+        function validateAndStartTest() {
+            loginError.classList.add('hidden');
+            let nameVal = inputName.value.trim().toUpperCase();
+            let regVal = inputReg.value.trim().toUpperCase();
+
+            if (!nameVal || !regVal) {
+                showLoginError("All credential entries are strict requirements.");
+                return;
+            }
+
+            // Enforce Name Format matching: SURNAME MIDDLE OTHER (Minimum three distinct strings)
+            let brokenNames = nameVal.split(/\s+/);
+            if (brokenNames.length < 3) {
+                showLoginError("Name validation failed. Enter credentials in the sequence: SURNAME MIDDLE OTHER.");
+                return;
+            }
+
+            // Anti-Retake Validation Check
+            if (localStorage.getItem("SHIS_CBT_COMPLETED_" + regVal)) {
+                showLoginError(`Authentication Denied: You have already completed this examination (${regVal}).`);
+                return;
+            }
+
+            // Initialize State Parameters
+            currentStudentName = nameVal;
+            currentStudentReg = regVal;
+
+            displayStudentName.innerText = currentStudentName;
+            displayStudentReg.innerText = currentStudentReg;
+
+            // Shift Views
+            viewLogin.classList.add('hidden');
+            viewQuiz.classList.remove('hidden');
+
+            // Generate Nav Grid Map & Render first element
+            initializeNavigatorGrid();
+            renderQuestionAtIndex(0);
+            startCountdownClock();
+        }
+
+        function showLoginError(msg) {
+            loginError.innerText = msg;
+            loginError.classList.remove('hidden');
+        }
+
+        function startCountdownClock() {
+            examTimerInterval = setInterval(() => {
+                totalExamTimeSeconds--;
+                
+                let mins = Math.floor(totalExamTimeSeconds / 60);
+                let secs = totalExamTimeSeconds % 60;
+
+                timerClock.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (totalExamTimeSeconds <= 0) {
+                    clearInterval(examTimerInterval);
+                    executeFinalSubmissionInvoluntary("Time Expired! Your responses are submitting automatically.");
+                }
+            }, 1000);
+        }
+
+        function handleSecurityViolationBlurAutoSubmit() {
+            // Check if quiz view is actively running
+            if (!viewQuiz.classList.contains('hidden')) {
+                window.removeEventListener('blur', handleSecurityViolationBlurAutoSubmit);
+                clearInterval(examTimerInterval);
+                executeFinalSubmissionInvoluntary("Security Violation: You attempted to minimize the window or switch tabs. The system has automatically submitted your answers.");
+            }
+        }
+
+        function initializeNavigatorGrid() {
+            navButtonsGrid.innerHTML = "";
+            questionBank.forEach((q, index) => {
+                let btn = document.createElement('button');
+                btn.type = "button";
+                btn.className = "nav-btn";
+                btn.id = `nav-btn-${index}`;
+                btn.innerText = index + 1;
+                btn.addEventListener('click', () => {
+                    renderQuestionAtIndex(index);
+                });
+                navButtonsGrid.appendChild(btn);
+            });
+        }
+
+        function renderQuestionAtIndex(index) {
+            // Bound validation limits
+            if (index < 0 || index >= questionBank.length) return;
+
+            // Remove highlighted background tracking from old current element
+            let oldCurrent = document.getElementById(`nav-btn-${currentQuestionIndex}`);
+            if (oldCurrent) oldCurrent.classList.remove('current');
+
+            currentQuestionIndex = index;
+            let question = questionBank[index];
+
+            // UI Header updates
+            displaySubjectBadge.innerText = question.subject;
+            qIndexHeader.innerText = `Question ${index + 1} of ${questionBank.length}`;
+            qTextTarget.innerHTML = question.text;
+
+            // Handle Render for SVG Diagrams if present
+            if (question.diagram) {
+                diagramTarget.innerHTML = question.diagram;
+                diagramTarget.className = "diagram-space";
+            } else {
+                diagramTarget.innerHTML = "";
+                diagramTarget.className = "";
+            }
+
+            // Build Options View Components
+            optionsBox.innerHTML = "";
+            question.options.forEach((opt, optIdx) => {
+                let label = document.createElement('label');
+                label.className = "option-item";
+                if (selectedAnswers[index] === optIdx) {
+                    label.classList.add('selected');
+                }
+
+                let radio = document.createElement('input');
+                radio.type = "radio";
+                radio.name = `q-opt-${index}`;
+                radio.checked = (selectedAnswers[index] === optIdx);
+                radio.addEventListener('change', () => {
+                    saveAnswerState(index, optIdx);
+                    // Dynamically set background class selection highlights
+                    document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+                    label.classList.add('selected');
+                });
+
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(opt));
+                optionsBox.appendChild(label);
+            });
+
+            // Set Current Highlight Status on Navigation Box Map
+            let newCurrent = document.getElementById(`nav-btn-${index}`);
+            if (newCurrent) newCurrent.classList.add('current');
+
+            // Handle Buttons Visibilities edge elements
+            btnPrev.style.visibility = (index === 0) ? "hidden" : "visible";
+            btnNext.innerText = (index === questionBank.length - 1) ? "Review Grid" : "Next Question";
+            
+            recalculateCompletionProgress();
+        }
+
+        function saveAnswerState(questionIdx, optionIdx) {
+            selectedAnswers[questionIdx] = optionIdx;
+            
+            // Mark corresponding grid box map as answered
+            let navBtn = document.getElementById(`nav-btn-${questionIdx}`);
+            if (navBtn) {
+                navBtn.classList.add('answered');
+            }
+            recalculateCompletionProgress();
+        }
+
+        function recalculateCompletionProgress() {
+            let totalAnsweredCount = Object.keys(selectedAnswers).length;
+            let percent = (totalAnsweredCount / questionBank.length) * 100;
+            progressBar.style.width = `${percent}%`;
+        }
+
+        function goToPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                renderQuestionAtIndex(currentQuestionIndex - 1);
+            }
+        }
+
+        function goToNextQuestion() {
+            if (currentQuestionIndex < questionBank.length - 1) {
+                renderQuestionAtIndex(currentQuestionIndex + 1);
+            } else {
+                // Pinpoint attention to navigation grid area map at final item
+                triggerManualSubmitModal();
+            }
+        }
+
+        /************************************************************************
+         * SYSTEM SUBMISSION MODAL IMPLEMENTATIONS
+         ************************************************************************/
+        function displayCustomModal(title, text, confirmLabel, onConfirmAction, hideCancel = false) {
+            modalTitle.innerText = title;
+            modalBodyText.innerText = text;
+            modalConfirm.innerText = confirmLabel;
+            
+            if (hideCancel) {
+                modalCancel.classList.add('hidden');
+            } else {
+                modalCancel.classList.remove('hidden');
+            }
+
+            modalSystem.classList.remove('hidden');
+
+            modalCancel.onclick = function() {
+                modalSystem.classList.add('hidden');
+            };
+
+            modalConfirm.onclick = function() {
+                modalSystem.classList.add('hidden');
+                if (onConfirmAction) onConfirmAction();
+            };
+        }
+
+        function triggerManualSubmitModal() {
+            let answeredCount = Object.keys(selectedAnswers).length;
+            let missingCount = questionBank.length - answeredCount;
+            let bodyText = `You have answered ${answeredCount} out of ${questionBank.length} questions.`;
+            
+            if (missingCount > 0) {
+                bodyText += ` You have ${missingCount} unanswered questions remaining.`;
+            }
+            
+            bodyText += " Are you sure you want to finish and submit your score?";
+
+            displayCustomModal(
+                "Confirm Final Submission",
+                bodyText,
+                "Submit Test",
+                processScoreMetricsAndShowResults
+            );
+        }
+
+        function executeFinalSubmissionInvoluntary(message) {
+            displayCustomModal(
+                "Exam Submitted",
+                message,
+                "View Results Summary",
+                processScoreMetricsAndShowResults,
+                true // Hide exit bypass buttons
+            );
+        }
+
+        /************************************************************************
+         * METRICS ENGINE: SCORING, GRADING & SEPARATE SUBJECT RESULTS BREAKDOWN
+         ************************************************************************/
+        function processScoreMetricsAndShowResults() {
+            // Cancel events running
+            clearInterval(examTimerInterval);
+            window.removeEventListener('blur', handleSecurityViolationBlurAutoSubmit);
+
+            // Record Completion footprint inside browser LocalStorage
+            localStorage.setItem("SHIS_CBT_COMPLETED_" + currentStudentReg, "true");
+
+            // Subject boundaries score tracking records objects
+            let PerformanceSummary = {
+                "MATHEMATICS SSS 1": { correct: 0, total: 0 },
+                "DIGITAL TECHNOLOGIES SSS 1": { correct: 0, total: 0 },
+                "LIVESTOCK FARMING SSS 1": { correct: 0, total: 0 }
+            };
+
+            // Run evaluation computations loop across answers
+            questionBank.forEach((q, index) => {
+                let subject = q.subject;
+                PerformanceSummary[subject].total++;
+
+                if (selectedAnswers[index] !== undefined) {
+                    if (selectedAnswers[index] === q.correct) {
+                        PerformanceSummary[subject].correct++;
+                    }
+                }
+            });
+
+            // Calculate Aggregate Scores totals
+            let totalCorrectAnswers = 0;
+            let totalQuestionsCount = questionBank.length;
+
+            let tableBodyTarget = document.getElementById('results-table-body');
+            tableBodyTarget.innerHTML = "";
+
+            for (let subKey in PerformanceSummary) {
+                let data = PerformanceSummary[subKey];
+                totalCorrectAnswers += data.correct;
+                let subPct = data.total > 0 ? ((data.correct / data.total) * 100).toFixed(1) : 0;
+
+                let row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${subKey}</strong></td>
+                    <td>${data.total}</td>
+                    <td>${data.correct}</td>
+                    <td><strong>${subPct}%</strong></td>
+                `;
+                tableBodyTarget.appendChild(row);
+            }
+
+            let absolutePercentageScore = (totalCorrectAnswers / totalQuestionsCount) * 100;
+
+            // Generate alpha grade via Standard West African/WAEC Grading Metrics Scale
+            let determinedGrade = "F9";
+            if (absolutePercentageScore >= 75) determinedGrade = "A1 (Excellent)";
+            else if (absolutePercentageScore >= 70) determinedGrade = "B2 (Very Good)";
+            else if (absolutePercentageScore >= 65) determinedGrade = "B3 (Good)";
+            else if (absolutePercentageScore >= 60) determinedGrade = "C4 (Credit)";
+            else if (absolutePercentageScore >= 55) determinedGrade = "C5 (Credit)";
+            else if (absolutePercentageScore >= 50) determinedGrade = "C6 (Credit)";
+            else if (absolutePercentageScore >= 45) determinedGrade = "D7 (Pass)";
+            else if (absolutePercentageScore >= 40) determinedGrade = "E8 (Pass)";
+
+            // Push strings into HTML layout metrics targets
+            document.getElementById('res-name').innerText = currentStudentName;
+            document.getElementById('res-reg').innerText = currentStudentReg;
+            document.getElementById('res-total-pct').innerText = `${absolutePercentageScore.toFixed(1)}% (${totalCorrectAnswers} / ${totalQuestionsCount})`;
+            document.getElementById('res-grade').innerText = determinedGrade;
+
+            // Route layouts switches views
+            viewQuiz.classList.add('hidden');
+            viewResults.classList.remove('hidden');
+        }
+    </script>
+
+
+<!-- ======================= -->
+<!-- INJECTED BY PORTAL HUB  -->
+<!-- ======================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            const authSession = JSON.parse(localStorage.getItem('authSession'));
+            if (authSession && authSession.name && authSession.regNum) {
+                const nameInput = document.getElementById('student-name') || document.getElementById('studentName');
+                const regInput = document.getElementById('reg-number') || document.getElementById('regNum');
+                
+                if (nameInput) nameInput.value = authSession.name;
+                if (regInput) regInput.value = authSession.regNum;
+                
+                // Auto-login if function exists
+                if (typeof handleLogin === 'function') {
+                    // Slight delay to ensure DOM is fully ready
+                    setTimeout(handleLogin, 300);
+                } else if (typeof authenticateCandidate === 'function') {
+                    setTimeout(authenticateCandidate, 300);
+                }
+            }
+        } catch (e) {
+            console.error("Portal Hub Injection Error:", e);
+        }
+    });
+</script>
+
+<!-- ===================================== -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.1 -->
+<!-- ===================================== -->
+<script>
+(function () {
+    'use strict';
+
+    function getSaveKey(regNum) {
+        var fn = window.location.pathname.split('/').pop().replace(/\.html$/i, '');
+        return 'SHIS_PROG_' + regNum + '_' + fn;
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function isValidPassword(input) {
+        var now = new Date();
+        var h24 = now.getHours();
+        var h12 = h24 % 12 || 12;
+        var m   = now.getMinutes();
+        var p24 = pad(h24) + pad(m);
+        var p12 = pad(h12) + pad(m);
+        return String(input).trim() === p24 || String(input).trim() === p12;
+    }
+
+    function fmtSecs(s) {
+        if (!s || s < 0) return '--:--';
+        return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var _style = document.createElement('style');
+    _style.textContent =
+        '#shis-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(6px);}' +
+        '#shis-card{background:#fff;border-radius:18px;padding:36px 30px 28px;max-width:460px;width:92%;box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid #0d47a1;animation:shis-up .4s cubic-bezier(.22,.68,0,1.2);}' +
+        '@keyframes shis-up{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}' +
+        '#shis-card .si{text-align:center;font-size:2.5rem;margin-bottom:10px;}' +
+        '#shis-card h2{text-align:center;color:#0d47a1;font-size:1.3rem;font-weight:700;margin:0 0 5px;}' +
+        '#shis-card .ss{text-align:center;color:#777;font-size:.85rem;margin:0 0 18px;}' +
+        '#shis-card .sinfo{background:#e8f0fe;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.86rem;color:#1a237e;line-height:2;}' +
+        '#shis-card .sinfo b{color:#0d47a1;}' +
+        '.sbadge{background:#2e7d32;color:#fff;border-radius:20px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-left:6px;vertical-align:middle;}' +
+        '#shis-card .slbl{display:block;font-weight:600;font-size:.85rem;color:#333;margin-bottom:7px;}' +
+        '#shis-card .slbl small{font-weight:400;color:#aaa;}' +
+        '#shis-pw{width:100%;padding:13px;font-size:1.5rem;border:2px solid #ccc;border-radius:10px;text-align:center;letter-spacing:8px;font-weight:700;outline:none;transition:border .2s;margin-bottom:5px;box-sizing:border-box;}' +
+        '#shis-pw:focus{border-color:#0d47a1;}' +
+        '#shis-err{color:#c62828;font-size:.8rem;text-align:center;min-height:20px;margin-bottom:12px;}' +
+        '.sbtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px;}' +
+        '.sbtn:active{transform:scale(.98);}' +
+        '.sbtn-pri{background:#0d47a1;color:#fff;}' +
+        '.sbtn-pri:hover{background:#1565c0;}' +
+        '.sbtn-sec{background:#f0f0f0;color:#555;border:1.5px solid #ddd;}' +
+        '.sbtn-sec:hover{background:#e0e0e0;}' +
+        '.shint{text-align:center;color:#bbb;font-size:.74rem;margin-top:2px;}';
+    document.head.appendChild(_style);
+
+    function _save() {
+        try {
+            var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+            if (!sess || !sess.regNum) return;
+            if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                localStorage.removeItem(getSaveKey(sess.regNum)); return;
+            }
+            
+            // Support both old (candidateAnswers) and new (studentAnswers) variable names
+            var ans  = (typeof studentAnswers !== 'undefined') ? studentAnswers : ((typeof candidateAnswers !== 'undefined') ? candidateAnswers : null);
+            var tsec = (typeof totalExamSecondsLeft !== 'undefined') ? totalExamSecondsLeft : ((typeof totalSecondsRemaining !== 'undefined') ? totalSecondsRemaining : null);
+            var qi   = (typeof currentQuestionIndex !== 'undefined') ? currentQuestionIndex : ((typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0);
+            var si   = (typeof currentSubjectIdx !== 'undefined') ? currentSubjectIdx : 0;
+            
+            if (!ans || Object.keys(ans).length === 0) return;
+            
+            localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
+                name: sess.name, regNum: sess.regNum,
+                subjectGroup: sess.subjectGroup || '',
+                answers: ans, tsec: tsec, qi: qi, si: si,
+                at: new Date().toISOString(),
+                count: Object.keys(ans).length
+            }));
+        } catch (e) {}
+    }
+    setInterval(_save, 5000);
+
+    function showModal(st, key) {
+        var ov = document.createElement('div');
+        ov.id = 'shis-ov';
+        ov.innerHTML =
+            '<div id="shis-card">' +
+              '<div class="si">&#x26A0;&#xFE0F;</div>' +
+              '<h2>Interrupted Exam Detected</h2>' +
+              '<p class="ss">An unfinished session was found on this device.</p>' +
+              '<div class="sinfo">' +
+                '&#x1F464; <b>Student:</b> ' + esc(st.name) + '<br>' +
+                '&#x1FAA6; <b>Reg No:</b> '  + esc(st.regNum) + '<br>' +
+                '&#x1F4DD; <b>Answered:</b> ' + st.count + ' question(s) <span class="sbadge">Progress Saved &#x2713;</span><br>' +
+                '&#x23F1; <b>Time left:</b> ' + fmtSecs(st.tsec) +
+              '</div>' +
+              '<label class="slbl" for="shis-pw">&#x1F511; Examiner Password &nbsp;<small>(leave blank for basic restore)</small></label>' +
+              '<input id="shis-pw" type="text" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="off" inputmode="numeric">' +
+              '<div id="shis-err"></div>' +
+              '<button class="sbtn sbtn-pri" id="shis-go">&#x2705; Resume Exam</button>' +
+              '<button class="sbtn sbtn-sec" id="shis-discard">&#x1F5D1; Discard &amp; Start Fresh</button>' +
+              '<p class="shint">Password = time on examiner phone (e.g. 15:12 &#x2192; 1512 &nbsp;|&nbsp; 3:15 &#x2192; 0315)</p>' +
+            '</div>';
+        document.body.appendChild(ov);
+        setTimeout(function () { var el = document.getElementById('shis-pw'); if (el) el.focus(); }, 350);
+
+        function attempt() {
+            var pw  = (document.getElementById('shis-pw').value || '').trim();
+            var err = document.getElementById('shis-err');
+            if (pw !== '') {
+                if (!isValidPassword(pw)) {
+                    err.textContent = 'Incorrect password. Check the current time and try again.';
+                    document.getElementById('shis-pw').style.borderColor = '#c62828';
+                    setTimeout(function () {
+                        err.textContent = '';
+                        document.getElementById('shis-pw').style.borderColor = '#ccc';
+                    }, 3200);
+                    return;
+                }
+                ov.remove(); doResume(st, true);
+            } else {
+                ov.remove(); doResume(st, false);
+            }
+        }
+
+        document.getElementById('shis-go').addEventListener('click', attempt);
+        document.getElementById('shis-pw').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') attempt();
+        });
+        document.getElementById('shis-discard').addEventListener('click', function () {
+            if (confirm('Discard all saved answers and start a fresh exam?')) {
+                localStorage.removeItem(key); ov.remove();
+            }
+        });
+    }
+
+    function doResume(st, full) {
+        var examUp = document.getElementById('screen-exam') && !document.getElementById('screen-exam').classList.contains('hidden') || 
+                     document.getElementById('cbt-screen') && !document.getElementById('cbt-screen').classList.contains('hidden');
+
+        if (!examUp) {
+            var ni = document.getElementById('student-name') || document.getElementById('studentName');
+            var ri = document.getElementById('reg-number') || document.getElementById('regNum');
+            if (ni) ni.value = st.name;
+            if (ri) ri.value = st.regNum;
+            
+            try { 
+                if (typeof handleLogin === 'function') handleLogin(); 
+                else if (typeof authenticateCandidate === 'function') authenticateCandidate();
+            } catch (e) {}
+        }
+
+        setTimeout(function () {
+            try {
+                // Restore answers
+                Object.keys(st.answers).forEach(function (k) {
+                    var parsedKey = isNaN(parseInt(k, 10)) ? k : parseInt(k, 10);
+                    if (typeof studentAnswers !== 'undefined') studentAnswers[parsedKey] = st.answers[k];
+                    else if (typeof candidateAnswers !== 'undefined') candidateAnswers[parsedKey] = st.answers[k];
+                });
+                
+                // Restore state
+                if (full) {
+                    if (st.tsec !== null && st.tsec > 0) {
+                        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = st.tsec;
+                        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = st.tsec;
+                    }
+                    try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = st.qi || 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = st.qi || 0;
+                    } catch (e) {}
+                } else {
+                    try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
+                    try { 
+                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = 0; 
+                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = 0;
+                    } catch (e) {}
+                }
+                
+                // Re-render UI
+                try { 
+                    if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
+                    else if (typeof renderQuestion === 'function') renderQuestion();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix();
+                    else if (typeof buildNavigationGrid === 'function') buildNavigationGrid();
+                } catch (e) {}
+                
+                try { 
+                    if (typeof updateConsoleStatusHighlights === 'function') updateConsoleStatusHighlights();
+                    else if (typeof updateNavGridHighlight === 'function') updateNavGridHighlight();
+                } catch (e) {}
+                
+                try {
+                    if (typeof updateProgressBars === 'function') updateProgressBars();
+                } catch (e) {}
+
+            } catch (ex) { console.error("Resume Engine Error:", ex); }
+        }, examUp ? 80 : 350);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            try {
+                var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+                if (!sess || !sess.regNum) return;
+                
+                // If exam is completed and submitted, do not prompt resume
+                if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                    return;
+                }
+                
+                var key = getSaveKey(sess.regNum);
+                var raw = localStorage.getItem(key);
+                if (!raw) return;
+                var st = JSON.parse(raw);
+                if (!st || !st.answers || st.count < 1) return;
+                if (st.regNum !== sess.regNum) return;
+                showModal(st, key);
+            } catch (e) {}
+        }, 800);
+    });
+
+}());
+</script>
+</body>
+</html>
