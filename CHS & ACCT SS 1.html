@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1226,6 +1226,192 @@
 
 <!-- ======================= -->
 <!-- INJECTED BY PORTAL HUB  -->
+
+<!-- ===================================== -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.0 -->
+<!-- ===================================== -->
+<script>
+(function () {
+    'use strict';
+
+    function getSaveKey(regNum) {
+        var fn = window.location.pathname.split('/').pop().replace(/\.html$/i, '');
+        return 'SHIS_PROG_' + regNum + '_' + fn;
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function isValidPassword(input) {
+        var now = new Date();
+        var h24 = now.getHours();
+        var h12 = h24 % 12 || 12;
+        var m   = now.getMinutes();
+        var p24 = pad(h24) + pad(m);
+        var p12 = pad(h12) + pad(m);
+        return String(input).trim() === p24 || String(input).trim() === p12;
+    }
+
+    function fmtSecs(s) {
+        if (!s || s < 0) return '--:--';
+        return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var _style = document.createElement('style');
+    _style.textContent =
+        '#shis-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(6px);}' +
+        '#shis-card{background:#fff;border-radius:18px;padding:36px 30px 28px;max-width:460px;width:92%;box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid #0d47a1;animation:shis-up .4s cubic-bezier(.22,.68,0,1.2);}' +
+        '@keyframes shis-up{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}' +
+        '#shis-card .si{text-align:center;font-size:2.5rem;margin-bottom:10px;}' +
+        '#shis-card h2{text-align:center;color:#0d47a1;font-size:1.3rem;font-weight:700;margin:0 0 5px;}' +
+        '#shis-card .ss{text-align:center;color:#777;font-size:.85rem;margin:0 0 18px;}' +
+        '#shis-card .sinfo{background:#e8f0fe;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.86rem;color:#1a237e;line-height:2;}' +
+        '#shis-card .sinfo b{color:#0d47a1;}' +
+        '.sbadge{background:#2e7d32;color:#fff;border-radius:20px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-left:6px;vertical-align:middle;}' +
+        '#shis-card .slbl{display:block;font-weight:600;font-size:.85rem;color:#333;margin-bottom:7px;}' +
+        '#shis-card .slbl small{font-weight:400;color:#aaa;}' +
+        '#shis-pw{width:100%;padding:13px;font-size:1.5rem;border:2px solid #ccc;border-radius:10px;text-align:center;letter-spacing:8px;font-weight:700;outline:none;transition:border .2s;margin-bottom:5px;box-sizing:border-box;}' +
+        '#shis-pw:focus{border-color:#0d47a1;}' +
+        '#shis-err{color:#c62828;font-size:.8rem;text-align:center;min-height:20px;margin-bottom:12px;}' +
+        '.sbtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px;}' +
+        '.sbtn:active{transform:scale(.98);}' +
+        '.sbtn-pri{background:#0d47a1;color:#fff;}' +
+        '.sbtn-pri:hover{background:#1565c0;}' +
+        '.sbtn-sec{background:#f0f0f0;color:#555;border:1.5px solid #ddd;}' +
+        '.sbtn-sec:hover{background:#e0e0e0;}' +
+        '.shint{text-align:center;color:#bbb;font-size:.74rem;margin-top:2px;}';
+    document.head.appendChild(_style);
+
+    function _save() {
+        try {
+            var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+            if (!sess || !sess.regNum) return;
+            if (localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
+                localStorage.removeItem(getSaveKey(sess.regNum)); return;
+            }
+            var ans  = (typeof candidateAnswers         !== 'undefined') ? candidateAnswers         : null;
+            var tsec = (typeof totalSecondsRemaining    !== 'undefined') ? totalSecondsRemaining    : null;
+            var qi   = (typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0;
+            var si   = (typeof currentSubjectIdx        !== 'undefined') ? currentSubjectIdx        : 0;
+            if (!ans || Object.keys(ans).length === 0) return;
+            localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
+                name: sess.name, regNum: sess.regNum,
+                subjectGroup: sess.subjectGroup || '',
+                answers: ans, tsec: tsec, qi: qi, si: si,
+                at: new Date().toISOString(),
+                count: Object.keys(ans).length
+            }));
+        } catch (e) {}
+    }
+    setInterval(_save, 5000);
+
+    function showModal(st, key) {
+        var ov = document.createElement('div');
+        ov.id = 'shis-ov';
+        ov.innerHTML =
+            '<div id="shis-card">' +
+              '<div class="si">&#x26A0;&#xFE0F;</div>' +
+              '<h2>Interrupted Exam Detected</h2>' +
+              '<p class="ss">An unfinished session was found on this device.</p>' +
+              '<div class="sinfo">' +
+                '&#x1F464; <b>Student:</b> ' + esc(st.name) + '<br>' +
+                '&#x1FAA6; <b>Reg No:</b> '  + esc(st.regNum) + '<br>' +
+                '&#x1F4DD; <b>Answered:</b> ' + st.count + ' question(s) <span class="sbadge">Progress Saved &#x2713;</span><br>' +
+                '&#x23F1; <b>Time left:</b> ' + fmtSecs(st.tsec) +
+              '</div>' +
+              '<label class="slbl" for="shis-pw">&#x1F511; Examiner Password &nbsp;<small>(leave blank for basic restore)</small></label>' +
+              '<input id="shis-pw" type="text" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="off" inputmode="numeric">' +
+              '<div id="shis-err"></div>' +
+              '<button class="sbtn sbtn-pri" id="shis-go">&#x2705; Resume Exam</button>' +
+              '<button class="sbtn sbtn-sec" id="shis-discard">&#x1F5D1; Discard &amp; Start Fresh</button>' +
+              '<p class="shint">Password = time on examiner phone (e.g. 15:12 &#x2192; 1512 &nbsp;|&nbsp; 3:15 &#x2192; 0315)</p>' +
+            '</div>';
+        document.body.appendChild(ov);
+        setTimeout(function () { var el = document.getElementById('shis-pw'); if (el) el.focus(); }, 350);
+
+        function attempt() {
+            var pw  = (document.getElementById('shis-pw').value || '').trim();
+            var err = document.getElementById('shis-err');
+            if (pw !== '') {
+                if (!isValidPassword(pw)) {
+                    err.textContent = 'Incorrect password. Check the current time and try again.';
+                    document.getElementById('shis-pw').style.borderColor = '#c62828';
+                    setTimeout(function () {
+                        err.textContent = '';
+                        document.getElementById('shis-pw').style.borderColor = '#ccc';
+                    }, 3200);
+                    return;
+                }
+                ov.remove(); doResume(st, true);
+            } else {
+                ov.remove(); doResume(st, false);
+            }
+        }
+
+        document.getElementById('shis-go').addEventListener('click', attempt);
+        document.getElementById('shis-pw').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') attempt();
+        });
+        document.getElementById('shis-discard').addEventListener('click', function () {
+            if (confirm('Discard all saved answers and start a fresh exam?')) {
+                localStorage.removeItem(key); ov.remove();
+            }
+        });
+    }
+
+    function doResume(st, full) {
+        var cbtEl  = document.getElementById('cbt-screen');
+        var examUp = cbtEl && !cbtEl.classList.contains('hidden');
+
+        if (!examUp) {
+            var ni = document.getElementById('student-name');
+            var ri = document.getElementById('reg-number');
+            if (ni) ni.value = st.name;
+            if (ri) ri.value = st.regNum;
+            try { if (typeof handleLogin === 'function') handleLogin(); } catch (e) {}
+        }
+
+        setTimeout(function () {
+            try {
+                Object.keys(st.answers).forEach(function (k) {
+                    candidateAnswers[parseInt(k, 10)] = st.answers[k];
+                });
+                if (full) {
+                    if (st.tsec !== null && st.tsec > 0) totalSecondsRemaining = st.tsec;
+                    try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
+                    try { currentQuestionGlobalIdx = st.qi || 0; } catch (e) {}
+                } else {
+                    try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
+                    try { currentQuestionGlobalIdx = 0; } catch (e) {}
+                }
+                try { if (typeof renderCurrentQuestionCard       === 'function') renderCurrentQuestionCard();       } catch (e) {}
+                try { if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix(); } catch (e) {}
+                try { if (typeof updateConsoleStatusHighlights   === 'function') updateConsoleStatusHighlights();   } catch (e) {}
+            } catch (ex) {}
+        }, examUp ? 80 : 240);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            try {
+                var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+                if (!sess || !sess.regNum) return;
+                var key = getSaveKey(sess.regNum);
+                var raw = localStorage.getItem(key);
+                if (!raw) return;
+                var st = JSON.parse(raw);
+                if (!st || !st.answers || st.count < 1) return;
+                if (st.regNum !== sess.regNum) return;
+                showModal(st, key);
+            } catch (e) {}
+        }, 650);
+    });
+
+}());
+</script>
 <!-- ======================= -->
 <script>
 (function() {
