@@ -1219,7 +1219,7 @@
 </script>
 
 <!-- ===================================== -->
-<!-- NETWORK FAILSAFE & RESUME ENGINE v1.1 -->
+<!-- NETWORK FAILSAFE & RESUME ENGINE v1.2 -->
 <!-- ===================================== -->
 <script>
 (function () {
@@ -1242,212 +1242,215 @@
         return String(input).trim() === p24 || String(input).trim() === p12;
     }
 
-    function fmtSecs(s) {
-        if (!s || s < 0) return '--:--';
-        return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+    // Modal CSS & HTML Injection
+    var style = document.createElement('style');
+    style.innerHTML = `
+        #resumeModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99999; justify-content: center; align-items: center; }
+        .rm-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: 'Segoe UI', sans-serif; }
+        .rm-content h3 { color: #d32f2f; margin-top: 0; }
+        .rm-content input { width: 80%; padding: 12px; font-size: 1.2rem; text-align: center; border: 2px solid #ccc; border-radius: 6px; margin: 15px 0; letter-spacing: 3px; }
+        .rm-content button { background: #1976d2; color: white; border: none; padding: 12px 25px; font-size: 1.1rem; border-radius: 6px; cursor: pointer; width: 100%; }
+        .rm-content button:hover { background: #1565c0; }
+    `;
+    document.head.appendChild(style);
+
+    var modalHtml = `
+        <div id="resumeModal">
+            <div class="rm-content">
+                <h3>CONNECTION LOST</h3>
+                <p>The system detected a potential network drop. Do you want to resume where you left off?</p>
+                <input type="password" id="rm-pass" placeholder="Enter PIN to Resume" autocomplete="off" />
+                <button id="rm-btn">Resume Test</button>
+            </div>
+        </div>
+    `;
+    var div = document.createElement('div');
+    div.innerHTML = modalHtml;
+    document.body.appendChild(div.firstElementChild);
+
+    // Answer Variables Aggregator
+    function getAnsRef() {
+        if (typeof studentAnswers !== 'undefined') return studentAnswers;
+        if (typeof candidateAnswers !== 'undefined') return candidateAnswers;
+        if (typeof studentResponses !== 'undefined') return studentResponses;
+        if (typeof responses !== 'undefined') return responses;
+        if (typeof registeredStudentAnswers !== 'undefined') return registeredStudentAnswers;
+        if (typeof selectedAnswers !== 'undefined') return selectedAnswers;
+        return null;
     }
 
-    function esc(s) {
-        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Time Variables Aggregator
+    function getTsec() {
+        if (typeof totalExamSecondsLeft !== 'undefined') return totalExamSecondsLeft;
+        if (typeof totalSecondsRemaining !== 'undefined') return totalSecondsRemaining;
+        if (typeof timeRemaining !== 'undefined') return timeRemaining;
+        if (typeof timeLeft !== 'undefined') return timeLeft;
+        if (typeof countdownValue !== 'undefined') return countdownValue;
+        if (typeof totalTimeSeconds !== 'undefined') return totalTimeSeconds;
+        return null;
+    }
+    
+    // Set Time Variable
+    function setTsec(val) {
+        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = val;
+        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = val;
+        else if (typeof timeRemaining !== 'undefined') timeRemaining = val;
+        else if (typeof timeLeft !== 'undefined') timeLeft = val;
+        else if (typeof countdownValue !== 'undefined') countdownValue = val;
+        else if (typeof totalTimeSeconds !== 'undefined') totalTimeSeconds = val;
     }
 
-    var _style = document.createElement('style');
-    _style.textContent =
-        '#shis-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(6px);}' +
-        '#shis-card{background:#fff;border-radius:18px;padding:36px 30px 28px;max-width:460px;width:92%;box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid #0d47a1;animation:shis-up .4s cubic-bezier(.22,.68,0,1.2);}' +
-        '@keyframes shis-up{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}' +
-        '#shis-card .si{text-align:center;font-size:2.5rem;margin-bottom:10px;}' +
-        '#shis-card h2{text-align:center;color:#0d47a1;font-size:1.3rem;font-weight:700;margin:0 0 5px;}' +
-        '#shis-card .ss{text-align:center;color:#777;font-size:.85rem;margin:0 0 18px;}' +
-        '#shis-card .sinfo{background:#e8f0fe;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.86rem;color:#1a237e;line-height:2;}' +
-        '#shis-card .sinfo b{color:#0d47a1;}' +
-        '.sbadge{background:#2e7d32;color:#fff;border-radius:20px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-left:6px;vertical-align:middle;}' +
-        '#shis-card .slbl{display:block;font-weight:600;font-size:.85rem;color:#333;margin-bottom:7px;}' +
-        '#shis-card .slbl small{font-weight:400;color:#aaa;}' +
-        '#shis-pw{width:100%;padding:13px;font-size:1.5rem;border:2px solid #ccc;border-radius:10px;text-align:center;letter-spacing:8px;font-weight:700;outline:none;transition:border .2s;margin-bottom:5px;box-sizing:border-box;}' +
-        '#shis-pw:focus{border-color:#0d47a1;}' +
-        '#shis-err{color:#c62828;font-size:.8rem;text-align:center;min-height:20px;margin-bottom:12px;}' +
-        '.sbtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px;}' +
-        '.sbtn:active{transform:scale(.98);}' +
-        '.sbtn-pri{background:#0d47a1;color:#fff;}' +
-        '.sbtn-pri:hover{background:#1565c0;}' +
-        '.sbtn-sec{background:#f0f0f0;color:#555;border:1.5px solid #ddd;}' +
-        '.sbtn-sec:hover{background:#e0e0e0;}' +
-        '.shint{text-align:center;color:#bbb;font-size:.74rem;margin-top:2px;}';
-    document.head.appendChild(_style);
+    function getQi() {
+        if (typeof currentQuestionIndex !== 'undefined') return currentQuestionIndex;
+        if (typeof currentQuestionGlobalIdx !== 'undefined') return currentQuestionGlobalIdx;
+        if (typeof currentGlobalIndex !== 'undefined') return currentGlobalIndex;
+        if (typeof gIdx !== 'undefined') return gIdx;
+        return 0;
+    }
+    
+    function setQi(val) {
+        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = val;
+        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = val;
+        else if (typeof currentGlobalIndex !== 'undefined') currentGlobalIndex = val;
+        else if (typeof gIdx !== 'undefined') gIdx = val;
+    }
+
+    function getSi() {
+        if (typeof currentSubjectIdx !== 'undefined') return currentSubjectIdx;
+        if (typeof activeSubjectTab !== 'undefined') return activeSubjectTab;
+        if (typeof currentSubjectIndex !== 'undefined') return currentSubjectIndex;
+        return 0;
+    }
+    
+    function setSi(val) {
+        if (typeof currentSubjectIdx !== 'undefined') currentSubjectIdx = val;
+        else if (typeof activeSubjectTab !== 'undefined') activeSubjectTab = val;
+        else if (typeof currentSubjectIndex !== 'undefined') currentSubjectIndex = val;
+    }
+
+    function triggerRender() {
+        try { 
+            if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
+            else if (typeof renderActiveQuestionCard === 'function') renderActiveQuestionCard();
+            else if (typeof renderQuestion === 'function') renderQuestion();
+            else if (typeof loadQuestionIndexToWorkspace === 'function') loadQuestionIndexToWorkspace(getQi());
+            else if (typeof renderActiveSubjectQuestion === 'function') renderActiveSubjectQuestion();
+        } catch (e) {}
+    }
+    
+    // Determine deep count (for nested objects like {english:{}, commerce:{}})
+    function getAnsCount(obj) {
+        if (!obj) return 0;
+        let c = 0;
+        // If it's an array, count non-null
+        if (Array.isArray(obj)) {
+            for(let i=0; i<obj.length; i++) { if(obj[i] !== null) c++; }
+            return c;
+        }
+        // If it's a nested object (e.g. {english: {0:1}, commerce: {2:1}})
+        for (let k in obj) {
+            if (obj.hasOwnProperty(k)) {
+                if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+                    c += Object.keys(obj[k]).length;
+                } else if (obj[k] !== null) {
+                    c++;
+                }
+            }
+        }
+        return c;
+    }
 
     function _save() {
         try {
             var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
             if (!sess || !sess.regNum) return;
+            
+            // Do not save if already submitted or locked
             if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
                 localStorage.removeItem(getSaveKey(sess.regNum)); return;
             }
             
-            // Support both old (candidateAnswers) and new (studentAnswers) variable names
-            var ans  = (typeof studentAnswers !== 'undefined') ? studentAnswers : ((typeof candidateAnswers !== 'undefined') ? candidateAnswers : null);
-            var tsec = (typeof totalExamSecondsLeft !== 'undefined') ? totalExamSecondsLeft : ((typeof totalSecondsRemaining !== 'undefined') ? totalSecondsRemaining : null);
-            var qi   = (typeof currentQuestionIndex !== 'undefined') ? currentQuestionIndex : ((typeof currentQuestionGlobalIdx !== 'undefined') ? currentQuestionGlobalIdx : 0);
-            var si   = (typeof currentSubjectIdx !== 'undefined') ? currentSubjectIdx : 0;
+            var ans = getAnsRef();
+            var count = getAnsCount(ans);
             
-            if (!ans || Object.keys(ans).length === 0) return;
+            if (count === 0) return; // don't save empty states
             
             localStorage.setItem(getSaveKey(sess.regNum), JSON.stringify({
                 name: sess.name, regNum: sess.regNum,
                 subjectGroup: sess.subjectGroup || '',
-                answers: ans, tsec: tsec, qi: qi, si: si,
+                answers: ans, tsec: getTsec(), qi: getQi(), si: getSi(),
                 at: new Date().toISOString(),
-                count: Object.keys(ans).length
+                count: count
             }));
         } catch (e) {}
     }
-    setInterval(_save, 5000);
 
-    function showModal(st, key) {
-        var ov = document.createElement('div');
-        ov.id = 'shis-ov';
-        ov.innerHTML =
-            '<div id="shis-card">' +
-              '<div class="si">&#x26A0;&#xFE0F;</div>' +
-              '<h2>Interrupted Exam Detected</h2>' +
-              '<p class="ss">An unfinished session was found on this device.</p>' +
-              '<div class="sinfo">' +
-                '&#x1F464; <b>Student:</b> ' + esc(st.name) + '<br>' +
-                '&#x1FAA6; <b>Reg No:</b> '  + esc(st.regNum) + '<br>' +
-                '&#x1F4DD; <b>Answered:</b> ' + st.count + ' question(s) <span class="sbadge">Progress Saved &#x2713;</span><br>' +
-                '&#x23F1; <b>Time left:</b> ' + fmtSecs(st.tsec) +
-              '</div>' +
-              '<label class="slbl" for="shis-pw">&#x1F511; Examiner Password &nbsp;<small>(leave blank for basic restore)</small></label>' +
-              '<input id="shis-pw" type="text" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="off" inputmode="numeric">' +
-              '<div id="shis-err"></div>' +
-              '<button class="sbtn sbtn-pri" id="shis-go">&#x2705; Resume Exam</button>' +
-              '<button class="sbtn sbtn-sec" id="shis-discard">&#x1F5D1; Discard &amp; Start Fresh</button>' +
-              '<p class="shint">Password = time on examiner phone (e.g. 15:12 &#x2192; 1512 &nbsp;|&nbsp; 3:15 &#x2192; 0315)</p>' +
-            '</div>';
-        document.body.appendChild(ov);
-        setTimeout(function () { var el = document.getElementById('shis-pw'); if (el) el.focus(); }, 350);
-
-        function attempt() {
-            var pw  = (document.getElementById('shis-pw').value || '').trim();
-            var err = document.getElementById('shis-err');
-            if (pw !== '') {
-                if (!isValidPassword(pw)) {
-                    err.textContent = 'Incorrect password. Check the current time and try again.';
-                    document.getElementById('shis-pw').style.borderColor = '#c62828';
-                    setTimeout(function () {
-                        err.textContent = '';
-                        document.getElementById('shis-pw').style.borderColor = '#ccc';
-                    }, 3200);
-                    return;
-                }
-                ov.remove(); doResume(st, true);
-            } else {
-                ov.remove(); doResume(st, false);
-            }
-        }
-
-        document.getElementById('shis-go').addEventListener('click', attempt);
-        document.getElementById('shis-pw').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') attempt();
-        });
-        document.getElementById('shis-discard').addEventListener('click', function () {
-            if (confirm('Discard all saved answers and start a fresh exam?')) {
-                localStorage.removeItem(key); ov.remove();
-            }
-        });
-    }
-
-    function doResume(st, full) {
-        var examUp = document.getElementById('screen-exam') && !document.getElementById('screen-exam').classList.contains('hidden') || 
-                     document.getElementById('cbt-screen') && !document.getElementById('cbt-screen').classList.contains('hidden');
-
-        if (!examUp) {
-            var ni = document.getElementById('student-name') || document.getElementById('studentName');
-            var ri = document.getElementById('reg-number') || document.getElementById('regNum');
-            if (ni) ni.value = st.name;
-            if (ri) ri.value = st.regNum;
+    function _restore() {
+        try {
+            var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
+            if (!sess || !sess.regNum) return;
+            var st = JSON.parse(localStorage.getItem(getSaveKey(sess.regNum)) || 'null');
+            if (!st || !st.answers) return;
             
-            try { 
-                if (typeof handleLogin === 'function') handleLogin(); 
-                else if (typeof authenticateCandidate === 'function') authenticateCandidate();
-            } catch (e) {}
-        }
-
-        setTimeout(function () {
-            try {
-                // Restore answers
-                Object.keys(st.answers).forEach(function (k) {
-                    var parsedKey = isNaN(parseInt(k, 10)) ? k : parseInt(k, 10);
-                    if (typeof studentAnswers !== 'undefined') studentAnswers[parsedKey] = st.answers[k];
-                    else if (typeof candidateAnswers !== 'undefined') candidateAnswers[parsedKey] = st.answers[k];
-                });
-                
-                // Restore state
-                if (full) {
-                    if (st.tsec !== null && st.tsec > 0) {
-                        if (typeof totalExamSecondsLeft !== 'undefined') totalExamSecondsLeft = st.tsec;
-                        else if (typeof totalSecondsRemaining !== 'undefined') totalSecondsRemaining = st.tsec;
+            var m = document.getElementById('resumeModal');
+            var p = document.getElementById('rm-pass');
+            var b = document.getElementById('rm-btn');
+            
+            m.style.display = 'flex';
+            p.focus();
+            
+            b.onclick = function() {
+                if (isValidPassword(p.value)) {
+                    // Inject answers deep merge
+                    var ansRef = getAnsRef();
+                    if (ansRef) {
+                        if (Array.isArray(ansRef)) {
+                            // If array, just copy non-null values
+                            if (Array.isArray(st.answers)) {
+                                for(let i=0; i<st.answers.length; i++) {
+                                    if(st.answers[i] !== null) ansRef[i] = st.answers[i];
+                                }
+                            } else {
+                                // st.answers is object
+                                Object.keys(st.answers).forEach(k => {
+                                    if(st.answers[k] !== null) ansRef[parseInt(k)] = st.answers[k];
+                                });
+                            }
+                        } else {
+                            // Deep merge objects
+                            for (var k in st.answers) {
+                                if (st.answers.hasOwnProperty(k)) {
+                                    if (typeof st.answers[k] === 'object' && st.answers[k] !== null) {
+                                        if(!ansRef[k]) ansRef[k] = {};
+                                        for(var inner in st.answers[k]) {
+                                            ansRef[k][inner] = st.answers[k][inner];
+                                        }
+                                    } else {
+                                        ansRef[k] = st.answers[k];
+                                    }
+                                }
+                            }
+                        }
                     }
-                    try { if (typeof switchSubject === 'function') switchSubject(st.si || 0); } catch (e) {}
-                    try { 
-                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = st.qi || 0; 
-                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = st.qi || 0;
-                    } catch (e) {}
+                    
+                    if (st.tsec !== null) setTsec(st.tsec);
+                    if (st.qi !== null) setQi(st.qi);
+                    if (st.si !== null) setSi(st.si);
+                    
+                    m.style.display = 'none';
+                    triggerRender();
                 } else {
-                    try { if (typeof switchSubject === 'function') switchSubject(0); } catch (e) {}
-                    try { 
-                        if (typeof currentQuestionIndex !== 'undefined') currentQuestionIndex = 0; 
-                        else if (typeof currentQuestionGlobalIdx !== 'undefined') currentQuestionGlobalIdx = 0;
-                    } catch (e) {}
+                    alert('Incorrect password. Please verify the system time.');
                 }
-                
-                // Re-render UI
-                try { 
-                    if (typeof renderCurrentQuestionCard === 'function') renderCurrentQuestionCard();
-                    else if (typeof renderQuestion === 'function') renderQuestion();
-                } catch (e) {}
-                
-                try { 
-                    if (typeof generateNavigationConsoleMatrix === 'function') generateNavigationConsoleMatrix();
-                    else if (typeof buildNavigationGrid === 'function') buildNavigationGrid();
-                } catch (e) {}
-                
-                try { 
-                    if (typeof updateConsoleStatusHighlights === 'function') updateConsoleStatusHighlights();
-                    else if (typeof updateNavGridHighlight === 'function') updateNavGridHighlight();
-                } catch (e) {}
-                
-                try {
-                    if (typeof updateProgressBars === 'function') updateProgressBars();
-                } catch (e) {}
-
-            } catch (ex) { console.error("Resume Engine Error:", ex); }
-        }, examUp ? 80 : 350);
+            };
+        } catch (e) {}
     }
 
-    window.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function () {
-            try {
-                var sess = JSON.parse(localStorage.getItem('authSession') || 'null');
-                if (!sess || !sess.regNum) return;
-                
-                // If exam is completed and submitted, do not prompt resume
-                if (localStorage.getItem('shis_cbt_completed_status') || localStorage.getItem('shis_submission_log_' + sess.regNum.toLowerCase()) || localStorage.getItem('CBT_LOCK_' + sess.regNum)) {
-                    return;
-                }
-                
-                var key = getSaveKey(sess.regNum);
-                var raw = localStorage.getItem(key);
-                if (!raw) return;
-                var st = JSON.parse(raw);
-                if (!st || !st.answers || st.count < 1) return;
-                if (st.regNum !== sess.regNum) return;
-                showModal(st, key);
-            } catch (e) {}
-        }, 800);
-    });
-
-}());
+    // Bind timers
+    setInterval(_save, 5000);
+    setTimeout(_restore, 2000);
+    
+})();
 </script>
 </body>
 </html>
