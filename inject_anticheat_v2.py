@@ -73,6 +73,7 @@ anticheat_code = """
     
     var failsCounter = 0;
     var isModalOpen = false;
+    var lastPenaltyTime = 0;
     
     function getQi() {
         if (typeof currentQuestionIndex !== 'undefined') return currentQuestionIndex;
@@ -183,7 +184,10 @@ anticheat_code = """
 
     function showSuspendModal() {
         if (localStorage.getItem('shis_cbt_completed_status')) return;
-        if (localStorage.getItem('SHIS_PENALTY_' + getRegNum()) === 'true') return;
+        
+        // 2-second cooldown to prevent stray blur events (like keyboard closing after an alert) from instantly reopening the modal
+        if (Date.now() - lastPenaltyTime < 2000) return; 
+
         if (isModalOpen) return;
         isModalOpen = true;
         acModal.style.display = 'flex';
@@ -209,6 +213,7 @@ anticheat_code = """
         } else {
             failsCounter++;
             if (failsCounter >= 3) {
+                lastPenaltyTime = Date.now();
                 alert("Too many failed attempts. Security Penalty activated.");
                 localStorage.setItem('SHIS_PENALTY_' + getRegNum(), 'true');
                 acModal.style.display = 'none';
@@ -221,6 +226,7 @@ anticheat_code = """
     };
 
     acBtnIdk.onclick = function() {
+        lastPenaltyTime = Date.now();
         alert("Security Penalty activated. You have been forced to the next question and cannot go back.");
         localStorage.setItem('SHIS_PENALTY_' + getRegNum(), 'true');
         acModal.style.display = 'none';
