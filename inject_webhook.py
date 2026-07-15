@@ -1,10 +1,6 @@
 import os
 
 def inject_webhook(html_content, target_url):
-    # If already injected, don't inject again
-    if "sendDataToGoogleSheets" in html_content:
-        return html_content
-
     injection_script = f"""
     <!-- SHIS Webhook Engine -->
     <script>
@@ -67,14 +63,17 @@ def inject_webhook(html_content, target_url):
         }};
     }})();
     </script>
-    </body>
     """
 
+    import re
+    # Remove existing engine if present
+    html_content = re.sub(r'<!-- SHIS Webhook Engine -->.*?</script>', '', html_content, flags=re.DOTALL)
+    
     # Inject right before the closing body tag
-    return html_content.replace("</body>", injection_script)
+    return html_content.replace("</body>", injection_script + "\\n    </body>")
 
 directory = r"c:\Users\joema\myantigravity\cbt_questions"
-target_url = "https://script.google.com/macros/s/AKfycbwpNPWSfHgqgQ3gWXysmRqEv2j70LxouluiN_z_9CQAQ18Fx_GlAQ6RCv6qJWOJnAN5/exec"
+target_url = "https://script.google.com/macros/s/AKfycby7DOc43VySe7s7dY8fF0hg4i3OFHUc_4-AKf5qxQRAgdoHbzLZzevTQ-LoY_TYJRhC/exec"
 
 count = 0
 for filename in os.listdir(directory):
