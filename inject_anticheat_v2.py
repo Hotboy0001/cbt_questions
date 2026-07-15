@@ -183,11 +183,12 @@ anticheat_code = """
 
     function showSuspendModal() {
         if (localStorage.getItem('shis_cbt_completed_status')) return;
+        if (localStorage.getItem('SHIS_PENALTY_' + getRegNum()) === 'true') return;
         if (isModalOpen) return;
         isModalOpen = true;
         acModal.style.display = 'flex';
         acPass.value = '';
-        acPass.focus();
+        try { acPass.focus(); } catch(e){}
     }
 
     // Standard DOM Event Listeners for Anti-Cheat
@@ -209,6 +210,7 @@ anticheat_code = """
             failsCounter++;
             if (failsCounter >= 3) {
                 alert("Too many failed attempts. Security Penalty activated.");
+                localStorage.setItem('SHIS_PENALTY_' + getRegNum(), 'true');
                 acModal.style.display = 'none';
                 isModalOpen = false;
                 setTimeout(triggerPenalty, 100);
@@ -220,6 +222,7 @@ anticheat_code = """
 
     acBtnIdk.onclick = function() {
         alert("Security Penalty activated. You have been forced to the next question and cannot go back.");
+        localStorage.setItem('SHIS_PENALTY_' + getRegNum(), 'true');
         acModal.style.display = 'none';
         isModalOpen = false;
         setTimeout(triggerPenalty, 100);
