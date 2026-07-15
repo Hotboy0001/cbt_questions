@@ -21,13 +21,14 @@ def inject_webhook(html_content, target_url):
                     var dept = authSession.dept || "Unknown";
                     
                     var score = "";
-                    var scoreIds = ['resPercentage', 'res-total-pct', 'res-percentage', 'resAccPercent', 'res-grade', 'res-total-score', 'resGrandScore', 'resCitPercent', 'res-score'];
+                    var scoreIds = ['res-total-score', 'resGrandScore', 'resPercentage', 'res-total-pct', 'res-percentage', 'resAccPercent', 'res-grade', 'resCitPercent', 'res-score'];
                     for (var i = 0; i < scoreIds.length; i++) {{
                         var el = document.getElementById(scoreIds[i]);
                         if (el && el.innerText.trim() !== '' && el.innerText.trim() !== '---') {{
-                            score += el.innerText.trim() + " ";
+                            score += el.innerText.trim().replace(/\\n/g, ' ') + " | ";
                         }}
                     }}
+                    if (score.endsWith(" | ")) score = score.substring(0, score.length - 3);
                     if (!score) score = "Check Dashboard";
 
                     var payload = {{
@@ -73,7 +74,7 @@ def inject_webhook(html_content, target_url):
     return html_content.replace("</body>", injection_script + "\\n    </body>")
 
 directory = r"c:\Users\joema\myantigravity\cbt_questions"
-target_url = "https://script.google.com/macros/s/AKfycby7DOc43VySe7s7dY8fF0hg4i3OFHUc_4-AKf5qxQRAgdoHbzLZzevTQ-LoY_TYJRhC/exec"
+target_url = "https://script.google.com/macros/s/AKfycbwZJoGyQhoELNi3KWBXyFQlDsrdt9rmL76jZUzgGIe8d2MVvw0gcHl1tqdM5EMubTRP7w/exec"
 
 count = 0
 for filename in os.listdir(directory):
