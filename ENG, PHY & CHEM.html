@@ -1121,6 +1121,7 @@
 })();
 </script>
 
+
 <!-- ANTI-CHEAT SUSPEND ENGINE v2.0 -->
 <!-- ============================== -->
 <script>
@@ -1293,16 +1294,14 @@
     }
 
     // Standard DOM Event Listeners for Anti-Cheat
-    // We bind directly to the window properties because we previously stripped addEventListener('blur')
-    window.onblur = function() {
-        showSuspendModal();
-    };
+    window.addEventListener('blur', showSuspendModal);
+    window.addEventListener('pagehide', showSuspendModal);
     
-    document.onvisibilitychange = function() {
+    document.addEventListener('visibilitychange', function() {
         if (document.hidden || document.visibilityState === 'hidden') {
             showSuspendModal();
         }
-    };
+    });
 
     acBtnResume.onclick = function() {
         if (isValidPassword(acPass.value)) {
