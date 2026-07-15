@@ -917,7 +917,7 @@
             startBtn.addEventListener('click', handleLogin);
             
             // AUTOMATIC SUBMISSION WHEN THE STUDENT MINIMIZES THE BROWSER, SWITCHES TABS, OR LEAVES THE WINDOW
-            window.addEventListener('blur', () => {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if (!cbtScreen.classList.contains('hidden') && resultScreen.classList.contains('hidden')) {
                     console.warn("Detection Warning: Tab minimized or focus lost. Triggering auto-submit routine.");
                     executeSystemSubmission("System Auto-Submit: Window was minimized or focus changed.");

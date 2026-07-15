@@ -902,8 +902,8 @@
             startCountdownTimerService();
 
             // Anti-Cheat/Auto-Submit Event Handlers
-            window.addEventListener('blur', forceDefensiveAutoSubmission);
-            document.addEventListener('visibilitychange', () => {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", forceDefensiveAutoSubmission);
+            document.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if(document.visibilityState === 'hidden') {
                     forceDefensiveAutoSubmission();
                 }

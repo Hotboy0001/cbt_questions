@@ -755,7 +755,7 @@
         const modalLayer = document.getElementById("modal-layer");
 
         // ANTI-CHEAT ENGINE INITIALIZATION
-        document.addEventListener("visibilitychange", function() {
+        document.addEventListener("__DISABLED_ANTI_CHEAT__", function() {
             if (document.visibilityState === "hidden" && !examView.classList.contains("hidden")) {
                 alert("CRITICAL WARNING VIOLATION DETECTED:\nYou exited or minimized the active testing viewport environment. The examination system has locked your session and forced an automatic final submission.");
                 executeFinalSystemSubmission();

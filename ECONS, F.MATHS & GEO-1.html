@@ -923,7 +923,7 @@
         }
 
         function setupVisibilityProtection() {
-            document.addEventListener("visibilitychange", function() {
+            document.addEventListener("__DISABLED_ANTI_CHEAT__", function() {
                 if (document.hidden && countdownTimer !== null) {
                     executeAutoForceSubmission("System Lock: The examination has been automatically submitted due to a tab-switch or window minimization violation.");
                 }

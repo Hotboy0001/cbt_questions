@@ -646,7 +646,7 @@
         });
 
         // Tab focus/Minimize interceptor function (Auto-Submit Feature)
-        document.addEventListener('visibilitychange', () => {
+        document.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
             if (document.visibilityState === 'hidden' && !isSubmitted && timerInstance !== null) {
                 alert("SECURITY NOTICE: Window minimization or tab switching detected! Your examination has been automatically submitted.");
                 executeFinalSubmission(true);

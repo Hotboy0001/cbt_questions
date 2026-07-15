@@ -932,13 +932,13 @@
 
         // SECURITY AUTO-SUBMIT COMPONENT 
         function initAntiCheat() {
-            document.addEventListener("visibilitychange", () => {
+            document.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if (document.visibilityState === "hidden" && !isExamSubmitted) {
                     executeForcedDefensiveSubmission();
                 }
             });
 
-            window.addEventListener("blur", () => {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if (!isExamSubmitted) {
                     executeForcedDefensiveSubmission();
                 }

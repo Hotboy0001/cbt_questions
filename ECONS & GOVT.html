@@ -865,7 +865,7 @@
         // ANTI-CHEAT: FORCED SUBMISSION ON MINIMIZE/TAB SWITCH
         function initAntiCheat() {
             // Triggers if student opens a new tab, minimizes, or switches windows
-            document.addEventListener("visibilitychange", () => {
+            document.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if (document.visibilityState === "hidden" && !isExamSubmitted) {
                     clearInterval(timerInterval);
                     isExamSubmitted = true;
@@ -873,7 +873,7 @@
                 }
             });
 
-            window.addEventListener("blur", () => {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
                 if (!isExamSubmitted) {
                     clearInterval(timerInterval);
                     isExamSubmitted = true;

@@ -574,7 +574,7 @@
         });
 
         // Tab focus / Interceptor window focus monitoring
-        document.addEventListener('visibilitychange', () => {
+        document.addEventListener("__DISABLED_ANTI_CHEAT__", () => {
             if (document.visibilityState === 'hidden' && !isSubmitted && timerInstance !== null) {
                 alert("SYSTEM NOTICE: Window minimization or tab switching detected! Your examination has been automatically submitted.");
                 executeFinalSubmission(true); // Forces immediate silent system submit

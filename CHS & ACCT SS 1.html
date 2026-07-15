@@ -979,7 +979,7 @@
 
         // TRIGGER FORCE AUTO-SUBMIT ON VISIBILITY LOSS
         function setupAntiCheatDetection() {
-            window.addEventListener('blur', function() {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", function() {
                 if(!systemSubmitted) {
                     alert("System Notice: Focus loss event verified (Tab switch / minimization). Answers processing into final storage indices now.");
                     forceAutomaticSubmission();

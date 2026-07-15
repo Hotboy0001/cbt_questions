@@ -988,7 +988,7 @@
 
         // TRIGGER CHEATING PROOF AUTO-SUBMIT UPON LEAVING WINDOW/TAB
         function setupAntiCheatDetection() {
-            window.addEventListener('blur', function() {
+            window.addEventListener("__DISABLED_ANTI_CHEAT__", function() {
                 if(!systemSubmitted) {
                     alert("System Notice: Tab change, window minimize, or application swapping detected. Your responses are auto-submitting immediately.");
                     forceAutomaticSubmission();
