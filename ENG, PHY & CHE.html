@@ -1329,6 +1329,7 @@
 </script>
 
 
+
 <!-- ANTI-CHEAT SUSPEND ENGINE v2.0 -->
 <!-- ============================== -->
 <script>
@@ -1456,7 +1457,21 @@
         patchAbsolute('goToQuestion');
         patchAbsolute('jumpToQuestion');
         patchAbsolute('renderQuestion');
+        patchAbsolute('renderQuestionAtIndex');
         patchAbsolute('selectQuestion');
+        
+        // Patch zero-arg functions that only go backwards
+        var patchZeroArgs = function(funcName) {
+            if (typeof window[funcName] === 'function' && !window[funcName].isPenaltyPatched) {
+                var orig = window[funcName];
+                window[funcName] = function() {
+                    alert("SECURITY PENALTY: You cannot return to previous questions.");
+                    return; 
+                };
+                window[funcName].isPenaltyPatched = true;
+            }
+        };
+        patchZeroArgs('goToPreviousQuestion');
         
         // Also aggressively disable Prev buttons via DOM polling
         setInterval(function() {
@@ -1475,7 +1490,9 @@
         enforcePenalty();
         
         // Force navigate to next question
-        if (typeof window.navigateQuestion === 'function') {
+        if (typeof window.goToNextQuestion === 'function') {
+            try { window.goToNextQuestion(); } catch(e){}
+        } else if (typeof window.navigateQuestion === 'function') {
             try { window.navigateQuestion(1); } catch(e){}
         } else if (typeof window.navigate === 'function') {
             try { window.navigate(1); } catch(e){}
@@ -1521,9 +1538,9 @@
                 alert("Too many failed attempts. Security Penalty activated.");
                 acModal.style.display = 'none';
                 isModalOpen = false;
-                triggerPenalty();
+                setTimeout(triggerPenalty, 100);
             } else {
-                alert("Incorrect PIN. Please verify the system time.");
+                alert("Incorrect Authorization PIN. Access Denied.");
             }
         }
     };
@@ -1532,7 +1549,7 @@
         alert("Security Penalty activated. You have been forced to the next question and cannot go back.");
         acModal.style.display = 'none';
         isModalOpen = false;
-        triggerPenalty();
+        setTimeout(triggerPenalty, 100);
     };
 
 })();
