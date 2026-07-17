@@ -99,12 +99,17 @@
 </div>
 <script>
 function checkOfflinePin() {
-    var input = document.getElementById('offline-pin').value;
+    var input = document.getElementById('offline-pin').value.trim();
     var now = new Date();
     var h24 = now.getHours();
     var h12 = h24 % 12 || 12;
-    var valid1 = h12.toString().padStart(2, '0') + "00";
-    var valid2 = h24.toString().padStart(2, '0') + "00";
+    var m = now.getMinutes();
+    
+    function pad(n) { return n < 10 ? '0' + n : n; }
+    
+    var valid1 = pad(h12) + "" + pad(m);
+    var valid2 = pad(h24) + "" + pad(m);
+    
     if (input === valid1 || input === valid2) {
         var overlay = document.getElementById('offline-auth-overlay');
         overlay.style.opacity = '0';
@@ -165,7 +170,7 @@ function checkOfflinePin() {
         <button class="btn-start" onclick="startExam()">Enter Examination <i class="fas fa-arrow-right"></i></button>
 
         <div style="text-align: center; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
-            <a href="offline_cbt.zip" download style="display: inline-block; padding: 12px 25px; background-color: #2e7d32; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.backgroundColor='#1b5e20';" onmouseout="this.style.transform='translateY(0)'; this.style.backgroundColor='#2e7d32';">
+            <a href="offline_cbt.html" download style="display: inline-block; padding: 12px 25px; background-color: #2e7d32; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.backgroundColor='#1b5e20';" onmouseout="this.style.transform='translateY(0)'; this.style.backgroundColor='#2e7d32';">
                 <i class="fas fa-download" style="margin-right: 8px;"></i> Download Offline Portal
             </a>
             <p style="margin-top: 10px; font-size: 13px; color: #666;">Use this fully offline version for unlimited practice retakes.</p>
